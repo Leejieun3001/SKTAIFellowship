@@ -1,18 +1,19 @@
-A.     ÀÌ¹ø °úÁ¦¸¦ À§ÇÑ github project »ý¼º
-i.         »õ·Î repository¸¦ ¸¸µé¾î¼­ ¸µÅ©¸¦ °øÀ¯ÇØÁÖ¼¼¿ä.
+A. ì´ë²ˆ ê³¼ì œë¥¼ ìœ„í•œ github project ìƒì„±
+i. ìƒˆë¡œ repositoryë¥¼ ë§Œë“¤ì–´ì„œ ë§í¬ ê³µìœ 
  https://github.com/Leejieun3001/SKTAIFellowship
-ii.         ¡®src¡¯¿Í ¡®docs¡¯ directory¸¦ ¸¸µå½Ã°í ÀÌÈÄ °á°ú¹°(ÄÚµå ¶Ç´Â ¹®¼­)Àº ¸ðµÎ ¿©±â¿¡ ¿Ã·ÁÁÖ¼¼¿ä.(~7/5)
-B.      Mapbox¸¦ ÀÌ¿ëÇÑ Áöµµ ¼­ºñ½º ¾Û °³¹ß(ÀÏÁ¤: 7/12)
-i. https://docs.mapbox.com/android/maps/overview/  ¸¦ Âü°íÇØ¼­ mapbox¸¦ ÀÌ¿ëÇÑ Å×½ºÆ®¾Û »ý¼º
-1.      ¼Ò½º¹Þ°í, Á÷Á¢ ºôµåÇÏ°í, »ý¼ºµÈ apk¸¦ ¸ÞÀÏ·Î ÁÖ½Ã¸é µË´Ï´Ù.(ÀÏÁ¤: 7/5)
-2.      ÇØ´ç ¾ÛÀÇ ÀüÃ¼ÀûÀÎ architecture ¹× ÀüÃ¼ÀûÀÎ µ¿ÀÛ ¹æ½ÄÀ» ÁÖ°£È¸ÀÇ¿¡¼­ °øÀ¯ÇØÁÖ¼¼¿ä. (¼¼¹Ì³ª Çü½ÄÀ¸·Î¡¦) (ÀÏÁ¤: 7/19) 
-ii.UI °³¹ß(ÀÏÁ¤: 8/9 ~ 8/16)
-1.	±âÈ®¾È¿¡ ¸Â°Ô »ç¿ë ½Ã³ª¸®¿À ±¸Çö
-iii.         µ¥ÀÌÅÍ ¼öÁý ¹× Api »ç¿ë(ÀÏÁ¤: 8/9 ~ 8/16)
-1.	À§Ä¡ ¹× ÀÎ±¸Á¤º¸¸¦ °¡Á®¿Í¼­ ±âÈ¹¾È¿¡ ¸Â°Ô UI¸¦ ÀÔÈ÷´Â ±â´É °³¹ß
+ii. â€˜srcâ€™ì™€ â€˜docsâ€™ directoryë¥¼ ë§Œë“¤ê¸°(~7/5)
 
-C.      ÀÀ¿ë ¼­ºñ½º ±âÈ¹ ¾È È®Á¤
-i.  ¾ðÁ¦±îÁö È®Á¤°¡´ÉÇÑÁö ¾Ë·ÁÁÖ¼¼¿ä. (ÀÏÁ¤: 7/19) 
-ii. °¢ ±â´Éº°·Î ´ã´çÀÚ ¹× ÅõÀÔ man-day¸¦ ¾Ë·ÁÁÖ¼¼¿ä.(ÇÑ ±â´É¿¡ ÇÏ·ç 8½Ã°£ ±âÁØÀ¸·Î ÇÏ·ç ÀÏÇÏ¸é 1 man-dayÀÔ´Ï´Ù.) »ý°¢¸¸ ÇØº¸½Ã°í Á¤¸® ¹æ¹ýÀº ´ÙÀ½ ÁÖ°£È¸ÀÇ ¶§ ÀÚ¼¼È÷ ¼³¸íµå¸®°Ú½À´Ï´Ù.
- iii.  ÃÖÁ¾ ±âÈ¹¾È °øÀ¯ ½Ã ÇÊ¿äÇÑ ±â¼ú ¹× ÇÊ¿äÇÑ µ¥ÀÌÅÍ(¼öÁý)¿Í Apiµé¿¡ ´ëÇØ¼­µµ Á¤¸®ÇØ¼­ °øÀ¯ÇØÁÖ¼¼¿ä.
+B. Mapboxë¥¼ ì´ìš©í•œ ì§€ë„ ì„œë¹„ìŠ¤ ì•± ê°œë°œ (ì¼ì •: 7/12)
+i. https://docs.mapbox.com/android/maps/overview/  ë¥¼ ì°¸ê³ í•´ì„œ mapboxë¥¼ ì´ìš©í•œ í…ŒìŠ¤íŠ¸ì•± ìƒì„±
+  1. ì†ŒìŠ¤ë°›ê³ , ì§ì ‘ ë¹Œë“œí•˜ê³ , ìƒì„±ëœ apkë¥¼ ë©”ì¼ë¡œ ì£¼ì‹œë©´ ë©ë‹ˆë‹¤.(ì¼ì •: 7/5)
+  2. í•´ë‹¹ ì•±ì˜ ì „ì²´ì ì¸ architecture ë° ì „ì²´ì ì¸ ë™ìž‘ ë°©ì‹ì„ ì£¼ê°„íšŒì˜ì—ì„œ ê³µìœ í•´ì£¼ì„¸ìš”. (ì„¸ë¯¸ë‚˜ í˜•ì‹ìœ¼ë¡œâ€¦) (ì¼ì •: 7/19) 
+ii. UI ê°œë°œ(ì¼ì •: 8/9 ~ 8/16)
+  1.	ê¸°í™•ì•ˆì— ë§žê²Œ ì‚¬ìš© ì‹œë‚˜ë¦¬ì˜¤ êµ¬í˜„
+iii. ë°ì´í„° ìˆ˜ì§‘ ë° Api ì‚¬ìš©(ì¼ì •: 8/9 ~ 8/16)
+  1.	ìœ„ì¹˜ ë° ì¸êµ¬ì •ë³´ë¥¼ ê°€ì ¸ì™€ì„œ ê¸°íšì•ˆì— ë§žê²Œ UIë¥¼ ìž…ížˆëŠ” ê¸°ëŠ¥ ê°œë°œ
+
+C. ì‘ìš© ì„œë¹„ìŠ¤ ê¸°íš ì•ˆ í™•ì •
+i. ì–¸ì œê¹Œì§€ í™•ì •ê°€ëŠ¥í•œì§€ ì•Œë ¤ì£¼ì„¸ìš”. (ì¼ì •: 7/19) 
+ii. ê° ê¸°ëŠ¥ë³„ë¡œ ë‹´ë‹¹ìž ë° íˆ¬ìž… man-dayë¥¼ ì•Œë ¤ì£¼ì„¸ìš”.(í•œ ê¸°ëŠ¥ì— í•˜ë£¨ 8ì‹œê°„ ê¸°ì¤€ìœ¼ë¡œ í•˜ë£¨ ì¼í•˜ë©´ 1 man-dayìž…ë‹ˆë‹¤.) ìƒê°ë§Œ í•´ë³´ì‹œê³  ì •ë¦¬ ë°©ë²•ì€ ë‹¤ìŒ ì£¼ê°„íšŒì˜ ë•Œ ìžì„¸ížˆ ì„¤ëª…ë“œë¦¬ê² ìŠµë‹ˆë‹¤.
+iii.  ìµœì¢… ê¸°íšì•ˆ ê³µìœ  ì‹œ í•„ìš”í•œ ê¸°ìˆ  ë° í•„ìš”í•œ ë°ì´í„°(ìˆ˜ì§‘)ì™€ Apië“¤ì— ëŒ€í•´ì„œë„ ì •ë¦¬í•´ì„œ ê³µìœ í•´ì£¼ì„¸ìš”.
 
