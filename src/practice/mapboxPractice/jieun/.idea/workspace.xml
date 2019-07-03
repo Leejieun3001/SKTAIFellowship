@@ -7,9 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4550a52-3188-4b52-b580-3a19ab4b9e4a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleMap/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SimpleMap/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpleMap/app/src/main/java/aifellowship/skt/or/kr/simplemap/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/SimpleMap/app/src/main/java/aifellowship/skt/or/kr/simplemap/MainActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
