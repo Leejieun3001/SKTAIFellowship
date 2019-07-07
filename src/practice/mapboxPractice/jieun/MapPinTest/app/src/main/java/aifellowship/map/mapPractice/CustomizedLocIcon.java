@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.mapbox.android.core.permissions.PermissionsListener;
@@ -43,17 +44,6 @@ public class CustomizedLocIcon extends AppCompatActivity implements OnMapReadyCa
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-    }
-
-
-    @Override
-    public void onCameraTrackingDismissed() {
-
-    }
-
-    @Override
-    public void onCameraTrackingChanged(int currentMode) {
-
     }
 
 
@@ -106,30 +96,57 @@ public class CustomizedLocIcon extends AppCompatActivity implements OnMapReadyCa
             //Add the location icon click listener
             locationComponent.addOnLocationClickListener(this);
 
+            findViewById(R.id.back_to_camera_tracking_mode).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isInTrackingMode) {
+                        isInTrackingMode = true;
+                        locationComponent.setCameraMode(CameraMode.TRACKING);
+                        locationComponent.zoomWhileTracking(16f);
+                        //  Toast.makeText(LocationComponentOptionsActivity.this, getString(R.string.tracking_enabled),
+                        //        Toast.LENGTH_SHORT).show();
+                    } else {
+                        //  Toast.makeText(LocationComponentOptionsActivity.this, getString(R.string.tracking_already_enabled),
+                        //         Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
         }
+
     }
 
     @SuppressWarnings({"MissingPermission"})
     @Override
     public void onLocationComponentClick() {
         if (locationComponent.getLastKnownLocation() != null) {
-            // Toast.makeText(this, String.format(getString(R.string.current_location),
-            //        locationComponent.getLastKnownLocation().getLatitude(),
-            //       locationComponent.getLastKnownLocation().getLongitude()), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, String.format(getString(R.string.current_location),
+                    locationComponent.getLastKnownLocation().getLatitude(),
+                    locationComponent.getLastKnownLocation().getLongitude()), Toast.LENGTH_LONG).show();
         }
     }
 
+    @Override
+    public void onCameraTrackingDismissed() {
+        isInTrackingMode = false;
+    }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onCameraTrackingChanged(int currentMode) {
+// Empty on purpose
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     public void onExplanationNeeded(List<String> permissionsToExplain) {
-     //   Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -142,7 +159,7 @@ public class CustomizedLocIcon extends AppCompatActivity implements OnMapReadyCa
                 }
             });
         } else {
-           // Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
             finish();
         }
     }

@@ -31,5 +31,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //add the mapbox dependency
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.1.0'
+    //floating button
+    compile 'com.android.support:design:28.0.0'
 
 }
