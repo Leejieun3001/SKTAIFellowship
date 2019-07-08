@@ -1,4 +1,3 @@
-# SKTAIFellowship
 SKT AI Fellowship assignment shared repository
 
 # mapboxPractice - mapbox 사용 연습 프로젝트 저장소
