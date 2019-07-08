@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.skt.flashbase.gis.Currentlocation.CustomCurrentLoc;
+import com.skt.flashbase.gis.DynamicBuildMap.DynamicallyBuildAMapView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +28,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CustomCurrentLoc.class);
+                startActivity(intent);
+
+            }
+        });
+
+        Button mainGoDynamicBtn = (Button) findViewById(R.id.main_goDynamicBuildMap_btn);
+        mainGoDynamicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DynamicallyBuildAMapView.class);
                 startActivity(intent);
 
             }
