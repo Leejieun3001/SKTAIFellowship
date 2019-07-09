@@ -7,10 +7,7 @@
 	(1) gisProject : 프로젝트 코드 
 
 	(2) practice : 프로젝트 개발을 위한 연습 코드 
-		- commom : 공통 코드/
-		- jieun : 팀원 이지은 
-		- seungeun :팀원 이승은/
-		- sol : 팀원 이 솔 
+
 
 
 
