@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Mapbox Test</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoibG9zZWVsIiwiYSI6ImNqeG5hN2ZiOTBjbnozbW82dms0ZW9lcHAifQ.n_CycewhZHn75ZsysPXBXA</string>
+</resources>
