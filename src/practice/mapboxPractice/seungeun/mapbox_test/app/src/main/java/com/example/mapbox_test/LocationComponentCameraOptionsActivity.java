@@ -121,26 +121,15 @@ public class LocationComponentCameraOptionsActivity extends AppCompatActivity im
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-
-
     @SuppressLint("MissingPermission")
-
     @Override
-
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
-
         this.mapboxMap = mapboxMap;
-
         mapboxMap.setStyle(Style.MAPBOX_STREETS, style -> {
-
-
 
             setModeButtonListeners();
 
-
-
-// Retrieve and customize the Maps SDK's LocationComponent
+            // Retrieve and customize the Maps SDK's LocationComponent
 
             locationComponent = mapboxMap.getLocationComponent();
 
