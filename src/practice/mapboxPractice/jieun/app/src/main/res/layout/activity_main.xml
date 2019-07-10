@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
     <Button
         android:id="@+id/main_goDynamicBuildMap_btn"
         android:layout_width="match_parent"
@@ -17,6 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="현재 위치에 사용자 지정 이미지 띄우기" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" 11. Marker symbol layer\n 16. Show a user's location \n 동시에 구현 " />
 
 
 </LinearLayout>

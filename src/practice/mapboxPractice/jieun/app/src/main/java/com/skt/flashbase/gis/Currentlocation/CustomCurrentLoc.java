@@ -1,5 +1,6 @@
 package com.skt.flashbase.gis.Currentlocation;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,11 @@ import android.widget.Toast;
 
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.LocationComponentOptions;
@@ -21,9 +26,16 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.skt.flashbase.gis.R;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
@@ -32,6 +44,9 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
     private MapboxMap mapboxMap;
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
+    private static final String SOURCE_ID = "SOURCE_ID";
+    private static final String ICON_ID = "ICON_ID";
+    private static final String LAYER_ID = "LAYER_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +59,48 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
     }
-
-
-    // Called when the map is ready to be used
-    // 지도가 사용될 준비가 되었을때 콜백
-    //이 인터페이스의 인스턴스가 객체 MapFragment또는 MapView객체 에 설정 되면 onMapReady()메소드는, 맵의 사용 준비가 끝났을 때에 트리거되어 null의 인스턴스를 제공
+    /*
+    OnMapReadyCallback: Called when the map is ready to be used
+      - 지도가 사용될 준비가 되었을때 콜백
+      - 이 인터페이스의 인스턴스가 객체 MapFragment또는 MapView객체 에 설정 되면
+       onMapReady()메소드는 맵의 사용 준비가 끝났을 때에 트리거되어 null의 인스턴스를 제공
+      - 보통 지도에 대한 초기 셋팅 해줌
+     */
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(Style.LIGHT, new Style.OnStyleLoaded() {
-            @Override
-            public void onStyleLoaded(@NonNull Style style) {
-                enableLocationComponent(style);
-            }
-        });
+        /* 11. Marker symbol layer 연습
+         *  지도에 pin 을 mark 하는 간단한 예제
+         */
+        //com.mapbox.geojson의 Feautre 이용해 생성
+        List<Feature> symbolLayerIconFeatureList = new ArrayList<>();
+        //skt 분당사옥 위도,경도
+        symbolLayerIconFeatureList.add(Feature.fromGeometry(Point.fromLngLat(127.115753, 37.380808)));
+        // 수내역 위도,경도
+        symbolLayerIconFeatureList.add(Feature.fromGeometry(Point.fromLngLat(127.114312, 37.378395)));
+
+        mapboxMap.setStyle(new Style.Builder().fromUrl("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")
+                        //symbol layer 이미지 아이콘 추가
+                        .withImage(ICON_ID, BitmapFactory.decodeResource(
+                                CustomCurrentLoc.this.getResources(), R.drawable.pin))
+                        //icon 에 GeoJson 추가
+                        .withSource(new GeoJsonSource(SOURCE_ID,
+                                FeatureCollection.fromFeatures(symbolLayerIconFeatureList)))
+                        //아이콘의 중간 부분이 아니라 고정되어있는 아이콘 아이콘이 좌표에 고정됩니다.
+                        //좌표 점. 오프셋이 반드시 필요한 것은 아니며 이미지에 따라 다릅니다.
+                        .withLayer(new SymbolLayer(LAYER_ID, SOURCE_ID)
+                                .withProperties(PropertyFactory.iconImage(ICON_ID),
+                                        iconAllowOverlap(true),
+                                        iconOffset(new Float[]{0f, -9f}))
+                        ),
+
+                new Style.OnStyleLoaded() {
+                    @Override
+                    public void onStyleLoaded(@NonNull Style style) {
+                        //16. 현재위치 가져오기
+                        enableLocationComponent(style);
+                    }
+                });
     }
 
     @SuppressWarnings({"MossingPermission"})
