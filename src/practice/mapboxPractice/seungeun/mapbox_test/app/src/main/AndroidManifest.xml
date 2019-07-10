@@ -6,11 +6,17 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/flashbase_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/flashbase_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LocationComponentCameraOptionsActivity"></activity>
+        <activity android:name=".SymbolSwitchOnZoomActivity" />
+        <activity android:name=".InfoWindowSymbolLayerActivity" />
+        <activity android:name=".SymbolCollisionDetectionActivity" />
+        <activity android:name=".PulsingLayerOpacityColorActivity" />
+        <activity android:name=".LanguageSwitchActivity" />
         <activity android:name=".SecondActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
