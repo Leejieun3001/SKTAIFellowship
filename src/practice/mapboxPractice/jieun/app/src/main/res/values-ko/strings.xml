@@ -2,5 +2,11 @@
     <string name="app_name">MapJieun.1.0</string>
     <string name="user_location_permission_explanation">Lat: %1$f Long: %2$f</string>
     <string name="user_location_permission_not_granted">사용자 위치 권한 거부</string>
+    <string name="query_feature_marker_title">Properties:</string>
+    <string name="query_feature_marker_snippet">No feature properties found</string>
+    <string name="query_feature_no_properties_found">No feature properties found</string>
+
+    <string name="click_on_map_instruction">Tap on the map</string>
+    <string name="showing_time_labels_on_line_toast">Now showing minute labels on lines</string>
 
 </resources>

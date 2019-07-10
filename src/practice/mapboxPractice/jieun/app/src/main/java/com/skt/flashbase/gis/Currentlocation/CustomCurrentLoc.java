@@ -2,12 +2,14 @@ package com.skt.flashbase.gis.Currentlocation;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.JsonElement;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.geojson.Feature;
@@ -15,6 +17,8 @@ import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.LocationComponentOptions;
@@ -33,15 +37,17 @@ import com.skt.flashbase.gis.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
-public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
+public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     private PermissionsManager permissionsManager;
     private MapView mapView;
-    private MapboxMap mapboxMap;
+    private Marker featureMarker;
+    private   MapboxMap mapboxMap ;
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
     private static final String SOURCE_ID = "SOURCE_ID";
@@ -59,6 +65,7 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
     }
+
     /*
     OnMapReadyCallback: Called when the map is ready to be used
       - 지도가 사용될 준비가 되었을때 콜백
@@ -67,7 +74,7 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
       - 보통 지도에 대한 초기 셋팅 해줌
      */
     @Override
-    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
         /* 11. Marker symbol layer 연습
          *  지도에 pin 을 mark 하는 간단한 예제
@@ -97,10 +104,57 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
                 new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
+                        mapboxMap.addOnMapClickListener(CustomCurrentLoc.this);
+                        Toast.makeText(CustomCurrentLoc.this,
+                                getString(R.string.click_on_map_instruction), Toast.LENGTH_SHORT).show();
+
                         //16. 현재위치 가져오기
                         enableLocationComponent(style);
                     }
                 });
+    }
+
+    /*
+     OnMapClickListener
+
+     */
+    @Override
+    public boolean onMapClick(@NonNull LatLng point) {
+        final PointF pixel = mapboxMap.getProjection().toScreenLocation(point);
+        List<Feature> features = mapboxMap.queryRenderedFeatures(pixel);
+
+        if (features.size() > 0) {
+            Feature feature = features.get(0);
+            String property;
+            StringBuilder stringBuilder = new StringBuilder();
+            if (feature.properties() != null) {
+                for (Map.Entry<String, JsonElement> entry : feature.properties().entrySet()) {
+                    stringBuilder.append(String.format("%s - %s", entry.getKey(), entry.getValue()));
+                    stringBuilder.append(System.getProperty("line.separator"));
+                }
+
+                featureMarker = mapboxMap.addMarker(new MarkerOptions()
+                        .position(point)
+                        .title(getString(R.string.query_feature_marker_title))
+                        .snippet(stringBuilder.toString())
+                );
+
+            } else {
+                property = getString(R.string.query_feature_marker_snippet);
+                featureMarker = mapboxMap.addMarker(new MarkerOptions()
+                        .position(point)
+                        .snippet(property)
+                );
+            }
+        } else {
+            featureMarker = mapboxMap.addMarker(new MarkerOptions()
+                    .position(point)
+                    .snippet(getString(R.string.query_feature_marker_snippet))
+            );
+        }
+        mapboxMap.selectMarker(featureMarker);
+
+        return true;
     }
 
     @SuppressWarnings({"MossingPermission"})
