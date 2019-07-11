@@ -111,32 +111,7 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
 
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-                mapboxMap.setStyle(Style.SATELLITE_STREETS, new Style.OnStyleLoaded() {
-                    @Override
-                    public void onStyleLoaded(@NonNull Style style) {
-                        CustomCurrentLoc.this.style = style;
-                        cameraFab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (!hasStartedSnapshotGeneration) {
-                                    hasStartedSnapshotGeneration = true;
-                                    Toast.makeText(CustomCurrentLoc.this, "스크린 샷 중..", Toast.LENGTH_LONG).show();
-                                    startSnapShot(
-                                            mapboxMap.getProjection().getVisibleRegion().latLngBounds,
-                                            mapView.getMeasuredHeight(),
-                                            mapView.getMeasuredWidth());
-                                }
-                            }
-                        });
-                    }
-                });
-                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                StrictMode.setVmPolicy(builder.build());
-            }
-        });
+        mapView.getMapAsync(this);
     }
 
     /*
@@ -174,13 +149,27 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
                 new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull final Style style) {
-                        mapboxMap.addOnMapClickListener(CustomCurrentLoc.this);
-                        Toast.makeText(CustomCurrentLoc.this,
-                                getString(R.string.click_on_map_instruction), Toast.LENGTH_SHORT).show();
+                        CustomCurrentLoc.this.style = style;
+                        cameraFab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (!hasStartedSnapshotGeneration) {
+                                    hasStartedSnapshotGeneration = true;
+                                    Toast.makeText(CustomCurrentLoc.this, "스크린 샷 중..", Toast.LENGTH_LONG).show();
+                                    startSnapShot(
+                                            mapboxMap.getProjection().getVisibleRegion().latLngBounds,
+                                            mapView.getMeasuredHeight(),
+                                            mapView.getMeasuredWidth());
+                                }
+                            }
+                        });
 
                         //16. 현재위치 가져오기
                         enableLocationComponent(style);
 
+                        mapboxMap.addOnMapClickListener(CustomCurrentLoc.this);
+                        Toast.makeText(CustomCurrentLoc.this,
+                                getString(R.string.click_on_map_instruction), Toast.LENGTH_SHORT).show();
                         //13. location picker
                         enableLocationPlugin(style);
                         // Toast instructing user to tap on the mapboxMap
@@ -251,6 +240,8 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
                         });
                     }
                 });
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
     }
 
     private void initDroppedMarker(@NonNull Style loadedMapStyle) {
@@ -311,17 +302,16 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
 
     @SuppressWarnings({"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-        //check if permissions are enabled and if nor request
+        //권한 여부 확인
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
-
-            // Create and customize the LocationComponent's options
+            //사용자 지정 아이콘 생성
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(this)
                     .elevation(5)
                     .accuracyAlpha(.6f)
                     .accuracyColor(Color.RED)
                     .foregroundDrawable(R.drawable.here)
                     .build();
-            //Get and instance of the component
+
             locationComponent = mapboxMap.getLocationComponent();
 
             LocationComponentActivationOptions locationComponentActivationOptions =
@@ -366,7 +356,6 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
         }
 
     }
-
 
     @SuppressWarnings({"MissingPermission"})
     @Override
@@ -441,7 +430,6 @@ public class CustomCurrentLoc extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onExplanationNeeded(List<String> permissionsToExplain) {
         Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
-
     }
 
     @Override
