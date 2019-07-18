@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/flashbase_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LocationComponentCameraOptionsActivity"></activity>
+        <activity android:name=".BasicSymbolLayerActivity"></activity>
+        <activity android:name=".read_csvfile" />
+        <activity android:name=".LocationComponentCameraOptionsActivity" />
         <activity android:name=".SymbolSwitchOnZoomActivity" />
         <activity android:name=".InfoWindowSymbolLayerActivity" />
         <activity android:name=".SymbolCollisionDetectionActivity" />

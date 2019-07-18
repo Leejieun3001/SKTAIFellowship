@@ -49,10 +49,16 @@
             android:text="Zoom"
             android:layout_gravity="center"/>
         <Button
-            android:id="@+id/btn_goto_location_camera"
+        android:id="@+id/btn_goto_location_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="current location"
+        android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/btn_goto_foodtruck"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="current location"
+            android:text="foodTruck pin"
             android:layout_gravity="center"/>
     </LinearLayout>
 

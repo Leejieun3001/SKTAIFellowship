@@ -83,6 +83,15 @@ public class SecondActivity extends AppCompatActivity {
                 startActivity(intent7);
             }
         });
+        Button btn_foodtruck = (Button)findViewById(R.id.btn_goto_foodtruck);
+
+        btn_foodtruck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent8 = new Intent(getApplicationContext(),BasicSymbolLayerActivity.class);
+                startActivity(intent8);
+            }
+        });
 
     }
 }

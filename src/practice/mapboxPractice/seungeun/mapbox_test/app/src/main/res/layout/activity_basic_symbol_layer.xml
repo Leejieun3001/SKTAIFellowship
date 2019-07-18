@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SymbolSwitchOnZoomActivity">
+    tools:context=".BasicSymbolLayerActivity">
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        mapbox:mapbox_cameraTargetLat="34.8792123724"
-        mapbox:mapbox_cameraTargetLng="128.633247557"
-        mapbox:mapbox_cameraZoom="10.662822"/>
+        mapbox:mapbox_cameraTargetLat="37.4968662"
+        mapbox:mapbox_cameraTargetLng="127.0246298"
+        mapbox:mapbox_cameraZoom="13"/>
 
 </FrameLayout>

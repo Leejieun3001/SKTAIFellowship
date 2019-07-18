@@ -1,6 +1,5 @@
 package com.example.mapbox_test;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -248,13 +247,8 @@ public class InfoWindowSymbolLayerActivity extends AppCompatActivity implements
         }
     }
 
-    /**
-     * AsyncTask to load data from the assets folder.
-     */
     private static class LoadGeoJsonDataTask extends AsyncTask<Void, Void, FeatureCollection> {
-
         private final WeakReference<InfoWindowSymbolLayerActivity> activityRef;
-
         LoadGeoJsonDataTask(InfoWindowSymbolLayerActivity activity) {
             this.activityRef = new WeakReference<>(activity);
         }
@@ -262,15 +256,12 @@ public class InfoWindowSymbolLayerActivity extends AppCompatActivity implements
         @Override
         protected FeatureCollection doInBackground(Void... params) {
             InfoWindowSymbolLayerActivity activity = activityRef.get();
-
             if (activity == null) {
                 return null;
             }
-
             String geoJson = loadGeoJsonFromAsset(activity, "us_west_coast.geojson");
             return FeatureCollection.fromJson(geoJson);
         }
-
         @Override
         protected void onPostExecute(FeatureCollection featureCollection) {
             super.onPostExecute(featureCollection);
