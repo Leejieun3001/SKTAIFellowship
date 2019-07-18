@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".jieun.JieunHomeActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/jieunHome_goDynamicBuildMap_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="동적으로 기본 map 생성" />
+
+    <Button
+        android:id="@+id/jieunHome__goCustomCurrent_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="예제 연습" />
+
+
+</LinearLayout>

@@ -32,5 +32,17 @@ dependencies {
     implementation 'com.opencsv:opencsv:3.9'
     //mapbox
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.1.0'
+    //floating button
+    implementation 'com.android.support:design:28.0.0'
+    // add butter knife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    //add retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //mapbox geojson
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-core:4.8.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-geojson:4.8.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:4.8.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:4.8.0'
 
 }
