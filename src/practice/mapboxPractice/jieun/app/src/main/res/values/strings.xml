@@ -11,5 +11,12 @@
     <!-- Isochrone change -->
     <string name="click_on_map_instruction">Tap on the map</string>
     <string name="showing_time_labels_on_line_toast">Now showing minute labels on lines</string>
+    <!--LocationPickerActivity activity-->
+    <string name="location_picker_select_location_button_cancel">Cancel</string>
+    <string name="location_picker_select_location_button_select">Select a location</string>
+    <string name="location_picker_dropped_marker_snippet_no_results">No results</string>
+    <string name="location_picker_place_name_result">Place name: %1$s</string>
+    <string name="move_map_instruction">Move map to place\nmarker at desired location</string>
+
 
 </resources>
