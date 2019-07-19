@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         Button CreateHotspotsBtn = (Button) findViewById(R.id.create_hotspots_btn) ;
         Button DataTimeLapseBtn = (Button) findViewById(R.id.data_time_lapse_btn) ;
         Button LocationCamBtn = (Button) findViewById(R.id.location_cam_btn) ;
+        Button SettingBtn = (Button) findViewById(R.id.setting_btn) ;
+        // 저장된 값을 불러오기 위해 같은 네임파일을 찾음.
+
         basicMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this, LocationCamera.class);
+                startActivity(intent);
+            }
+        });
+        SettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, SetActivity.class);
                 startActivity(intent);
             }
         });

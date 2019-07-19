@@ -59,6 +59,12 @@
             android:layout_height="wrap_content"
             android:text="Go to Location Camera"
             android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setting"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 

@@ -39,5 +39,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button mainSolBtn = (Button) findViewById(R.id.main_sol_btn);
+        mainSolBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), JieunHomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
