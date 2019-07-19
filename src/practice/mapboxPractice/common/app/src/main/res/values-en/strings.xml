@@ -2,6 +2,7 @@
     <!--common-->
     <string name="app_name">flashbaseStudy1.0</string>
     <string name="mapbox_access_token">pk.eyJ1IjoibGVlamlldW4iLCJhIjoiY2p4bXpobTcyMDlkczNicWh0dDU0M2tmdyJ9.UG_lZxtD-TzmGs6lYPTYww</string>
+
     <!--common-->
 
     <!--jieun -->
@@ -19,6 +20,60 @@
     <string name="location_picker_place_name_result">Place name: %1$s</string>
     <string name="move_map_instruction">Move map to place\nmarker at desired location</string>
     <!--jieun -->
+
+    <!--LanguageSwitchActivity activity-->
+    <string name="language_switch_options_menu_language_english">English</string>
+    <string name="language_switch_options_menu_language_french">French</string>
+    <string name="language_switch_options_menu_language_russian">Russian</string>
+    <string name="language_switch_options_menu_language_german">German</string>
+    <string name="language_switch_options_menu_language_spanish">Spanish</string>
+
+    <!--LanguageSwitchActivity activity-->
+    <string name="custom_window_marker_title_spain">Spain</string>
+    <string name="custom_window_marker_title_egypt">Egypt</string>
+    <string name="custom_window_marker_title_germany">Germany</string>
+
+    <!--PulsingLayerOpacityColorActivity activity-->
+    <string name="fab_title_hotels">Hotels</string>
+    <string name="fab_title_parks">Parks</string>
+    <string name="fab_title_attractions">Attractions</string>
+
+    <!-- Collision toggle -->
+    <string name="collision_enabled">true</string>
+    <string name="collision_disabled">false</string>
+
+    <!-- Infowindow SymbolLayer -->
+    <string name="capital">Capital: %1$s</string>
+    <string name="tap_on_marker_instruction">Tap on a marker</string>
+
+    <!-- Zoom based icon change -->
+    <string name="zoom_map_in_and_out_icon_switch_instruction">Zoom in and out to see the icons change</string>
+
+    <!-- LocationComponent camera options -->
+    <string name="normal">Normal</string>
+    <string name="compass">Compass</string>
+    <string name="gps">GPS</string>
+    <string name="none">None</string>
+    <string name="none_compass">None Compass</string>
+    <string name="none_gps">None GPS</string>
+    <string name="tracking">Tracking</string>
+    <string name="tracking_compass">Tracking Compass</string>
+    <string name="tracking_gps">Tracking GPS</string>
+    <string name="tracking_gps_north">Tracking GPS North</string>
+    <string name="clicked_on_location_component">Clicked on LocationComponent</string>
+
+    <!--Basic user location permission toasts-->
+
+    <string name="title_activity_basic_symbol_layer">BasicSymbolLayerActivity</string>
+
+    <!-- Collision toggle -->
+    <string name="placement_explanation">textIgnorePlacement: other symbols can be visible even if \n they collide with the text</string>
+    <string name="overlap_explanation">textAllowOverlap: if true, the text will be visible even if it collides with other previously drawn symbols</string>
+    <string name="icon_overlap_explanation">iconAllowOverlap: the icon will be visible even if it collides with other previously drawn symbols</string>
+    <string name="icon_placement_explanation">iconIgnorePlacement: other symbols can be visible even if \n they collide with the icon</string>
+
+
+
 
 </resources>
 

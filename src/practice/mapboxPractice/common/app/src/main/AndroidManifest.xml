@@ -11,8 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".jieun.DynamicallyBuildAMapView"></activity>
         <activity android:name=".jieun.CustomCurrentLoc" />
+
+        <activity
+            android:name=".seungeun.BasicSymbolLayerActivity"
+            android:label="@string/title_activity_basic_symbol_layer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".seungeun.LocationComponentCameraOptionsActivity" />
+        <activity android:name=".seungeun.SymbolSwitchOnZoomActivity" />
+        <activity android:name=".seungeun.InfoWindowSymbolLayerActivity" />
+        <activity android:name=".seungeun.SymbolCollisionDetectionActivity" />
+        <activity android:name=".seungeun.PulsingLayerOpacityColorActivity" />
+        <activity android:name=".seungeun.LanguageSwitchActivity" />
+        <activity android:name=".seungeun.main_seungeun" />
+
         <activity android:name=".jieun.JieunHomeActivity" />
         <activity android:name=".common.HomeActivity" />
         <activity android:name=".MainActivity">
@@ -22,6 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

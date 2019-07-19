@@ -9,6 +9,8 @@ import android.widget.Button;
 
 import com.skt.flashbase.gis.test.common.HomeActivity;
 import com.skt.flashbase.gis.test.jieun.JieunHomeActivity;
+import com.skt.flashbase.gis.test.seungeun.main_seungeun;
+
 import com.skt.flashbase.gis.test.sqLite.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button mainSolBtn = (Button) findViewById(R.id.main_sol_btn);
-        mainSolBtn.setOnClickListener(new View.OnClickListener() {
+        Button mainSeungeunBtn = (Button) findViewById(R.id.main_seungeun_btn);
+        mainSeungeunBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), JieunHomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), main_seungeun.class);
                 startActivity(intent);
             }
         });
