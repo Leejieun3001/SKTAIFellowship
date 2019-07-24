@@ -1,12 +1,17 @@
 package com.skt.flashbase.gis.test.common;
 
 import android.app.Activity;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +30,8 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.test.R;
+import com.skt.flashbase.gis.test.roomDB.Place;
+import com.skt.flashbase.gis.test.roomDB.PlaceViewModel;
 import com.skt.flashbase.gis.test.sqLite.DBHelper;
 
 import java.io.IOException;
@@ -42,6 +49,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String LAYER_ID = "LAYER_ID";
     private MapView mapView;
     SQLiteDatabase db;
+    private PlaceViewModel mPlaceViewModel;
+   private List<Place> pinPlace = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        //Model Provider 생성
+        mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
+
         //SharedPreferences 처음 실행하는 경우에만 sqLite에 저장
         if (isFirst) {
             CSVtoSqLite();
@@ -60,26 +73,42 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             editor.putBoolean("isFirst", false);
             editor.commit();
         }
+
+        //observe : model의 LiveData를 관찰
+
+
     }
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+        //SQLite 방식
+//        db = openOrCreateDatabase("location.db", Context.MODE_PRIVATE, null);
+//        String sql = "select * from landmark ; ";
+//        Cursor results = db.rawQuery(sql, null);
+//        results.moveToFirst();
 
-        db = openOrCreateDatabase("location.db", Context.MODE_PRIVATE, null);
-        String sql = "select * from landmark ; ";
-        Cursor results = db.rawQuery(sql, null);
-        results.moveToFirst();
 
         List<Feature> symbolLayerIconFeatureList = new ArrayList<>();
 
-        while (!results.isAfterLast()) {
-            Double longitude = results.getDouble(3);
-            Double latitude = results.getDouble(2);
+//        while (!results.isAfterLast()) {
+//            Double longitude = results.getDouble(3);
+//            Double latitude = results.getDouble(2);
+//            symbolLayerIconFeatureList.add(Feature.fromGeometry(
+//                    Point.fromLngLat(longitude, latitude)));
+//            results.moveToNext();
+//        }
+//        results.close();
+
+
+
+        for (int i = 0; i < pinPlace.size(); i++) {
+            Double longitude = pinPlace.get(i).getPLongitude();
+            Double latitude = pinPlace.get(i).getPLatitude();
             symbolLayerIconFeatureList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
-            results.moveToNext();
+
         }
-        results.close();
+
 
         //맵스타일 지정
         mapboxMap.setStyle(new Style.Builder().fromUrl("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")
@@ -105,6 +134,18 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onResume() {
         super.onResume();
         mapView.onResume();
+
+        //roomdb방식
+        mPlaceViewModel.getAllPlace().observe(this, new Observer<List<Place>>() {
+            @Override
+            public void onChanged(@Nullable List<Place> places) {
+                for(int i=0;i<places.size();i++) {
+                    pinPlace.add(i, places.get(i));
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -150,10 +191,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             String[] record = null;
             //CSV 파일을 읽으면서 동시에 SqLite에 저장
             while ((record = read.readNext()) != null) {
-               // Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
+                // Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
                 if (!record[4].equals("위도")) {
                     dbHelper.insertLandmark(record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
+                    Place place = new Place(0, 1, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
+                    mPlaceViewModel.insert(place);
+
+
                 }
+
+
             }
         } catch (IOException ex) {
             // handle exception
