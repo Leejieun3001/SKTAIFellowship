@@ -10,7 +10,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         //최초에 데이터베이스가 없을 경우, 데이터베이스 생성을 위해 호출됨
@@ -18,7 +17,6 @@ public class DBHelper extends SQLiteOpenHelper {
         String sql = "create table landmark (id integer primary key autoincrement, name text, latitude double, longitude double);";
         db.execSQL(sql);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 데이터베이스의 버전이 바뀌었을 때 호출되는 콜백 메서드
@@ -37,13 +35,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
     public void update(String item, int price) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
         db.close();
     }
-
     public void delete(String item) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행 삭제

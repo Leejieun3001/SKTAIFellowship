@@ -53,21 +53,19 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        //처음 실행하는 경우에만 sqLite에 저장
+        //SharedPreferences 처음 실행하는 경우에만 sqLite에 저장
         if (isFirst) {
-            readCSV();
+            CSVtoSqLite();
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean("isFirst", false);
             editor.commit();
         }
-        readSQLite();
     }
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
 
         db = openOrCreateDatabase("location.db", Context.MODE_PRIVATE, null);
-
         String sql = "select * from landmark ; ";
         Cursor results = db.rawQuery(sql, null);
         results.moveToFirst();
@@ -83,6 +81,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         results.close();
 
+        //맵스타일 지정
         mapboxMap.setStyle(new Style.Builder().fromUrl("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")
                 .withImage(ICON_ID, BitmapFactory.decodeResource(
                         HomeActivity.this.getResources(), R.drawable.mapbox_marker_icon_default))
@@ -144,19 +143,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onSaveInstanceState(outState);
     }
 
-    void readSQLite() {
-// Database 생성 및 열기
-    }
-
-    void readCSV() {
-        String UTF8 = "utf8";
+    void CSVtoSqLite() {
         final DBHelper dbHelper = new DBHelper(getApplicationContext(), "location.db", null, 1);
         try {
             CSVReader read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.korea_landmark_standard_data), "EUC-KR"));
             String[] record = null;
-
+            //CSV 파일을 읽으면서 동시에 SqLite에 저장
             while ((record = read.readNext()) != null) {
-                Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
+               // Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
                 if (!record[4].equals("위도")) {
                     dbHelper.insertLandmark(record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
                 }
