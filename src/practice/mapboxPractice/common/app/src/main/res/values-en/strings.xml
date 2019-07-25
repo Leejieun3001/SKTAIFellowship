@@ -19,6 +19,9 @@
     <string name="location_picker_dropped_marker_snippet_no_results">No results</string>
     <string name="location_picker_place_name_result">Place name: %1$s</string>
     <string name="move_map_instruction">Move map to place\nmarker at desired location</string>
+    <string name="fab_title_landmark">Tour</string>
+    <string name="fab_title_foodTruck">FoodTruck</string>
+    <string name="fab_title_amusementpark">Amusementpark</string>
     <!--jieun -->
 
     <!--LanguageSwitchActivity activity-->

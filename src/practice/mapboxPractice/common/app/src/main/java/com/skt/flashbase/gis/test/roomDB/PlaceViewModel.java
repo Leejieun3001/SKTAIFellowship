@@ -13,14 +13,28 @@ public class PlaceViewModel extends AndroidViewModel {
     private PlaceRepository mPlaceRepository;
     private LiveData<List<Place>> mAllPlace;
 
+    private LiveData<List<Place>> mAllTourPlace;
+    private LiveData<List<Place>> mAllFoodtruckPlace;
+
     public PlaceViewModel(Application application) {
         super(application);
         mPlaceRepository = new PlaceRepository(application);
         mAllPlace = mPlaceRepository.getAllPlace();
+        mAllTourPlace = mPlaceRepository.getAllTour();
+        mAllFoodtruckPlace = mPlaceRepository.getAllFoodtruck();
+
     }
 
-   public LiveData<List<Place>> getAllPlace() {
+    public LiveData<List<Place>> getAllPlace() {
         return mAllPlace;
+    }
+
+    public LiveData<List<Place>> getAllTourPlace() {
+        return mAllTourPlace;
+    }
+
+    public LiveData<List<Place>> getAllFoodtruckPlace() {
+        return mAllFoodtruckPlace;
     }
 
     public void insert(Place place) {

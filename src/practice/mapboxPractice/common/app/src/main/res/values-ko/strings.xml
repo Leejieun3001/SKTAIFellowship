@@ -70,7 +70,9 @@
     <string name="language_switch_options_menu_language_russian">Russian</string>
     <string name="language_switch_options_menu_language_german">German</string>
     <string name="language_switch_options_menu_language_spanish">Spanish</string>
-
+    <string name="fab_title_landmark">Tour</string>
+    <string name="fab_title_foodTruck">FoodTruck</string>
+    <string name="fab_title_amusementpark">Amusementpark</string>
     <!--jieun -->
 
 </resources>

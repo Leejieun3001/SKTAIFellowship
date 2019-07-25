@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,4 +14,44 @@
         mapbox:mapbox_cameraTargetLat="37.4968662"
         mapbox:mapbox_cameraTargetLng="127.0246298"
         mapbox:mapbox_cameraZoom="7" />
-</android.support.constraint.ConstraintLayout>
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/home_category_menu_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        fab:fab_addButtonColorNormal="@color/mapboxRed"
+        fab:fab_addButtonColorPressed="@color/mapboxWhite"
+        fab:fab_addButtonPlusIconColor="@color/mapboxWhite"
+        fab:fab_labelStyle="@style/menu_labels_style">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/home_landmark_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/mapboxBlue"
+            fab:fab_colorPressed="@color/mapboxWhite"
+            fab:fab_size="mini"
+            fab:fab_title="@string/fab_title_landmark" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_toggle_parks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/mapboxGreen"
+            fab:fab_colorPressed="@color/mapboxWhite"
+            fab:fab_size="mini"
+            fab:fab_title="@string/fab_title_foodTruck" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_toggle_attractions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/mapboxRed"
+            fab:fab_colorPressed="@color/mapboxWhite"
+            fab:fab_size="mini"
+            fab:fab_title="@string/fab_title_amusementpark" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+</FrameLayout>
