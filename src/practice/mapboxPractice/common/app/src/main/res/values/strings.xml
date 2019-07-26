@@ -77,5 +77,6 @@
     <string name="overlap_explanation">textAllowOverlap: if true, the text will be visible even if it collides with other previously drawn symbols</string>
     <string name="icon_overlap_explanation">iconAllowOverlap: the icon will be visible even if it collides with other previously drawn symbols</string>
     <string name="icon_placement_explanation">iconIgnorePlacement: other symbols can be visible even if \n they collide with the icon</string>
+    <string name="title_activity_bottom_sheet_dialog">BottomSheetDialog</string>
 
 </resources>

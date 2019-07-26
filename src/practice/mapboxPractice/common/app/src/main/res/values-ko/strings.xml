@@ -74,5 +74,6 @@
     <string name="fab_title_foodTruck">FoodTruck</string>
     <string name="fab_title_amusementpark">Amusementpark</string>
     <!--jieun -->
+    <string name="title_activity_bottom_sheet_dialog">BottomSheetDialog</string>
 
 </resources>

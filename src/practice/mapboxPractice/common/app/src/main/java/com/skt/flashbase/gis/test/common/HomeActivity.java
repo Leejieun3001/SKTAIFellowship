@@ -11,11 +11,21 @@ import android.graphics.ImageDecoder;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
@@ -51,6 +61,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
     private static final String ICON_ID_Foodtruck = "Foodtruck";
     private static final String LAYER_ID_Foodtruck = "Foodtruck";
@@ -62,6 +73,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PlaceViewModel mPlaceViewModel;
     private List<Place> pinPlaceTour = new ArrayList<>();
     private List<Place> pinPlaceFoodTruck = new ArrayList<>();
+    //seungeun
+    private LineChart lineChart;
 
 
     @Override
@@ -74,6 +87,30 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.getMapAsync(this);
         //Model Provider 생성
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
+        //seungeun
+        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        bottomSheetBehavior.setHideable(true);
+        bottomSheetBehavior.setPeekHeight(100);
+
+
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+
+            }
+        });
+        createChart();
+        MyMarkerView marker = new MyMarkerView(this, R.layout.activity_my_marker_view);
+        marker.setChartView(lineChart);
+        lineChart.setMarker(marker);
 
     }
 
@@ -277,5 +314,52 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             // handle exception
         } finally {
         }
+    }
+    void createChart(){
+        lineChart = (LineChart)findViewById(R.id.chart);
+        List<Entry> entries = new ArrayList<>();
+
+        entries.add(new Entry(1,1));
+        entries.add(new Entry(2,2));
+        entries.add(new Entry(3,0));
+        entries.add(new Entry(4,4));
+        entries.add(new Entry(5,3));
+
+        LineDataSet lineDataSet = new LineDataSet(entries, "시간대별 유동인구");
+        lineDataSet.setLineWidth(1);
+        lineDataSet.setCircleRadius(4);
+        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
+        lineDataSet.setCircleColorHole(Color.BLUE);
+        lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
+        lineDataSet.setDrawCircleHole(true);
+        lineDataSet.setDrawCircles(true);
+        lineDataSet.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet.setDrawHighlightIndicators(false);
+        lineDataSet.setDrawValues(false);
+
+        LineData lineData = new LineData(lineDataSet);
+        lineChart.setData(lineData);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.enableGridDashedLine(8, 24, 0);
+
+        YAxis yLAxis = lineChart.getAxisLeft();
+        yLAxis.setTextColor(Color.BLACK);
+
+        YAxis yRAxis = lineChart.getAxisRight();
+        yRAxis.setDrawLabels(false);
+        yRAxis.setDrawAxisLine(false);
+        yRAxis.setDrawGridLines(false);
+
+        Description description = new Description();
+        description.setText("");
+
+        lineChart.setDoubleTapToZoomEnabled(false);
+        lineChart.setDrawGridBackground(false);
+        lineChart.setDescription(description);
+        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
+        lineChart.invalidate();
     }
 }

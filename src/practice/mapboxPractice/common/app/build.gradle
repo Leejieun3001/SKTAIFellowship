@@ -38,6 +38,7 @@ android {
 }
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -54,7 +55,9 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.1.0'
 
     //floating button
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
+
     // add butter knife
     implementation 'com.jakewharton:butterknife:8.8.1'
     //add retrofit
@@ -66,12 +69,13 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:4.8.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:4.8.0'
 
-
     implementation "com.getbase:floatingactionbutton:1.10.1"
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
-
+    //bottom sheet
+    implementation 'com.android.support:design:28.+'
+    implementation 'com.android.support:support-v4:28.0.0'
 
 // Room components
     implementation "android.arch.persistence.room:runtime:1.0.0"
@@ -81,6 +85,9 @@ dependencies {
 // Lifecycle components
     implementation "android.arch.lifecycle:extensions:1.1.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+    //chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
 
 }
+

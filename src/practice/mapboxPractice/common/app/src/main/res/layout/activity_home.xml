@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".common.HomeActivity">
 
+
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -45,5 +46,7 @@
             fab:fab_title="@string/fab_title_foodTruck" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <include layout = "@layout/bottomsheet"/>
 
 </FrameLayout>
