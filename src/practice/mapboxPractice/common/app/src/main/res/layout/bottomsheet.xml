@@ -20,9 +20,27 @@
             android:layout_height="50dp"
             android:background="#6887a8"
             android:gravity="center"
+            android:paddingBottom="5dp"
             android:text="상세 정보"
-            android:textColor="#161717"
-            android:paddingBottom="5dp"/>
+            android:textColor="#161717" />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal" />
+
+        <SeekBar
+            android:id="@+id/seekBar1"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:max="50"
+            android:min="-50"
+            android:progress="0"
+            android:thumb="@drawable/drawable_button_customize" />
+
         <TextView
             android:padding="2dp"
             android:paddingTop="2dp"
@@ -32,12 +50,11 @@
             android:text="시간대 별 인구 수"
             android:textColor="#161717" />
 
-
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
-            android:padding="2dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:padding="2dp" />
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

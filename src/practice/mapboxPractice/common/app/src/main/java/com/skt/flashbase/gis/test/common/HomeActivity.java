@@ -13,6 +13,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.github.mikephil.charting.animation.Easing;
@@ -42,6 +45,7 @@ import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.test.R;
 import com.skt.flashbase.gis.test.roomDB.Place;
 import com.skt.flashbase.gis.test.roomDB.PlaceViewModel;
+import com.skt.flashbase.gis.test.sol.SetActivity;
 import com.skt.flashbase.gis.test.sqLite.DBHelper;
 
 import java.io.IOException;
@@ -55,6 +59,10 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
+    //sol
+    SeekBar seekBar;
+    TextView status;
+    int storedValue = 0;
 
     //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
@@ -77,6 +85,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_home);
+
+        seekBar = (SeekBar)findViewById(R.id.seekBar1);
+        status = (TextView)findViewById(R.id.status);
+        seekBar.setProgress(storedValue);
+        status.setText("real time");
+
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -103,10 +117,55 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         createChart();
+
         MyMarkerView marker = new MyMarkerView(this, R.layout.activity_my_marker_view);
         marker.setChartView(lineChart);
         lineChart.setMarker(marker);
 
+        seekBar = (SeekBar)findViewById(R.id.seekBar1);
+        seekBar.setProgress(storedValue);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                float padding= seekBar.getPaddingLeft() + seekBar.getPaddingRight();
+                float sPos = seekBar.getLeft() + seekBar.getPaddingLeft();
+                float xPos = (seekBar.getWidth()-padding) * (seekBar.getProgress()+50)/ (seekBar.getMax()+50) + sPos - (status.getWidth() / 2);
+
+                status.setX(xPos);
+                status.setText("real time");
+
+                if(progress<0) {
+                    Toast.makeText(HomeActivity.this, progress + "mins ago", Toast.LENGTH_SHORT).show();
+                    status.setText(Math.abs(progress) + "mins ago");
+                    if (xPos < -450) {
+                        status.setX(-450);
+                    }
+                }else if(progress>0 && progress<=50) {
+                    Toast.makeText(HomeActivity.this, progress + "mins later", Toast.LENGTH_SHORT).show();
+                    status.setText(Math.abs(progress) + "mins later");
+                    if (xPos > 450) {
+                        status.setX(450);
+                    }
+                }else if (progress == 0) {
+                    Toast.makeText(HomeActivity.this, "real time", Toast.LENGTH_SHORT).show();
+                    status.setText("real time");
+                }
+
+                // 탐색 시간 전달하는 코드 추가
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
