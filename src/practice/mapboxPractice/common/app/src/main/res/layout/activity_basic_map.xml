@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".sol.BasicMap.BasicMap"
+    android:orientation="vertical">
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="647dp"
+        mapbox:mapbox_cameraTargetLat="37.566545"
+        mapbox:mapbox_cameraTargetLng="126.985239"
+        mapbox:mapbox_cameraZoom="11" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal" />
+
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:max="50"
+        android:min="-50"
+        android:progress="0"
+        android:thumb="@drawable/drawable_button_customize" />
+
+</LinearLayout>

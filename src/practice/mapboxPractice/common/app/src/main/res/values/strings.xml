@@ -20,5 +20,30 @@
     <string name="move_map_instruction">Move map to place\nmarker at desired location</string>
     <!--jieun-->
 
+    <!-- Pin drop animation -->
+    <string name="bounce_interpolator">Bounce interpolator</string>
+    <string name="linear_interpolator">Linear interpolator</string>
+    <string name="accelerate_interpolator">Accelerate interpolator</string>
+    <string name="decelerate_interpolator">Decelerate interpolator</string>
+
+    <!--Zoom in and out map instruction for toast-->
+    <string name="zoom_map_in_and_out_instruction">Zoom in and out to see cluster numbers change</string>
+
+
+    <!-- LocationComponent camera options -->
+    <string name="normal">Normal</string>
+    <string name="compass">Compass</string>
+    <string name="gps">GPS</string>
+    <string name="none">None</string>
+    <string name="none_compass">None Compass</string>
+    <string name="none_gps">None GPS</string>
+    <string name="tracking">Tracking</string>
+    <string name="tracking_compass">Tracking Compass</string>
+    <string name="tracking_gps">Tracking GPS</string>
+    <string name="tracking_gps_north">Tracking GPS North</string>
+    <string name="clicked_on_location_component">Clicked on LocationComponent</string>
+
+    <!-- Variable label placement-->
+    <string name="zoom_map_in_and_out_variable_label_instruction">Zoom in and out to see red labels try to avoid collisions</string>
 
 </resources>

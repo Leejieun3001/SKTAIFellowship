@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.skt.flashbase.gis.test.common.HomeActivity;
 import com.skt.flashbase.gis.test.jieun.JieunHomeActivity;
+import com.skt.flashbase.gis.test.sol.SolHomeActivity;
 import com.skt.flashbase.gis.test.sqLite.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         mainSolBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), JieunHomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SolHomeActivity.class);
                 startActivity(intent);
             }
         });

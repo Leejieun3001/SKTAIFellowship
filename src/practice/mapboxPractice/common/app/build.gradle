@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 repositories {
     mavenCentral()
@@ -44,5 +48,9 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-geojson:4.8.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:4.8.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:4.8.0'
+    //floating button
+    implementation "com.getbase:floatingactionbutton:1.10.1"
+    //timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
 }
