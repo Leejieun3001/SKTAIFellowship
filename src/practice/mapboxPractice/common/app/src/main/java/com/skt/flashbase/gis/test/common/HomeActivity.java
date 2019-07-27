@@ -82,29 +82,31 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //mapview init setting
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_home);
-
-        seekBar = (SeekBar)findViewById(R.id.seekBar1);
-        status = (TextView)findViewById(R.id.status);
-        seekBar.setProgress(storedValue);
-        status.setText("real time");
-
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        //Model Provider 생성
+        //--jieun--//
+        //Model Provider 생성 RoomDB
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
-        //seungeun
-        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
 
+
+        //--sol--//
+        seekBar = (SeekBar) findViewById(R.id.seekBar1);
+        status = (TextView) findViewById(R.id.status);
+        seekBar.setProgress(storedValue);
+        status.setText("real time");
+
+
+        //--seungeun--//
+        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
         bottomSheetBehavior.setHideable(true);
         bottomSheetBehavior.setPeekHeight(100);
-
 
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -122,33 +124,33 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setChartView(lineChart);
         lineChart.setMarker(marker);
 
-        seekBar = (SeekBar)findViewById(R.id.seekBar1);
+        seekBar = (SeekBar) findViewById(R.id.seekBar1);
         seekBar.setProgress(storedValue);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                float padding= seekBar.getPaddingLeft() + seekBar.getPaddingRight();
+                float padding = seekBar.getPaddingLeft() + seekBar.getPaddingRight();
                 float sPos = seekBar.getLeft() + seekBar.getPaddingLeft();
-                float xPos = (seekBar.getWidth()-padding) * (seekBar.getProgress()+50)/ (seekBar.getMax()+50) + sPos - (status.getWidth() / 2);
+                float xPos = (seekBar.getWidth() - padding) * (seekBar.getProgress() + 50) / (seekBar.getMax() + 50) + sPos - (status.getWidth() / 2);
 
                 status.setX(xPos);
                 status.setText("real time");
 
-                if(progress<0) {
+                if (progress < 0) {
                     Toast.makeText(HomeActivity.this, Math.abs(progress) + "mins ago", Toast.LENGTH_SHORT).show();
                     status.setText(Math.abs(progress) + "mins ago");
                     if (xPos < -450) {
                         status.setX(-450);
                     }
-                }else if(progress>0 && progress<=50) {
+                } else if (progress > 0 && progress <= 50) {
                     Toast.makeText(HomeActivity.this, progress + "mins later", Toast.LENGTH_SHORT).show();
                     status.setText(progress + "mins later");
                     if (xPos > 450) {
                         status.setX(450);
                     }
-                }else if (progress == 0) {
+                } else if (progress == 0) {
                     Toast.makeText(HomeActivity.this, "real time", Toast.LENGTH_SHORT).show();
                     status.setText("real time");
                 }
@@ -183,19 +185,17 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            results.moveToNext();
 //        }
 //        results.close();
-
-
+        //--jieun--//
+        //marker 생성 (foodTuck)
         List<Feature> FoodTruckPlaceList = new ArrayList<>();
-
         for (int i = 0; i < pinPlaceFoodTruck.size(); i++) {
             Double longitude = pinPlaceFoodTruck.get(i).getPLongitude();
             Double latitude = pinPlaceFoodTruck.get(i).getPLatitude();
             FoodTruckPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
-
         }
+        //marker 생성 (Tour)
         List<Feature> tourPlaceList = new ArrayList<>();
-
         for (int i = 0; i < pinPlaceTour.size(); i++) {
             Double longitude = pinPlaceTour.get(i).getPLongitude();
             Double latitude = pinPlaceTour.get(i).getPLatitude();
@@ -206,6 +206,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
+                // foodtruck marker style 지정
                 style.addImageAsync(ICON_ID_Foodtruck, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.pin_foodtruck_tmp)));
                 Source FoodTruck = new GeoJsonSource(SOURCE_ID_Foodtruck,
@@ -214,7 +215,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SymbolLayer FoodTruckLayer = new SymbolLayer(LAYER_ID_Foodtruck, SOURCE_ID_Foodtruck)
                         .withProperties(PropertyFactory.iconImage(ICON_ID_Foodtruck), PropertyFactory.visibility(VISIBLE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(FoodTruckLayer);
-
+                // tour marker style 지정
                 style.addImageAsync(ICON_ID_Tour, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.pin_tour_tmp)));
                 Source Tour = new GeoJsonSource(SOURCE_ID_Tour,
@@ -223,8 +224,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SymbolLayer TourLayer = new SymbolLayer(LAYER_ID_Tour, SOURCE_ID_Tour)
                         .withProperties(PropertyFactory.iconImage(ICON_ID_Tour), PropertyFactory.visibility(VISIBLE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(TourLayer);
-
-
+                //floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
                 homeTourFab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -232,8 +232,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                         setLayerVisible(LAYER_ID_Tour, style);
                     }
                 });
-
-
                 FloatingActionButton homeFoodtruckFab = findViewById(R.id.home_food_fab);
                 homeFoodtruckFab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -244,7 +242,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-
+    //--jieun --//
+    // marker visibility change 함수
     private void setLayerVisible(String layerId, @NonNull Style loadedMapStyle) {
         Layer layer = loadedMapStyle.getLayer(layerId);
         if (layer == null) {
@@ -265,6 +264,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        //--jieun--//
         SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
         boolean isFirst = pref.getBoolean("isFirst", true);
         //SharedPreferences 처음 실행하는 경우에만 sqLite에 저장
@@ -331,6 +331,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onSaveInstanceState(outState);
     }
 
+    //--jieun--//
+    //csv 데이터 저장
     void CSVtoSqLite() {
         final DBHelper dbHelper = new DBHelper(getApplicationContext(), "location.db", null, 1);
         try {
@@ -369,15 +371,17 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         } finally {
         }
     }
-    void createChart(){
-        lineChart = (LineChart)findViewById(R.id.chart);
+
+    //--seung eun--//
+    void createChart() {
+        lineChart = (LineChart) findViewById(R.id.chart);
         List<Entry> entries = new ArrayList<>();
 
-        entries.add(new Entry(1,1));
-        entries.add(new Entry(2,2));
-        entries.add(new Entry(3,0));
-        entries.add(new Entry(4,4));
-        entries.add(new Entry(5,3));
+        entries.add(new Entry(1, 1));
+        entries.add(new Entry(2, 2));
+        entries.add(new Entry(3, 0));
+        entries.add(new Entry(4, 4));
+        entries.add(new Entry(5, 3));
 
         LineDataSet lineDataSet = new LineDataSet(entries, "시간대별 유동인구");
         lineDataSet.setLineWidth(1);

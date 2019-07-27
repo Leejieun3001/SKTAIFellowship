@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         mapbox:mapbox_cameraTargetLat="37.4968662"
         mapbox:mapbox_cameraTargetLng="127.0246298"
-        mapbox:mapbox_cameraZoom="7" />
+        mapbox:mapbox_cameraZoom="10" />
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/home_category_menu_fab"
