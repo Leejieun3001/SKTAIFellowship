@@ -137,14 +137,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 status.setText("real time");
 
                 if(progress<0) {
-                    Toast.makeText(HomeActivity.this, progress + "mins ago", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, Math.abs(progress) + "mins ago", Toast.LENGTH_SHORT).show();
                     status.setText(Math.abs(progress) + "mins ago");
                     if (xPos < -450) {
                         status.setX(-450);
                     }
                 }else if(progress>0 && progress<=50) {
                     Toast.makeText(HomeActivity.this, progress + "mins later", Toast.LENGTH_SHORT).show();
-                    status.setText(Math.abs(progress) + "mins later");
+                    status.setText(progress + "mins later");
                     if (xPos > 450) {
                         status.setX(450);
                     }
