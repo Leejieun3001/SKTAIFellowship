@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".sol.SolHomeActivity">
+
+    <Button
+        android:id="@+id/basic_map_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Basic Map"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/Icon_move_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Icon Movement Map"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/variable_label_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Variable Label Placement"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/circle_layer_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Circle Layer Cluster"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/create_hotspots_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Create Hot Spots"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/data_time_lapse_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Data Time Lapse"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/location_cam_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Location Camera"
+        android:textAllCaps="false"/>
+    <Button
+        android:id="@+id/setting_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Setting"
+        android:textAllCaps="false"/>
+
+</LinearLayout>

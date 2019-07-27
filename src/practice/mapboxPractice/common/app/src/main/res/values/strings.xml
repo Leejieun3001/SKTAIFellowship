@@ -23,7 +23,6 @@
     <string name="fab_title_foodTruck">FoodTruck</string>
     <string name="fab_title_amusementpark">Amusementpark</string>
 
-
     <!--jieun-->
 
     <!--LanguageSwitchActivity activity-->
@@ -32,7 +31,6 @@
     <string name="language_switch_options_menu_language_russian">Russian</string>
     <string name="language_switch_options_menu_language_german">German</string>
     <string name="language_switch_options_menu_language_spanish">Spanish</string>
-
 
     <!--LanguageSwitchActivity activity-->
     <string name="custom_window_marker_title_spain">Spain</string>
@@ -54,6 +52,15 @@
 
     <!-- Zoom based icon change -->
     <string name="zoom_map_in_and_out_icon_switch_instruction">Zoom in and out to see the icons change</string>
+
+    <!-- Pin drop animation -->
+    <string name="bounce_interpolator">Bounce interpolator</string>
+    <string name="linear_interpolator">Linear interpolator</string>
+    <string name="accelerate_interpolator">Accelerate interpolator</string>
+    <string name="decelerate_interpolator">Decelerate interpolator</string>
+
+    <!--Zoom in and out map instruction for toast-->
+    <string name="zoom_map_in_and_out_instruction">Zoom in and out to see cluster numbers change</string>
 
     <!-- LocationComponent camera options -->
     <string name="normal">Normal</string>
@@ -78,5 +85,8 @@
     <string name="icon_overlap_explanation">iconAllowOverlap: the icon will be visible even if it collides with other previously drawn symbols</string>
     <string name="icon_placement_explanation">iconIgnorePlacement: other symbols can be visible even if \n they collide with the icon</string>
     <string name="title_activity_bottom_sheet_dialog">BottomSheetDialog</string>
+
+    <!-- Variable label placement-->
+    <string name="zoom_map_in_and_out_variable_label_instruction">Zoom in and out to see red labels try to avoid collisions</string>
 
 </resources>

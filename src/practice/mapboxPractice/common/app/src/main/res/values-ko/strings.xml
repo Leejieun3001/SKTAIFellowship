@@ -2,15 +2,15 @@
     <!--common-->
     <string name="app_name">flashbaseStudy1.0</string>
     <string name="mapbox_access_token">pk.eyJ1IjoibGVlamlldW4iLCJhIjoiY2p4bXpobTcyMDlkczNicWh0dDU0M2tmdyJ9.UG_lZxtD-TzmGs6lYPTYww</string>
+
     <!--common-->
 
-    <!--jieun -->
+    <!--jieun-->
     <string name="user_location_permission_explanation">Lat: %1$f Long: %2$f</string>
-    <string name="user_location_permission_not_granted">사용자 위치 권한 거부</string>
+    <string name="user_location_permission_not_granted">reject location permission</string>
     <string name="query_feature_marker_title">Properties:</string>
     <string name="query_feature_marker_snippet">No feature properties found</string>
     <string name="query_feature_no_properties_found">No feature properties found</string>
-
     <string name="click_on_map_instruction">Tap on the map</string>
     <string name="showing_time_labels_on_line_toast">Now showing minute labels on lines</string>
     <!--LocationPickerActivity activity-->
@@ -19,6 +19,18 @@
     <string name="location_picker_dropped_marker_snippet_no_results">No results</string>
     <string name="location_picker_place_name_result">Place name: %1$s</string>
     <string name="move_map_instruction">Move map to place\nmarker at desired location</string>
+    <string name="fab_title_landmark">Tour</string>
+    <string name="fab_title_foodTruck">FoodTruck</string>
+    <string name="fab_title_amusementpark">Amusementpark</string>
+
+    <!--jieun-->
+
+    <!--LanguageSwitchActivity activity-->
+    <string name="language_switch_options_menu_language_english">English</string>
+    <string name="language_switch_options_menu_language_french">French</string>
+    <string name="language_switch_options_menu_language_russian">Russian</string>
+    <string name="language_switch_options_menu_language_german">German</string>
+    <string name="language_switch_options_menu_language_spanish">Spanish</string>
 
     <!--LanguageSwitchActivity activity-->
     <string name="custom_window_marker_title_spain">Spain</string>
@@ -40,6 +52,15 @@
 
     <!-- Zoom based icon change -->
     <string name="zoom_map_in_and_out_icon_switch_instruction">Zoom in and out to see the icons change</string>
+
+    <!-- Pin drop animation -->
+    <string name="bounce_interpolator">Bounce interpolator</string>
+    <string name="linear_interpolator">Linear interpolator</string>
+    <string name="accelerate_interpolator">Accelerate interpolator</string>
+    <string name="decelerate_interpolator">Decelerate interpolator</string>
+
+    <!--Zoom in and out map instruction for toast-->
+    <string name="zoom_map_in_and_out_instruction">Zoom in and out to see cluster numbers change</string>
 
     <!-- LocationComponent camera options -->
     <string name="normal">Normal</string>
@@ -63,17 +84,9 @@
     <string name="overlap_explanation">textAllowOverlap: if true, the text will be visible even if it collides with other previously drawn symbols</string>
     <string name="icon_overlap_explanation">iconAllowOverlap: the icon will be visible even if it collides with other previously drawn symbols</string>
     <string name="icon_placement_explanation">iconIgnorePlacement: other symbols can be visible even if \n they collide with the icon</string>
-
-    <!--LanguageSwitchActivity activity-->
-    <string name="language_switch_options_menu_language_english">English</string>
-    <string name="language_switch_options_menu_language_french">French</string>
-    <string name="language_switch_options_menu_language_russian">Russian</string>
-    <string name="language_switch_options_menu_language_german">German</string>
-    <string name="language_switch_options_menu_language_spanish">Spanish</string>
-    <string name="fab_title_landmark">Tour</string>
-    <string name="fab_title_foodTruck">FoodTruck</string>
-    <string name="fab_title_amusementpark">Amusementpark</string>
-    <!--jieun -->
     <string name="title_activity_bottom_sheet_dialog">BottomSheetDialog</string>
+
+    <!-- Variable label placement-->
+    <string name="zoom_map_in_and_out_variable_label_instruction">Zoom in and out to see red labels try to avoid collisions</string>
 
 </resources>
