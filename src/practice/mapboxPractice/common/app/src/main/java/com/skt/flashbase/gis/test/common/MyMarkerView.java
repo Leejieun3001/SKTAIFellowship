@@ -1,8 +1,6 @@
 package com.skt.flashbase.gis.test.common;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
