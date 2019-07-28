@@ -25,49 +25,6 @@ public class BasicMap extends AppCompatActivity {
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_basic_map);
 
-        seekBar = (SeekBar)findViewById(R.id.seekBar1);
-        status = (TextView)findViewById(R.id.status);
-        seekBar.setProgress(storedValue);
-        status.setText("real time");
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                float padding= seekBar.getPaddingLeft() + seekBar.getPaddingRight();
-                float sPos = seekBar.getLeft() + seekBar.getPaddingLeft();
-                float xPos = (seekBar.getWidth()-padding) * (seekBar.getProgress()+50)/ (seekBar.getMax()+50) + sPos - (status.getWidth() / 2);
-
-                status.setX(xPos);
-
-                if(progress<0) {
-                    status.setText(Math.abs(progress) + "min ago");
-                    if (xPos < -450) {
-                        status.setX(-450);
-                    }
-                }else if(progress>0 && progress<=50) {
-                    status.setText(progress + "min later");
-                    if (xPos > 450) {
-                        status.setX(450);
-                    }
-                }else if (progress == 0) {
-                    status.setText("real time");
-                }
-
-                // 탐색 시간 전달하는 코드 추가
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(new OnMapReadyCallback() {

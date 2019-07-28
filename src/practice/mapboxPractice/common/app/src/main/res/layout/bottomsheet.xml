@@ -23,23 +23,25 @@
             android:paddingBottom="5dp"
             android:text="상세 정보"
             android:textColor="#161717" />
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal" />
 
-        <SeekBar
-            android:id="@+id/seekBar1"
+        <!--Sol BubbleSeekBar-->
+        <com.skt.flashbase.gis.test.Bubble.BubbleSeekBar
+            android:id="@+id/demo_4_seek_bar_3"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:max="50"
-            android:min="-50"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:progress="0"
-            android:thumb="@drawable/drawable_button_customize" />
+            app:bsb_auto_adjust_section_mark="true"
+            app:bsb_second_track_color="@color/color_red"
+            app:bsb_section_count="6"
+            app:bsb_section_text_position="below_section_mark"
+            app:bsb_show_section_mark="true"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"
+            app:bsb_touch_to_seek="true"
+            app:bsb_track_color="@color/color_red_light"
+            app:bsb_hide_bubble="true"/>
+        <!--app:bsb_always_show_bubble="true"-->
 
         <TextView
             android:padding="2dp"

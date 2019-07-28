@@ -63,4 +63,8 @@
     <color name="black_semi_transparent">#B2000000</color>
     <color name="half_black">#808080</color>
     <color name="white_pressed">#f1f1f1</color>
+
+    <!--BubbleBar-->
+    <color name="color_red">#FF6A6E</color>
+    <color name="color_red_light">#FFB4B6</color>
 </resources>

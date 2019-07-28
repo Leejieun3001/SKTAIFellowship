@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -42,10 +43,10 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
+import com.skt.flashbase.gis.test.Bubble.BubbleSeekBar;
 import com.skt.flashbase.gis.test.R;
 import com.skt.flashbase.gis.test.roomDB.Place;
 import com.skt.flashbase.gis.test.roomDB.PlaceViewModel;
-import com.skt.flashbase.gis.test.sol.SetActivity;
 import com.skt.flashbase.gis.test.sqLite.DBHelper;
 
 import java.io.IOException;
@@ -59,10 +60,9 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
-    //sol
-    SeekBar seekBar;
-    TextView status;
-    int storedValue = 0;
+
+    //Sol
+    int storedValue = 50;
 
     //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
@@ -89,17 +89,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
         //--jieun--//
         //Model Provider 생성 RoomDB
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
-
-
-        //--sol--//
-        seekBar = (SeekBar) findViewById(R.id.seekBar1);
-        status = (TextView) findViewById(R.id.status);
-        seekBar.setProgress(storedValue);
-        status.setText("real time");
-
 
         //--seungeun--//
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
@@ -124,48 +117,42 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setChartView(lineChart);
         lineChart.setMarker(marker);
 
-        seekBar = (SeekBar) findViewById(R.id.seekBar1);
-        seekBar.setProgress(storedValue);
+        // sol BubbleSeekBar
+        bottomSheetBehavior.getPeekHeight();
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        final BubbleSeekBar bubbleSeekBar3 = findViewById(R.id.demo_4_seek_bar_3);
+
+        bubbleSeekBar3.setProgress(storedValue);
+
+        bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+            @NonNull
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                array.clear();
+                array.put(0, "삼일전");
+                array.put(1, "이틀전");
+                array.put(2, "어제");
+                array.put(3, "실시간");
+                array.put(4, "내일");
+                array.put(5, "내일 모레");
+                array.put(6, "글피");
 
-                float padding = seekBar.getPaddingLeft() + seekBar.getPaddingRight();
-                float sPos = seekBar.getLeft() + seekBar.getPaddingLeft();
-                float xPos = (seekBar.getWidth() - padding) * (seekBar.getProgress() + 50) / (seekBar.getMax() + 50) + sPos - (status.getWidth() / 2);
+                return array;
+            }
+        });
 
-                status.setX(xPos);
-                status.setText("real time");
-
-                if (progress < 0) {
-                    Toast.makeText(HomeActivity.this, Math.abs(progress) + "mins ago", Toast.LENGTH_SHORT).show();
-                    status.setText(Math.abs(progress) + "mins ago");
-                    if (xPos < -450) {
-                        status.setX(-450);
-                    }
-                } else if (progress > 0 && progress <= 50) {
-                    Toast.makeText(HomeActivity.this, progress + "mins later", Toast.LENGTH_SHORT).show();
-                    status.setText(progress + "mins later");
-                    if (xPos > 450) {
-                        status.setX(450);
-                    }
-                } else if (progress == 0) {
-                    Toast.makeText(HomeActivity.this, "real time", Toast.LENGTH_SHORT).show();
-                    status.setText("real time");
-                }
-
+        bubbleSeekBar3.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
                 // 탐색 시간 전달하는 코드 추가
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
             }
         });
     }
@@ -208,7 +195,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onStyleLoaded(@NonNull Style style) {
                 // foodtruck marker style 지정
                 style.addImageAsync(ICON_ID_Foodtruck, BitmapUtils.getBitmapFromDrawable(
-                        getResources().getDrawable(R.drawable.pin_foodtruck_tmp)));
+                        getResources().getDrawable(R.drawable.ic_truck_pin_custom)));
                 Source FoodTruck = new GeoJsonSource(SOURCE_ID_Foodtruck,
                         FeatureCollection.fromFeatures(FoodTruckPlaceList));
                 style.addSource(FoodTruck);
@@ -217,7 +204,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 style.addLayer(FoodTruckLayer);
                 // tour marker style 지정
                 style.addImageAsync(ICON_ID_Tour, BitmapUtils.getBitmapFromDrawable(
-                        getResources().getDrawable(R.drawable.pin_tour_tmp)));
+                        getResources().getDrawable(R.drawable.ic_tour_pin_custom)));
                 Source Tour = new GeoJsonSource(SOURCE_ID_Tour,
                         FeatureCollection.fromFeatures(tourPlaceList));
                 style.addSource(Tour);
