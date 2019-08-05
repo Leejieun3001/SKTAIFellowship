@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,9 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.github.mikephil.charting.animation.Easing;
@@ -27,10 +27,19 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.mapbox.android.core.permissions.PermissionsListener;
+import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.location.LocationComponent;
+import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
+import com.mapbox.mapboxsdk.location.LocationComponentOptions;
+import com.mapbox.mapboxsdk.location.OnCameraTrackingChangedListener;
+import com.mapbox.mapboxsdk.location.OnLocationClickListener;
+import com.mapbox.mapboxsdk.location.modes.CameraMode;
+import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -59,7 +68,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
     int storedValue = 50;
@@ -76,9 +85,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PlaceViewModel mPlaceViewModel;
     private List<Place> pinPlaceTour = new ArrayList<>();
     private List<Place> pinPlaceFoodTruck = new ArrayList<>();
+    // current location
+    private PermissionsManager permissionsManager;
+    private LocationComponent locationComponent;
+    private boolean isInTrackingMode;
+    private MapboxMap mapboxMap;
     //seungeun
     private LineChart lineChart;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +186,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        }
 //        results.close();
         //--jieun--//
+        this.mapboxMap = mapboxMap;
+
         //marker 생성 (foodTuck)
+
         List<Feature> FoodTruckPlaceList = new ArrayList<>();
         for (int i = 0; i < pinPlaceFoodTruck.size(); i++) {
             Double longitude = pinPlaceFoodTruck.get(i).getPLongitude();
@@ -193,6 +209,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
+                enableLocationComponent(style);
+
                 // foodtruck marker style 지정
                 style.addImageAsync(ICON_ID_Foodtruck, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.ic_truck_pin_custom)));
@@ -200,7 +218,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                         FeatureCollection.fromFeatures(FoodTruckPlaceList));
                 style.addSource(FoodTruck);
                 SymbolLayer FoodTruckLayer = new SymbolLayer(LAYER_ID_Foodtruck, SOURCE_ID_Foodtruck)
-                        .withProperties(PropertyFactory.iconImage(ICON_ID_Foodtruck), PropertyFactory.visibility(VISIBLE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+                        .withProperties(PropertyFactory.iconImage(ICON_ID_Foodtruck), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(FoodTruckLayer);
                 // tour marker style 지정
                 style.addImageAsync(ICON_ID_Tour, BitmapUtils.getBitmapFromDrawable(
@@ -209,7 +227,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                         FeatureCollection.fromFeatures(tourPlaceList));
                 style.addSource(Tour);
                 SymbolLayer TourLayer = new SymbolLayer(LAYER_ID_Tour, SOURCE_ID_Tour)
-                        .withProperties(PropertyFactory.iconImage(ICON_ID_Tour), PropertyFactory.visibility(VISIBLE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+                        .withProperties(PropertyFactory.iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(TourLayer);
                 //floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
@@ -229,6 +247,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
+
     //--jieun --//
     // marker visibility change 함수
     private void setLayerVisible(String layerId, @NonNull Style loadedMapStyle) {
@@ -282,6 +301,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    @SuppressWarnings({"MissingPermission"})
     @Override
     protected void onStart() {
         super.onStart();
@@ -406,5 +426,127 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         lineChart.setDescription(description);
         lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
         lineChart.invalidate();
+    }
+
+
+    //jieun (current user location)
+
+
+    @SuppressWarnings({"MissingPermission"})
+    private void enableLocationComponent(@NonNull Style loadedMapStyle) {
+        //check permission
+        if (PermissionsManager.areLocationPermissionsGranted(this)) {
+            // 사용자 정의 핀 생성
+            LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(this)
+                    .elevation(5)
+                    .accuracyAlpha(.6f)
+                    .accuracyColor(Color.RED)
+                    .foregroundDrawable(R.drawable.red_marker)
+                    .build();
+            // 컴포넌트의 인스턴트 가져오기
+            locationComponent = mapboxMap.getLocationComponent();
+            LocationComponentActivationOptions locationComponentActivationOptions
+                    = LocationComponentActivationOptions.builder(this, loadedMapStyle).locationComponentOptions(customLocationComponentOptions).build();
+            // Activate with options
+            locationComponent.activateLocationComponent(locationComponentActivationOptions);
+
+// Enable to make component visible
+            locationComponent.setLocationComponentEnabled(true);
+
+// Set the component's camera mode
+            locationComponent.setCameraMode(CameraMode.TRACKING);
+
+// Set the component's render mode
+            locationComponent.setRenderMode(RenderMode.COMPASS);
+
+// Add the location icon click listener
+            locationComponent.addOnLocationClickListener(this);
+
+// Add the camera tracking listener. Fires if the map camera is manually moved.
+            locationComponent.addOnCameraTrackingChangedListener(this);
+            findViewById(R.id.home_user_fab).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isInTrackingMode) {
+                        isInTrackingMode = true;
+                        locationComponent.setCameraMode(CameraMode.TRACKING);
+                        locationComponent.zoomWhileTracking(16f);
+                        Toast.makeText(HomeActivity.this, getString(R.string.tracking_enabled),
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(HomeActivity.this, getString(R.string.tracking_already_enabled),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            });
+
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
+        }
+
+    }
+
+
+    @Override
+    public void onExplanationNeeded(List<String> permissionsToExplain) {
+        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onPermissionResult(boolean granted) {
+        if (granted && mapboxMap != null) {
+            Style style = mapboxMap.getStyle();
+            if (style != null) {
+                enableLocationPlugin(style);
+            }
+        } else {
+            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @SuppressWarnings({"MissingPermission"})
+    private void enableLocationPlugin(@NonNull Style loadedMapStyle) {
+        //권한 확인
+        if (PermissionsManager.areLocationPermissionsGranted(this)) {
+            //컴포넌트의 인스턴스 설정 (옵션)
+            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+            locationComponent.activateLocationComponent(this, loadedMapStyle);
+            locationComponent.setLocationComponentEnabled(true);
+            //모드 설정
+            locationComponent.setCameraMode(CameraMode.TRACKING);
+            locationComponent.setRenderMode(RenderMode.NORMAL);
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
+        }
+    }
+
+    @Override
+    public void onCameraTrackingDismissed() {
+        isInTrackingMode = false;
+
+    }
+
+    @Override
+    public void onCameraTrackingChanged(int currentMode) {
+
+    }
+
+    @Override
+    public void onLocationComponentClick() {
+        if (locationComponent.getLastKnownLocation() != null) {
+            Toast.makeText(this, String.format(getString(R.string.current_location),
+                    locationComponent.getLastKnownLocation().getLatitude(),
+                    locationComponent.getLastKnownLocation().getLongitude()), Toast.LENGTH_LONG).show();
+        }
     }
 }

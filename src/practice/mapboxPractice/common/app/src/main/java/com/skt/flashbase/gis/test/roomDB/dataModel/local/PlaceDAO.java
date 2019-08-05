@@ -20,8 +20,6 @@ public interface PlaceDAO {
     @Query("SELECT * from placeInfo ORDER BY id ASC")
     LiveData<List<Place>> getAllPlaces();
 
-
-
     @Query("SELECT * from placeInfo Where category = 1  ORDER BY id ASC ")
     LiveData<List<Place>> getAllTourPlaces();
 
