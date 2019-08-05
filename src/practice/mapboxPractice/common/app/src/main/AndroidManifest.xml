@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".sol.SetActivity"></activity>
         <activity android:name=".sol.DeviceLocation.LocationCamera" />
         <activity android:name=".sol.VariableLabelPlacement.VariableLabelPlacement" />
