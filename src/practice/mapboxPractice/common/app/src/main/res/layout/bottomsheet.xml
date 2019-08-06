@@ -5,11 +5,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     android:fitSystemWindows = "true"
 
+    <!-- coordinatiorLayout 자식 뷰에서 bottomsheet를 사용하고 싶은 레이아웃에 behavior속성을
+    주면 된다. 해당 레이아웃에서는 linearlayout에서 사용 -> homeactivity.java에서 linearlayout에
+    속성을 줌!
+   !-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="500dp"
         android:background="@color/mapboxWhite"
         android:orientation="vertical"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
@@ -40,23 +44,34 @@
             app:bsb_show_thumb_text="true"
             app:bsb_touch_to_seek="true"
             app:bsb_track_color="@color/color_red_light"
-            app:bsb_hide_bubble="true"/>
+            app:bsb_hide_bubble="true"
+            android:paddingBottom="2dp"/>
         <!--app:bsb_always_show_bubble="true"-->
 
         <TextView
-            android:padding="2dp"
-            android:paddingTop="2dp"
+
+            android:paddingTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="시간대 별 인구 수"
             android:textColor="#161717" />
+        <Button
+            android:id="@+id/btn_chart_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="270dp"
+            android:text="자세히보기"
+            android:background="@color/mapboxWhite"
+            android:textColor="@color/mapboxBlue"
+            />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="2dp" />
+
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

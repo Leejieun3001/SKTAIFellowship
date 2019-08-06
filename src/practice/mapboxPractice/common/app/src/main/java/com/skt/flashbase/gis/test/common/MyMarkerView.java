@@ -23,6 +23,7 @@ public class MyMarkerView extends MarkerView {
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
     // content (user-interface)
+    //각각의 차트 값을 눌렀을 때 뜨는 내용 ex) 높이 값
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
@@ -33,7 +34,7 @@ public class MyMarkerView extends MarkerView {
             tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 0, true));
         } else {
 
-            tvContent.setText("" + Utils.formatNumber(e.getY(), 0, true));
+            tvContent.setText("abc" + Utils.formatNumber(e.getY(), 0, true));
         }
 
         super.refreshContent(e, highlight);

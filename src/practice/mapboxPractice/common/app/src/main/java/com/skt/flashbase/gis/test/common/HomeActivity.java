@@ -3,6 +3,7 @@ package com.skt.flashbase.gis.test.common;
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -14,9 +15,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.github.mikephil.charting.animation.Easing;
@@ -109,23 +110,23 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //--seungeun--//
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        bottomSheetBehavior.setHideable(true);
-        bottomSheetBehavior.setPeekHeight(100);
 
+        //bottomsheetbebavior은 스트링 이름, 값은 클래스 명으로 지정. 해당 클래스가 로드되어 수행되는 구조
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_DRAGGING);
+        bottomSheetBehavior.setHideable(false);
+        bottomSheetBehavior.setPeekHeight(100);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View view, int i) {
             }
-
             @Override
             public void onSlide(@NonNull View view, float v) {
-
             }
         });
         createChart();
 
+        //markerview activity는 마커 자체에 보여지는 내용에 대한 뷰
         MyMarkerView marker = new MyMarkerView(this, R.layout.activity_my_marker_view);
         marker.setChartView(lineChart);
         lineChart.setMarker(marker);
@@ -168,7 +169,17 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
             }
         });
+        Button btn_chart_ex = (Button)findViewById(R.id.btn_chart_example);
+        btn_chart_ex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ChartExample.class);
+                startActivity(intent);
+            }
+        });
+
     }
+
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
@@ -204,6 +215,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             Double latitude = pinPlaceTour.get(i).getPLatitude();
             tourPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
+
+
         }
 
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
@@ -428,7 +441,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         lineChart.invalidate();
     }
 
-
     //jieun (current user location)
 
 
@@ -549,4 +561,5 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     locationComponent.getLastKnownLocation().getLongitude()), Toast.LENGTH_LONG).show();
         }
     }
+
 }
