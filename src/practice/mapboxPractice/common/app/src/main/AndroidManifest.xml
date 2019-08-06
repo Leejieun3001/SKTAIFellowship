@@ -12,11 +12,9 @@
         android:supportsRtl="true"
 
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".sol.SetActivity"></activity>
 
-        android:theme="@style/AppTheme">
         <activity android:name=".common.ChartExample"></activity>
-
+        <activity android:name=".sol.SetActivity"></activity>
 
         <activity android:name=".sol.DeviceLocation.LocationCamera" />
         <activity android:name=".sol.VariableLabelPlacement.VariableLabelPlacement" />
