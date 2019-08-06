@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -91,11 +90,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
     private MapboxMap mapboxMap;
+     //jieun
+
     //seungeun
     private LineChart lineChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         //mapview init setting
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
@@ -107,6 +109,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         //--jieun--//
         //Model Provider 생성 RoomDB
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
+        // 카테고리 검색 다이얼로그 생성
+        setCustomDialogSearh();
 
         //--seungeun--//
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
@@ -120,6 +124,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onStateChanged(@NonNull View view, int i) {
             }
+
             @Override
             public void onSlide(@NonNull View view, float v) {
             }
@@ -169,11 +174,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
             }
         });
-        Button btn_chart_ex = (Button)findViewById(R.id.btn_chart_example);
+        Button btn_chart_ex = (Button) findViewById(R.id.btn_chart_example);
         btn_chart_ex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ChartExample.class);
+                Intent intent = new Intent(getApplicationContext(), ChartExample.class);
                 startActivity(intent);
             }
         });
@@ -562,4 +567,38 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    // jieun  custom Dialog
+    public void setCustomDialogSearh() {
+        Button homeSearchBtn;
+        homeSearchBtn = (Button) findViewById(R.id.home_search_btn);
+        homeSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialogSearch customDialogSearch = new CustomDialogSearch(HomeActivity.this);
+                customDialogSearch.setDialogListener(new CustomDialogSearch.CustomDialogSearchListener() {
+                    @Override
+                    public void onPositiveClicked(String result) {
+
+                        if (result.equals("")) {
+                            Toast.makeText(getApplicationContext(), "선택사항 없음", Toast.LENGTH_SHORT).show();
+                            customDialogSearch.dismiss();
+                        }else {
+                            Toast.makeText(getApplicationContext(),"선택 : " + result, Toast.LENGTH_SHORT).show();
+                            customDialogSearch.dismiss();
+                        }
+
+                    }
+
+                    @Override
+                    public void onNegativeClicked() {
+                        Toast.makeText(getApplicationContext(), "취소",Toast.LENGTH_SHORT).show();
+                        customDialogSearch.dismiss();
+
+                    }
+                });
+                customDialogSearch.show();
+             }
+        });
+
+    }
 }

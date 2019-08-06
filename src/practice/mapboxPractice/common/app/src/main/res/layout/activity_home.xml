@@ -8,18 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".common.HomeActivity">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:padding="25dp"
-        android:clickable="true"
-        app:fab_colorNormal="@color/mapbox_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:src="@drawable/magnifying_glass" />
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
@@ -28,6 +16,15 @@
         mapbox:mapbox_cameraTargetLat="37.4968662"
         mapbox:mapbox_cameraTargetLng="127.0246298"
         mapbox:mapbox_cameraZoom="10" />
+
+    <Button
+        android:id="@+id/home_search_btn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/search"
+
+
+         />
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/home_category_menu_fab"
