@@ -222,8 +222,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < pinPlaceFoodTruck.size(); i++) {
             Double longitude = pinPlaceFoodTruck.get(i).getPLongitude();
             Double latitude = pinPlaceFoodTruck.get(i).getPLatitude();
+            int index = pinPlaceFoodTruck.get(i).getPidx();
             FoodTruckPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
+            FoodTruckPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
         }
         //marker 생성 (Tour)
         List<Feature> tourPlaceList = new ArrayList<>();
@@ -267,12 +269,21 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onMapClick(@NonNull LatLng point) {
                 PointF pointf = mapboxMap.getProjection().toScreenLocation(point);
                 RectF rectF = new RectF(pointf.x - 10, pointf.y - 10, pointf.x + 10, pointf.y + 10);
-                List<Feature> features = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Tour);
-                if (!features.isEmpty()) {
-                    String name = features.get(0).getStringProperty("idx");
+                List<Feature> Tourfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Tour);
+                if (!Tourfeatures.isEmpty()) {
+                    String name = Tourfeatures.get(0).getStringProperty("idx");
                     Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
                     startActivity(intent);
-                    Toast.makeText(HomeActivity.this, "index 는 :" + name + "입니다.",
+                    Toast.makeText(HomeActivity.this, "index 는 : " + name + "입니다.",
+                            Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                List<Feature> FoodTruckfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Foodtruck);
+                if (!FoodTruckfeatures.isEmpty()) {
+                    String name = FoodTruckfeatures.get(0).getStringProperty("idx");
+                    Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(HomeActivity.this, "index 는 : " + name + "입니다.",
                             Toast.LENGTH_SHORT).show();
                     return true;
                 }
@@ -379,6 +390,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for (int i = 0; i < places.size(); i++) {
                     pinPlaceAll.add(i, places.get(i));
                 }
+
             }
         });
     }
