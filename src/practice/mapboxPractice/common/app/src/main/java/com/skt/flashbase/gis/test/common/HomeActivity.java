@@ -95,6 +95,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PlaceViewModel mPlaceViewModel;
     private List<Place> pinPlaceTour = new ArrayList<>();
     private List<Place> pinPlaceFoodTruck = new ArrayList<>();
+    private List<Place> pinPlaceAll = new ArrayList<>();
     // current location
     private PermissionsManager permissionsManager;
     private LocationComponent locationComponent;
@@ -108,7 +109,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //mapview init setting
+        //mapView init setting
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_home);
@@ -212,11 +213,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            results.moveToNext();
 //        }
 //        results.close();
+
         //--jieun--//
         this.mapboxMap = mapboxMap;
 
         //marker 생성 (foodTuck)
-
         List<Feature> FoodTruckPlaceList = new ArrayList<>();
         for (int i = 0; i < pinPlaceFoodTruck.size(); i++) {
             Double longitude = pinPlaceFoodTruck.get(i).getPLongitude();
@@ -229,27 +230,27 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < pinPlaceTour.size(); i++) {
             Double longitude = pinPlaceTour.get(i).getPLongitude();
             Double latitude = pinPlaceTour.get(i).getPLatitude();
+            int index = pinPlaceTour.get(i).getPidx();
             tourPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
-
-
+            tourPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
         }
 
         //jieun - mapbox on fling & on move events
         mapboxMap.addOnMoveListener(new MapboxMap.OnMoveListener() {
             @Override
             public void onMoveBegin(MoveGestureDetector detector) {
-// user started moving the map
+                // user started moving the map
             }
 
             @Override
             public void onMove(MoveGestureDetector detector) {
-// user is moving the map
+                // user is moving the map
             }
 
             @Override
             public void onMoveEnd(MoveGestureDetector detector) {
-// user stopped moving the map
+                // user stopped moving the map
                 int viewportWidth = mapView.getWidth();
                 int viewportHeight = mapView.getHeight();
                 Toast.makeText(HomeActivity.this, "onMoveEnd", Toast.LENGTH_SHORT).show();
@@ -264,13 +265,15 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
             @Override
             public boolean onMapClick(@NonNull LatLng point) {
-                List<Feature> featureList = mapboxMap.queryRenderedFeatures(mapboxMap.getProjection().toScreenLocation(point), LAYER_ID_Foodtruck);
-                if (!featureList.isEmpty()) {
-                    for (Feature feature : featureList) {
-
-                        Toast.makeText(HomeActivity.this, "제발제발",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                PointF pointf = mapboxMap.getProjection().toScreenLocation(point);
+                RectF rectF = new RectF(pointf.x - 10, pointf.y - 10, pointf.x + 10, pointf.y + 10);
+                List<Feature> features = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Tour);
+                if (!features.isEmpty()) {
+                    String name = features.get(0).getStringProperty("idx");
+                    Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(HomeActivity.this, "index 는 :" + name + "입니다.",
+                            Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
@@ -280,7 +283,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
-
                 // foodtruck marker style 지정
                 style.addImageAsync(ICON_ID_Foodtruck, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.ic_truck_pin_custom)));
@@ -299,6 +301,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SymbolLayer TourLayer = new SymbolLayer(LAYER_ID_Tour, SOURCE_ID_Tour)
                         .withProperties(PropertyFactory.iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(TourLayer);
+
+
                 //floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
                 homeTourFab.setOnClickListener(new View.OnClickListener() {
@@ -366,6 +370,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onChanged(@Nullable List<Place> places) {
                 for (int i = 0; i < places.size(); i++) {
                     pinPlaceFoodTruck.add(i, places.get(i));
+                }
+            }
+        });
+        mPlaceViewModel.getAllPlace().observe(this, new Observer<List<Place>>() {
+            @Override
+            public void onChanged(@Nullable List<Place> places) {
+                for (int i = 0; i < places.size(); i++) {
+                    pinPlaceAll.add(i, places.get(i));
                 }
             }
         });
@@ -644,5 +656,4 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-
 }
