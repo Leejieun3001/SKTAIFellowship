@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,10 +30,12 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.android.gestures.MoveGestureDetector;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.LocationComponentOptions;
@@ -53,6 +56,7 @@ import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.test.Bubble.BubbleSeekBar;
+import com.skt.flashbase.gis.test.MainActivity;
 import com.skt.flashbase.gis.test.R;
 import com.skt.flashbase.gis.test.roomDB.Place;
 import com.skt.flashbase.gis.test.roomDB.PlaceViewModel;
@@ -70,7 +74,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
+public class HomeActivity extends AppCompatActivity implements MapboxMap.OnMapClickListener, OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
     int storedValue = 50;
@@ -92,7 +96,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
     private MapboxMap mapboxMap;
-     //jieun
+    //jieun
 
     //seungeun
     private LineChart lineChart;
@@ -226,6 +230,34 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         }
+
+        //jieun - mapbox on fling & on move events
+        mapboxMap.addOnMoveListener(new MapboxMap.OnMoveListener() {
+            @Override
+            public void onMoveBegin(MoveGestureDetector detector) {
+// user started moving the map
+            }
+
+            @Override
+            public void onMove(MoveGestureDetector detector) {
+// user is moving the map
+            }
+
+            @Override
+            public void onMoveEnd(MoveGestureDetector detector) {
+// user stopped moving the map
+                int viewportWidth = mapView.getWidth();
+                int viewportHeight = mapView.getHeight();
+
+                Toast.makeText(HomeActivity.this, "onMoveEnd", Toast.LENGTH_LONG).show();
+            }
+        });
+        mapboxMap.addOnFlingListener(new MapboxMap.OnFlingListener() {
+            @Override
+            public void onFling() {
+                Toast.makeText(HomeActivity.this, "onFling", Toast.LENGTH_LONG).show();
+            }
+        });
 
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
@@ -450,8 +482,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     //jieun (current user location)
-
-
     @SuppressWarnings({"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
         //check permission
@@ -472,16 +502,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
-
 // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING);
-
 // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
-
 // Add the location icon click listener
             locationComponent.addOnLocationClickListener(this);
-
 // Add the camera tracking listener. Fires if the map camera is manually moved.
             locationComponent.addOnCameraTrackingChangedListener(this);
             findViewById(R.id.home_user_fab).setOnClickListener(new View.OnClickListener() {
@@ -585,23 +611,29 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (result.equals("")) {
                             Toast.makeText(getApplicationContext(), "선택사항 없음", Toast.LENGTH_SHORT).show();
                             customDialogSearch.dismiss();
-                        }else {
-                            Toast.makeText(getApplicationContext(),"선택 : " + result, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "선택 : " + result, Toast.LENGTH_SHORT).show();
                             customDialogSearch.dismiss();
                         }
-
                     }
 
                     @Override
                     public void onNegativeClicked() {
-                        Toast.makeText(getApplicationContext(), "취소",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_SHORT).show();
                         customDialogSearch.dismiss();
 
                     }
                 });
                 customDialogSearch.show();
-             }
+            }
         });
 
     }
+    //jieun -marker click event
+    @Override
+    public boolean onMapClick(@NonNull LatLng point) {
+        return false;
+    }
+
+
 }
