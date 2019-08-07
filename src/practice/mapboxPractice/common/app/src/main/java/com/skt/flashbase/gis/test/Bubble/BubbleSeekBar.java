@@ -39,6 +39,8 @@ import com.skt.flashbase.gis.test.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 import static com.skt.flashbase.gis.test.Bubble.BubbleSeekBar.TextPosition.BELOW_SECTION_MARK;
@@ -54,6 +56,10 @@ import static com.skt.flashbase.gis.test.Bubble.BubbleUtils.sp2px;
  * Created by woxingxiao on 2016-10-27.
  */
 public class BubbleSeekBar extends View {
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+    private Calendar cal = Calendar.getInstance();
+
 
     static final int NONE = -1;
 
@@ -216,19 +222,26 @@ public class BubbleSeekBar extends View {
 //        mBubbleView.setProgressText(isShowProgressInFloat ?
 //                String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
         if (getProgress() >= 0 && getProgress() < 17) {
-            mBubbleView.setProgressText("삼일전");
+            cal.add(Calendar.DAY_OF_MONTH, -3);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 17 && getProgress() < 33) {
-            mBubbleView.setProgressText("이틀전");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 34 && getProgress() < 50) {
-            mBubbleView.setProgressText("어제");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() == 50) {
-            mBubbleView.setProgressText("실시간");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 51 && getProgress() < 68) {
-            mBubbleView.setProgressText("내일");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 68 && getProgress() < 84) {
-            mBubbleView.setProgressText("내일 모레");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 84 && getProgress() < 100) {
-            mBubbleView.setProgressText("글피");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         }
 
         mLayoutParams = new WindowManager.LayoutParams();
@@ -780,19 +793,26 @@ public class BubbleSeekBar extends View {
 //                            mBubbleView.setProgressText(isShowProgressInFloat ?
 //                                    String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
                             if (getProgress() >= 0 && getProgress() < 17) {
-                                mBubbleView.setProgressText("삼일전");
+                                cal.add(Calendar.DAY_OF_MONTH, -3);
+                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
                             } else if(getProgress() >= 17 && getProgress() < 33) {
-                                mBubbleView.setProgressText("이틀전");
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
                             } else if(getProgress() >= 34 && getProgress() < 50) {
-                                mBubbleView.setProgressText("어제");
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
                             } else if(getProgress() == 50) {
-                                mBubbleView.setProgressText("실시간");
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
                             } else if(getProgress() >= 51 && getProgress() < 68) {
-                                mBubbleView.setProgressText("내일");
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
                             } else if(getProgress() >= 68 && getProgress() < 84) {
-                                mBubbleView.setProgressText("내일 모레");
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
                             } else if(getProgress() >= 84 && getProgress() < 100) {
-                                mBubbleView.setProgressText("글피");
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
                             }
                         } else {
                             processProgress();
@@ -969,21 +989,30 @@ public class BubbleSeekBar extends View {
                         mWindowManager.updateViewLayout(mBubbleView, mLayoutParams);
 //                        mBubbleView.setProgressText(isShowProgressInFloat ?
 //                                String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
+
                         if (getProgress() >= 0 && getProgress() < 17) {
-                            mBubbleView.setProgressText("삼일전");
+                            cal.add(Calendar.DAY_OF_MONTH, -3);
+                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
                         } else if(getProgress() >= 17 && getProgress() < 33) {
-                            mBubbleView.setProgressText("이틀전");
+                            cal.add(Calendar.DAY_OF_MONTH, 1);
+                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
                         } else if(getProgress() >= 34 && getProgress() < 50) {
-                            mBubbleView.setProgressText("어제");
+                            cal.add(Calendar.DAY_OF_MONTH, 1);
+                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
                         } else if(getProgress() == 50) {
-                            mBubbleView.setProgressText("실시간");
+                            cal.add(Calendar.DAY_OF_MONTH, 1);
+                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
                         } else if(getProgress() >= 51 && getProgress() < 68) {
-                            mBubbleView.setProgressText("내일");
+                            cal.add(Calendar.DAY_OF_MONTH, 1);
+                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
                         } else if(getProgress() >= 68 && getProgress() < 84) {
-                            mBubbleView.setProgressText("내일 모레");
+                            cal.add(Calendar.DAY_OF_MONTH, 1);
+                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
                         } else if(getProgress() >= 84 && getProgress() < 100) {
-                            mBubbleView.setProgressText("글피");
+                            cal.add(Calendar.DAY_OF_MONTH, 1);
+                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
                         }
+
                     } else {
                         processProgress();
                     }
@@ -1068,20 +1097,28 @@ public class BubbleSeekBar extends View {
                 }).start();
 //        mBubbleView.setProgressText(isShowProgressInFloat ?
 //                String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
+
         if (getProgress() >= 0 && getProgress() < 17) {
-            mBubbleView.setProgressText("삼일전");
+            cal.add(Calendar.DAY_OF_MONTH, -3);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 17 && getProgress() < 33) {
-            mBubbleView.setProgressText("이틀전");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 34 && getProgress() < 50) {
-            mBubbleView.setProgressText("어제");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() == 50) {
-            mBubbleView.setProgressText("실시간");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 51 && getProgress() < 68) {
-            mBubbleView.setProgressText("내일");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 68 && getProgress() < 84) {
-            mBubbleView.setProgressText("내일 모레");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         } else if(getProgress() >= 84 && getProgress() < 100) {
-            mBubbleView.setProgressText("글피");
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            mBubbleView.setProgressText(sdf.format(cal.getTime()));
         }
     }
 
@@ -1397,19 +1434,26 @@ public class BubbleSeekBar extends View {
 //                mBubbleView.setProgressText(isShowProgressInFloat ?
 //                        String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
                 if (getProgress() >= 0 && getProgress() < 17) {
-                    mBubbleView.setProgressText("삼일전");
+                    cal.add(Calendar.DAY_OF_MONTH, -3);
+                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
                 } else if(getProgress() >= 17 && getProgress() < 33) {
-                    mBubbleView.setProgressText("이틀전");
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
                 } else if(getProgress() >= 34 && getProgress() < 50) {
-                    mBubbleView.setProgressText("어제");
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
                 } else if(getProgress() == 50) {
-                    mBubbleView.setProgressText("실시간");
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
                 } else if(getProgress() >= 51 && getProgress() < 68) {
-                    mBubbleView.setProgressText("내일");
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
                 } else if(getProgress() >= 68 && getProgress() < 84) {
-                    mBubbleView.setProgressText("내일 모레");
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
                 } else if(getProgress() >= 84 && getProgress() < 100) {
-                    mBubbleView.setProgressText("글피");
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
                 }
             }
             setProgress(mProgress);

@@ -60,7 +60,9 @@ import com.skt.flashbase.gis.test.sqLite.DBHelper;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
@@ -143,19 +145,20 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         bubbleSeekBar3.setProgress(storedValue);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+        Calendar cal = Calendar.getInstance();
+
         bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
             @NonNull
             @Override
             public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
                 array.clear();
-                array.put(0, "삼일전");
-                array.put(1, "이틀전");
-                array.put(2, "어제");
-                array.put(3, "실시간");
-                array.put(4, "내일");
-                array.put(5, "내일 모레");
-                array.put(6, "글피");
-
+                cal.add(Calendar.DAY_OF_MONTH, -3);
+                array.put(0, sdf.format(cal.getTime()));
+                for (int i = 1; i < 7; i++) {
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    array.put(i, sdf.format(cal.getTime()));
+                }
                 return array;
             }
         });

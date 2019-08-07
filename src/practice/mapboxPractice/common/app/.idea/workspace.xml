@@ -10,19 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1dd6400-62e6-40d3-98b7-9e18ce259b1d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleConfigBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_tour_pin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_tour_pin_custom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_truck_pin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_truck_pin_custom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/values/attr.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/common/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/common/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/sol/BasicMap/BasicMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/sol/BasicMap/BasicMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/bottomsheet.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/bottomsheet.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,14 +29,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/res/layout/bottomsheet.xml">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/common/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="40" column="40" lean-forward="true" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+            <state relative-caret-position="150">
+              <caret line="158" column="52" lean-forward="true" selection-start-line="158" selection-start-column="52" selection-end-line="158" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
-          <provider editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="1454" column="52" selection-start-line="1454" selection-start-column="52" selection-end-line="1454" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -76,6 +80,9 @@
       <find>mBubble</find>
       <find>BubbleSeekBar</find>
       <find>mBubbleView</find>
+      <find>실시간</find>
+      <find>cal</find>
+      <find>stored</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,17 +106,16 @@
         <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/sol/BasicMap/BasicMap.java" />
         <option value="$PROJECT_DIR$/src/main/res/drawable/ic_tour_pin_custom.xml" />
         <option value="$PROJECT_DIR$/src/main/res/drawable/ic_truck_pin_custom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/common/HomeActivity.java" />
         <option value="$PROJECT_DIR$/src/main/res/layout/bottomsheet.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/common/HomeActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="283" />
-    <option name="y" value="391" />
-    <option name="width" value="1845" />
-    <option name="height" value="1038" />
+    <option name="y" value="432" />
+    <option name="width" value="1944" />
+    <option name="height" value="1032" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -119,7 +125,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -157,7 +163,23 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="test" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="jieun" type="462c0819:PsiDirectoryNode" />
+              <item name="sol" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="test" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="sol" type="462c0819:PsiDirectoryNode" />
+              <item name="CircleLayerClusters" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="common" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="test" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="sol" type="462c0819:PsiDirectoryNode" />
+              <item name="VariableLabelPlacement" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="common" type="1abcf292:AndroidViewProjectNode" />
@@ -174,21 +196,18 @@
               <item name="common" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
+              <item name="menu" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="common" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
-              <item name="colors" type="c431d0b8:AndroidResGroupNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -312,7 +331,7 @@
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Build" order="4" visible="true" weight="0.24377224" />
+      <window_info anchor="bottom" id="Build" order="4" visible="true" weight="0.24733096" />
       <window_info anchor="bottom" id="Run" order="5" weight="0.3291815" />
       <window_info anchor="bottom" id="Logcat" order="6" weight="0.32740214" />
       <window_info anchor="bottom" id="Android Profiler" order="7" weight="0.3291815" />
@@ -503,30 +522,6 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6020#6021#0" expanded="true" />
-            <element signature="e#6055#6056#0" expanded="true" />
-            <element signature="e#6120#6121#0" expanded="true" />
-            <element signature="e#6159#6160#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/common/HomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="99" column="71" lean-forward="true" selection-start-line="99" selection-start-column="71" selection-end-line="99" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_basic_map.xml">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -542,6 +537,26 @@
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/common/HomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="158" column="52" lean-forward="true" selection-start-line="158" selection-start-column="52" selection-end-line="158" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/test/Bubble/BubbleSeekBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="1454" column="52" selection-start-line="1454" selection-start-column="52" selection-end-line="1454" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
