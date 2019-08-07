@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,6 +36,7 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -69,12 +71,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import timber.log.Timber;
+
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
-public class HomeActivity extends AppCompatActivity implements MapboxMap.OnMapClickListener, OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
     int storedValue = 50;
@@ -248,17 +252,30 @@ public class HomeActivity extends AppCompatActivity implements MapboxMap.OnMapCl
 // user stopped moving the map
                 int viewportWidth = mapView.getWidth();
                 int viewportHeight = mapView.getHeight();
-
-                Toast.makeText(HomeActivity.this, "onMoveEnd", Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, "onMoveEnd", Toast.LENGTH_SHORT).show();
             }
         });
         mapboxMap.addOnFlingListener(new MapboxMap.OnFlingListener() {
             @Override
             public void onFling() {
-                Toast.makeText(HomeActivity.this, "onFling", Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, "onFling", Toast.LENGTH_SHORT).show();
             }
         });
+        mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+            @Override
+            public boolean onMapClick(@NonNull LatLng point) {
+                List<Feature> featureList = mapboxMap.queryRenderedFeatures(mapboxMap.getProjection().toScreenLocation(point), LAYER_ID_Foodtruck);
+                if (!featureList.isEmpty()) {
+                    for (Feature feature : featureList) {
 
+                        Toast.makeText(HomeActivity.this, "제발제발",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
@@ -555,7 +572,8 @@ public class HomeActivity extends AppCompatActivity implements MapboxMap.OnMapCl
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -607,7 +625,6 @@ public class HomeActivity extends AppCompatActivity implements MapboxMap.OnMapCl
                 customDialogSearch.setDialogListener(new CustomDialogSearch.CustomDialogSearchListener() {
                     @Override
                     public void onPositiveClicked(String result) {
-
                         if (result.equals("")) {
                             Toast.makeText(getApplicationContext(), "선택사항 없음", Toast.LENGTH_SHORT).show();
                             customDialogSearch.dismiss();
@@ -621,19 +638,11 @@ public class HomeActivity extends AppCompatActivity implements MapboxMap.OnMapCl
                     public void onNegativeClicked() {
                         Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_SHORT).show();
                         customDialogSearch.dismiss();
-
                     }
                 });
                 customDialogSearch.show();
             }
         });
-
     }
-    //jieun -marker click event
-    @Override
-    public boolean onMapClick(@NonNull LatLng point) {
-        return false;
-    }
-
 
 }
