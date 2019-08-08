@@ -1,0 +1,95 @@
+
+//                if(spinner.getSelectedItemPosition() == 0) {
+//                    Calendar cal;
+//                    if (progress == 0 && progress < 10) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.HOUR, -3);
+//                        Toast.makeText(HomeActivity.this,sdf_hour.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 10 && progress < 27) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.HOUR, -2);
+//                        Toast.makeText(HomeActivity.this,sdf_hour.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 27 && progress < 44) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.HOUR, -1);
+//                        Toast.makeText(HomeActivity.this,sdf_hour.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 44 && progress < 54) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.HOUR, -0);
+//                        Toast.makeText(HomeActivity.this,sdf_hour.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 54 && progress < 71) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.HOUR, 1);
+//                        Toast.makeText(HomeActivity.this,sdf_hour.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 71 && progress < 88) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.HOUR, 2);
+//                        Toast.makeText(HomeActivity.this,sdf_hour.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 88 && progress == 100) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.HOUR, 3);
+//                        Toast.makeText(HomeActivity.this,sdf_hour.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    }
+//                }else if(spinner.getSelectedItemPosition() == 1){
+//                    Calendar cal;
+//                    if (progress == 0 && progress < 10) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.DAY_OF_MONTH, -3);
+//                        Toast.makeText(HomeActivity.this,sdf_day.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 10 && progress < 27) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.DAY_OF_MONTH, -2);
+//                        Toast.makeText(HomeActivity.this,sdf_day.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 27 && progress < 44) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.DAY_OF_MONTH, -1);
+//                        Toast.makeText(HomeActivity.this,sdf_day.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 44 && progress < 54) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.DAY_OF_MONTH, 0);
+//                        Toast.makeText(HomeActivity.this,sdf_day.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 54 && progress < 71) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.DAY_OF_MONTH, 1);
+//                        Toast.makeText(HomeActivity.this,sdf_day.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 71 && progress < 88) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.DAY_OF_MONTH, 2);
+//                        Toast.makeText(HomeActivity.this,sdf_day.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 88 && progress == 100) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.DAY_OF_MONTH, 3);
+//                        Toast.makeText(HomeActivity.this,sdf_day.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    }
+//                } else if(spinner.getSelectedItemPosition() == 2) {
+//                    Calendar cal;
+//                    if (progress == 0 && progress < 10) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.MONTH, -3);
+//                        Toast.makeText(HomeActivity.this,sdf_month.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 10 && progress < 27) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.MONTH, -2);
+//                        Toast.makeText(HomeActivity.this,sdf_month.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 27 && progress < 44) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.MONTH, -1);
+//                        Toast.makeText(HomeActivity.this,sdf_month.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 44 && progress < 54) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.MONTH, 0);
+//                        Toast.makeText(HomeActivity.this,sdf_month.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 54 && progress < 71) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.MONTH, 1);
+//                        Toast.makeText(HomeActivity.this,sdf_month.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 71 && progress < 88) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.MONTH, 2);
+//                        Toast.makeText(HomeActivity.this,sdf_month.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    } else if(progress >= 88 && progress == 100) {
+//                        cal = Calendar.getInstance();
+//                        cal.add(Calendar.MONTH, 3);
+//                        Toast.makeText(HomeActivity.this,sdf_month.format(cal.getTime()), Toast.LENGTH_SHORT).show();
+//                    }
+//                }

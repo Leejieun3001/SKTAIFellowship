@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="spinnerArray">
+        <item> 한시간 </item>
+        <item> 하루 </item>
+        <item> 한달 </item>
+    </string-array>
+</resources>

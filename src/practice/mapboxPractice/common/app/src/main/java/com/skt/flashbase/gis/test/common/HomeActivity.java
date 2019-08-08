@@ -13,11 +13,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -32,11 +37,11 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.android.gestures.MoveGestureDetector;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -49,6 +54,8 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
 import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
@@ -58,7 +65,6 @@ import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.test.Bubble.BubbleSeekBar;
-import com.skt.flashbase.gis.test.MainActivity;
 import com.skt.flashbase.gis.test.R;
 import com.skt.flashbase.gis.test.roomDB.Place;
 import com.skt.flashbase.gis.test.roomDB.PlaceViewModel;
@@ -70,8 +76,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import timber.log.Timber;
 
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
@@ -117,6 +121,31 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+        PlaceAutocompleteFragment autocompleteFragment;
+
+        if (savedInstanceState == null) {
+            autocompleteFragment = PlaceAutocompleteFragment.newInstance(getString(R.string.mapbox_access_token));
+
+            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.mapSearchBar, autocompleteFragment, PlaceAutocompleteFragment.TAG);
+            transaction.commit();
+        } else {
+            autocompleteFragment = (PlaceAutocompleteFragment)getSupportFragmentManager().findFragmentByTag(PlaceAutocompleteFragment.TAG);
+        }
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(CarmenFeature carmenFeature) {
+                Toast.makeText(HomeActivity.this,
+                        carmenFeature.text(), Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                finish();
+            }
+        });
+
         //--jieun--//
         //Model Provider 생성 RoomDB
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
@@ -154,7 +183,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         bubbleSeekBar3.setProgress(storedValue);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+        SimpleDateFormat sdf_hour = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat sdf_day = new SimpleDateFormat("MM/dd");
+        SimpleDateFormat sdf_month = new SimpleDateFormat("yy/MM");
         Calendar cal = Calendar.getInstance();
 
         bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
@@ -163,10 +194,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
                 array.clear();
                 cal.add(Calendar.DAY_OF_MONTH, -3);
-                array.put(0, sdf.format(cal.getTime()));
+                array.put(0, sdf_day.format(cal.getTime()));
                 for (int i = 1; i < 7; i++) {
                     cal.add(Calendar.DAY_OF_MONTH, +1);
-                    array.put(i, sdf.format(cal.getTime()));
+                    array.put(i, sdf_day.format(cal.getTime()));
                 }
                 return array;
             }
@@ -186,6 +217,72 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
             }
         });
+
+        // sol's spinner
+        Spinner spinner = (Spinner) findViewById(R.id.txt_question_type);
+        SpinnerAdapter sAdapter = ArrayAdapter.createFromResource(this, R.array.question, android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(sAdapter);
+        spinner.setSelection(1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                if(spinner.getSelectedItemPosition() == 0) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.HOUR, -3);
+                            array.put(0, sdf_hour.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.HOUR, +1);
+                                array.put(i, sdf_hour.format(cal.getTime()));
+                            }
+                            return array;
+                        }
+                    });
+                } else if (spinner.getSelectedItemPosition() == 1) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.DAY_OF_MONTH, -3);
+                            array.put(0, sdf_day.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.DAY_OF_MONTH, +1);
+                                array.put(i, sdf_day.format(cal.getTime()));
+                            }
+                            return array;
+                        }
+                    });
+                } else if (spinner.getSelectedItemPosition() == 2) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.MONTH, -3);
+                            array.put(0, sdf_month.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.MONTH, +1);
+                                array.put(i, sdf_month.format(cal.getTime()));
+                            }
+                            return array;
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         Button btn_chart_ex = (Button) findViewById(R.id.btn_chart_example);
         btn_chart_ex.setOnClickListener(new View.OnClickListener() {
             @Override
