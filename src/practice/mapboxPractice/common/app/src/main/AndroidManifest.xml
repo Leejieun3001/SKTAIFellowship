@@ -11,19 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".common.DetailInfoActivity"></activity>
-        <activity android:name=".common.ChartExample" />
-        <activity android:name=".sol.SetActivity" />
-
-        <activity android:name=".common.SplachActivity" android:theme="@style/SplashTheme">
+        <activity
+            android:name=".common.SplachActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity android:name=".common.DetailInfoActivity" />
+        <activity android:name=".common.ChartExample" />
+        <activity android:name=".sol.SetActivity" />
         <activity android:name=".sol.DeviceLocation.LocationCamera" />
         <activity android:name=".sol.VariableLabelPlacement.VariableLabelPlacement" />
         <activity android:name=".sol.DataTimeLapse.DataTimeLapseEffect" />
@@ -35,10 +34,7 @@
         <activity android:name=".sol.SolHomeActivity" />
         <activity android:name=".jieun.DynamicallyBuildAMapView" />
         <activity android:name=".jieun.CustomCurrentLoc" />
-        <activity
-            android:name=".seungeun.BasicSymbolLayerActivity"
-            android:label="@string/title_activity_basic_symbol_layer"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".seungeun.BasicSymbolLayerActivity" />
         <activity android:name=".seungeun.LocationComponentCameraOptionsActivity" />
         <activity android:name=".seungeun.SymbolSwitchOnZoomActivity" />
         <activity android:name=".seungeun.InfoWindowSymbolLayerActivity" />
@@ -48,13 +44,7 @@
         <activity android:name=".seungeun.main_seungeun" />
         <activity android:name=".jieun.JieunHomeActivity" />
         <activity android:name=".common.HomeActivity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
