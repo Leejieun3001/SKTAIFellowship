@@ -33,8 +33,10 @@ import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import com.skt.flashbase.gis.test.R;
+import com.skt.flashbase.gis.test.sol.SetActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -221,28 +223,14 @@ public class BubbleSeekBar extends View {
         mBubbleView = new BubbleView(context);
 //        mBubbleView.setProgressText(isShowProgressInFloat ?
 //                String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
-        if (getProgress() >= 0 && getProgress() < 17) {
-            cal.add(Calendar.DAY_OF_MONTH, -3);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 17 && getProgress() < 33) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 34 && getProgress() < 50) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() == 50) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 51 && getProgress() < 68) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 68 && getProgress() < 84) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 84 && getProgress() < 100) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
+        for (int i = 0; i <= mSectionCount; i++) {
+            if ((getProgress() >= mSectionValue * i) && (getProgress() < mSectionValue * i + 1)) {
+                mBubbleView.setProgressText(mSectionTextArray.get(i));
+            }
         }
+//        if (getProgress() >= 95 && getProgress() <= 100) {
+//            mBubbleView.setProgressText(mSectionTextArray.get(mSectionCount - 1));
+//        }
 
         mLayoutParams = new WindowManager.LayoutParams();
         mLayoutParams.gravity = Gravity.START | Gravity.TOP;
@@ -790,29 +778,10 @@ public class BubbleSeekBar extends View {
                             mBubbleCenterRawX = calculateCenterRawXofBubbleView();
                             mLayoutParams.x = (int) (mBubbleCenterRawX + 0.5f);
                             mWindowManager.updateViewLayout(mBubbleView, mLayoutParams);
-//                            mBubbleView.setProgressText(isShowProgressInFloat ?
-//                                    String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
-                            if (getProgress() >= 0 && getProgress() < 17) {
-                                cal.add(Calendar.DAY_OF_MONTH, -3);
-                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                            } else if(getProgress() >= 17 && getProgress() < 33) {
-                                cal.add(Calendar.DAY_OF_MONTH, 1);
-                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                            } else if(getProgress() >= 34 && getProgress() < 50) {
-                                cal.add(Calendar.DAY_OF_MONTH, 1);
-                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                            } else if(getProgress() == 50) {
-                                cal.add(Calendar.DAY_OF_MONTH, 1);
-                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                            } else if(getProgress() >= 51 && getProgress() < 68) {
-                                cal.add(Calendar.DAY_OF_MONTH, 1);
-                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                            } else if(getProgress() >= 68 && getProgress() < 84) {
-                                cal.add(Calendar.DAY_OF_MONTH, 1);
-                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                            } else if(getProgress() >= 84 && getProgress() < 100) {
-                                cal.add(Calendar.DAY_OF_MONTH, 1);
-                                mBubbleView.setProgressText(sdf.format(cal.getTime()));
+                            for (int i = 0; i <= mSectionCount; i++) {
+                                if ((getProgress() >= mSectionValue * i) && (getProgress() < mSectionValue * i + 1)) {
+                                    mBubbleView.setProgressText(mSectionTextArray.get(i));
+                                }
                             }
                         } else {
                             processProgress();
@@ -989,30 +958,11 @@ public class BubbleSeekBar extends View {
                         mWindowManager.updateViewLayout(mBubbleView, mLayoutParams);
 //                        mBubbleView.setProgressText(isShowProgressInFloat ?
 //                                String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
-
-                        if (getProgress() >= 0 && getProgress() < 17) {
-                            cal.add(Calendar.DAY_OF_MONTH, -3);
-                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                        } else if(getProgress() >= 17 && getProgress() < 33) {
-                            cal.add(Calendar.DAY_OF_MONTH, 1);
-                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                        } else if(getProgress() >= 34 && getProgress() < 50) {
-                            cal.add(Calendar.DAY_OF_MONTH, 1);
-                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                        } else if(getProgress() == 50) {
-                            cal.add(Calendar.DAY_OF_MONTH, 1);
-                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                        } else if(getProgress() >= 51 && getProgress() < 68) {
-                            cal.add(Calendar.DAY_OF_MONTH, 1);
-                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                        } else if(getProgress() >= 68 && getProgress() < 84) {
-                            cal.add(Calendar.DAY_OF_MONTH, 1);
-                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                        } else if(getProgress() >= 84 && getProgress() < 100) {
-                            cal.add(Calendar.DAY_OF_MONTH, 1);
-                            mBubbleView.setProgressText(sdf.format(cal.getTime()));
+                        for (int i = 0; i <= mSectionCount; i++) {
+                            if ((getProgress() >= mSectionValue * i) && (getProgress() < mSectionValue * i + 1)) {
+                                mBubbleView.setProgressText(mSectionTextArray.get(i));
+                            }
                         }
-
                     } else {
                         processProgress();
                     }
@@ -1097,28 +1047,10 @@ public class BubbleSeekBar extends View {
                 }).start();
 //        mBubbleView.setProgressText(isShowProgressInFloat ?
 //                String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
-
-        if (getProgress() >= 0 && getProgress() < 17) {
-            cal.add(Calendar.DAY_OF_MONTH, -3);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 17 && getProgress() < 33) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 34 && getProgress() < 50) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() == 50) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 51 && getProgress() < 68) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 68 && getProgress() < 84) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
-        } else if(getProgress() >= 84 && getProgress() < 100) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            mBubbleView.setProgressText(sdf.format(cal.getTime()));
+        for (int i = 0; i <= mSectionCount; i++) {
+            if ((getProgress() >= mSectionValue * i) && (getProgress() < mSectionValue * i + 1)) {
+                mBubbleView.setProgressText(mSectionTextArray.get(i));
+            }
         }
     }
 
@@ -1433,27 +1365,10 @@ public class BubbleSeekBar extends View {
             if (mBubbleView != null) {
 //                mBubbleView.setProgressText(isShowProgressInFloat ?
 //                        String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
-                if (getProgress() >= 0 && getProgress() < 17) {
-                    cal.add(Calendar.DAY_OF_MONTH, -3);
-                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                } else if(getProgress() >= 17 && getProgress() < 33) {
-                    cal.add(Calendar.DAY_OF_MONTH, +1);
-                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                } else if(getProgress() >= 34 && getProgress() < 50) {
-                    cal.add(Calendar.DAY_OF_MONTH, +1);
-                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                } else if(getProgress() == 50) {
-                    cal.add(Calendar.DAY_OF_MONTH, +1);
-                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                } else if(getProgress() >= 51 && getProgress() < 68) {
-                    cal.add(Calendar.DAY_OF_MONTH, +1);
-                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                } else if(getProgress() >= 68 && getProgress() < 84) {
-                    cal.add(Calendar.DAY_OF_MONTH, +1);
-                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
-                } else if(getProgress() >= 84 && getProgress() < 100) {
-                    cal.add(Calendar.DAY_OF_MONTH, +1);
-                    mBubbleView.setProgressText(sdf.format(cal.getTime()));
+                for (int i = 0; i <= mSectionCount; i++) {
+                    if ((getProgress() >= mSectionValue * i) && (getProgress() < mSectionValue * i + 1)) {
+                        mBubbleView.setProgressText(mSectionTextArray.get(i));
+                    }
                 }
             }
             setProgress(mProgress);

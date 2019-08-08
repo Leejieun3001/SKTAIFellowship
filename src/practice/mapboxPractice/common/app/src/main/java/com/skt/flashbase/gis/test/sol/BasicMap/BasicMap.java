@@ -14,9 +14,6 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.skt.flashbase.gis.test.R;
 
 public class BasicMap extends AppCompatActivity {
-    SeekBar seekBar;
-    TextView status;
-    int storedValue = 0;
     private MapView mapView;
 
     @Override

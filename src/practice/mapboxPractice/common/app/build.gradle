@@ -83,17 +83,22 @@ dependencies {
     implementation 'com.android.support:design:28.+'
     implementation 'com.android.support:support-v4:28.0.0'
 
-// Room components
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
-    androidTestImplementation "android.arch.persistence.room:testing:1.0.0"
+    // Room components
+    implementation "android.arch.persistence.room:runtime:1.1.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.0"
+    androidTestImplementation "android.arch.persistence.room:testing:1.1.0"
 
-// Lifecycle components
+    // Lifecycle components
     implementation "android.arch.lifecycle:extensions:1.1.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
-    //chart
-   implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-    //pie chart
-   implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 
+    //chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    //pie chart
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
+    //sol search bar
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:7.2.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v7:0.5.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v7:0.7.0'
 }
