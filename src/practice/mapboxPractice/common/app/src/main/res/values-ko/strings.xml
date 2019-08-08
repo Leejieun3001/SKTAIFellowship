@@ -1,6 +1,6 @@
 <resources>
     <!--common-->
-    <string name="app_name">flashbaseStudy1.0</string>
+    <string name="app_name">flashbaseStudy1.2</string>
     <string name="mapbox_access_token">pk.eyJ1IjoibGVlamlldW4iLCJhIjoiY2p4bXpobTcyMDlkczNicWh0dDU0M2tmdyJ9.UG_lZxtD-TzmGs6lYPTYww</string>
 
     <!--common-->
