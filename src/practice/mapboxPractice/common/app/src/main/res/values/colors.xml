@@ -6,6 +6,9 @@
     <color name="colorAccent">@color/mapboxPink</color>
 
     <color name="materialGrey">#F5F5F5</color>
+    <color name="purple">#5D00A8</color>
+
+
     <color name="materialDarkGrey">#DFDFDF</color>
 
     <color name="mapboxWhite">#FFFFFF</color>
@@ -67,4 +70,5 @@
     <!--BubbleBar-->
     <color name="color_red">#FF6A6E</color>
     <color name="color_red_light">#FFB4B6</color>
+
 </resources>

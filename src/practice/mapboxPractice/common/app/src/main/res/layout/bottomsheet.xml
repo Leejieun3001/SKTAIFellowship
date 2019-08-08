@@ -13,7 +13,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
         android:background="@color/mapboxWhite"
         android:orientation="vertical"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
@@ -22,11 +22,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#6887a8"
+            android:background="#6384b3"
             android:gravity="center"
-            android:paddingBottom="5dp"
             android:text="상세 정보"
-            android:textColor="#161717" />
+            android:textColor="@color/white_pressed"
+            android:textFontWeight="3dp"
+            android:textSize="17dp"
+
+            />
 
         <TextView
             android:paddingTop="5dp"
@@ -35,22 +38,20 @@
             android:gravity="center"
             android:text="시간대 별 인구 수"
             android:textColor="#161717" />
-        <Button
+        <TextView
             android:id="@+id/btn_chart_example"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="270dp"
             android:text="자세히보기"
-            android:background="@color/mapboxWhite"
-            android:textColor="@color/mapboxBlue"
-            />
+            android:textColor="@color/mapboxBlue" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="2dp" />
-
+       <lecho.lib.hellocharts.view.PieChartView
+        android:id="@+id/pie_chart"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="10dp"/>
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

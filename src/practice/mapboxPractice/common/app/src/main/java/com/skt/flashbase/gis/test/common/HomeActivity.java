@@ -23,17 +23,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.android.gestures.MoveGestureDetector;
@@ -77,9 +71,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.view.PieChartView;
+
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
+
+//import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
+//import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
 
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
@@ -169,12 +170,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onSlide(@NonNull View view, float v) {
             }
         });
-        createChart();
+        //createChart();
 
-        //markerview activity는 마커 자체에 보여지는 내용에 대한 뷰
-        MyMarkerView marker = new MyMarkerView(this, R.layout.activity_my_marker_view);
-        marker.setChartView(lineChart);
-        lineChart.setMarker(marker);
+        create_pie_chart();
+//        //markerview activity는 마커 자체에 보여지는 내용에 대한 뷰
+//        MyMarkerView marker = new MyMarkerView(this, R.layout.activity_my_marker_view);
+//        marker.setChartView(lineChart);
+//        lineChart.setMarker(marker);
 
         // sol BubbleSeekBar
         bottomSheetBehavior.getPeekHeight();
@@ -189,8 +191,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         Calendar cal = Calendar.getInstance();
 
         bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
-            @NonNull
-            @Override
+            @NonNull @Override
             public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
                 array.clear();
                 cal.add(Calendar.DAY_OF_MONTH, -3);
@@ -283,7 +284,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        Button btn_chart_ex = (Button) findViewById(R.id.btn_chart_example);
+        TextView btn_chart_ex = (TextView) findViewById(R.id.btn_chart_example);
+
         btn_chart_ex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -605,52 +607,28 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     //--seung eun--//
-    void createChart() {
-        lineChart = (LineChart) findViewById(R.id.chart);
-        List<Entry> entries = new ArrayList<>();
 
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 0));
-        entries.add(new Entry(4, 4));
-        entries.add(new Entry(5, 3));
 
-        LineDataSet lineDataSet = new LineDataSet(entries, "시간대별 유동인구");
-        lineDataSet.setLineWidth(1);
-        lineDataSet.setCircleRadius(4);
-        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setCircleColorHole(Color.BLUE);
-        lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setDrawCircleHole(true);
-        lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawHorizontalHighlightIndicator(false);
-        lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setDrawValues(false);
 
-        LineData lineData = new LineData(lineDataSet);
-        lineChart.setData(lineData);
+    public void create_pie_chart(){
+        PieChartView pieChartview;
+        pieChartview= findViewById(R.id.pie_chart);
 
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(Color.BLACK);
-        xAxis.enableGridDashedLine(8, 24, 0);
+        List pieData = new ArrayList<>();
+        pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
+        pieData.add(new SliceValue(25, Color.parseColor("#cb7575")).setLabel("30대 : 25%"));
+        pieData.add(new SliceValue(10, Color.parseColor("#ef9e9f")).setLabel("10대 : 10%"));
+        pieData.add(new SliceValue(60, Color.parseColor("#8283a7")).setLabel("40대 : 10%"));
+        pieData.add(new SliceValue(10, Color.parseColor("#589167")).setLabel("50대 : 35%"));
+        pieData.add(new SliceValue(60, Color.parseColor("#ebce95")).setLabel("그 외 : 5%"));
 
-        YAxis yLAxis = lineChart.getAxisLeft();
-        yLAxis.setTextColor(Color.BLACK);
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        //원 안에 텍스트 넣을 수 있는 코드
+        pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
 
-        YAxis yRAxis = lineChart.getAxisRight();
-        yRAxis.setDrawLabels(false);
-        yRAxis.setDrawAxisLine(false);
-        yRAxis.setDrawGridLines(false);
+        pieChartview.setPieChartData(pieChartData);
 
-        Description description = new Description();
-        description.setText("");
-
-        lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.setDrawGridBackground(false);
-        lineChart.setDescription(description);
-        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
-        lineChart.invalidate();
     }
 
     //jieun (current user location)

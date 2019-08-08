@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,36 +8,89 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".common.ChartExample" >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        >
+        android:background="#DCDEE0">
 
         <com.mapbox.mapboxsdk.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            mapbox:mapbox_cameraTargetLat="37.566545"
-            mapbox:mapbox_cameraTargetLng="126.985239"
+            android:layout_height="220dp"
+            mapbox:mapbox_cameraTargetLat="37.4051455362"
+            mapbox:mapbox_cameraTargetLng="126.945234308"
             mapbox:mapbox_cameraZoom="15" />
 
-        <TextView
-            android:textSize="18dp"
+        <LinearLayout
             android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="연령대별 유동인구"
-            android:textColor="#0097A7"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-        <lecho.lib.hellocharts.view.PieChartView
-            android:id="@+id/chart"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal"
-            />
+            <TextView
+                android:background="@drawable/round_corner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="안양 종합운동장"
+                android:textColor="@color/black_semi_transparent"
+                android:textSize="18dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/half_black">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E68383"
+                android:layout_gravity="center_horizontal"
+                android:text="실시간 유동인구"
+                android:textSize="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:padding="2dp" />
+
+            <TextView
+                android:textColor="#E68383"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성별 분석 차트 "
+                android:textSize="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:paddingTop="20dp"
+                android:id="@+id/bar_chart"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal">
+            </com.github.mikephil.charting.charts.HorizontalBarChart>
+
+        </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>
