@@ -79,15 +79,10 @@ import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
-//import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
-//import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
-
-
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
     int storedValue = 50;
-
     //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
     private static final String ICON_ID_Foodtruck = "Foodtruck";
@@ -106,14 +101,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
     private MapboxMap mapboxMap;
-    //jieun
 
     //seungeun
     private LineChart lineChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         //mapView init setting
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
@@ -121,7 +114,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
         PlaceAutocompleteFragment autocompleteFragment;
 
         if (savedInstanceState == null) {
@@ -131,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             transaction.add(R.id.mapSearchBar, autocompleteFragment, PlaceAutocompleteFragment.TAG);
             transaction.commit();
         } else {
-            autocompleteFragment = (PlaceAutocompleteFragment)getSupportFragmentManager().findFragmentByTag(PlaceAutocompleteFragment.TAG);
+            autocompleteFragment = (PlaceAutocompleteFragment) getSupportFragmentManager().findFragmentByTag(PlaceAutocompleteFragment.TAG);
         }
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -191,7 +183,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         Calendar cal = Calendar.getInstance();
 
         bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
-            @NonNull @Override
+            @NonNull
+            @Override
             public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
                 array.clear();
                 cal.add(Calendar.DAY_OF_MONTH, -3);
@@ -228,8 +221,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
-                if(spinner.getSelectedItemPosition() == 0) {
+              //  Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                if (spinner.getSelectedItemPosition() == 0) {
                     bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
                         @NonNull
                         @Override
@@ -279,6 +272,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     });
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -296,26 +290,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-        //SQLite 방식
-//        db = openOrCreateDatabase("location.db", Context.MODE_PRIVATE, null);
-//        String sql = "select * from landmark ; ";
-//        Cursor results = db.rawQuery(sql, null);
-//        results.moveToFirst();
-//        while (!results.isAfterLast()) {
-//            Double longitude = results.getDouble(3);
-//            Double latitude = results.getDouble(2);
-//            symbolLayerIconFeatureList.add(Feature.fromGeometry(
-//                    Point.fromLngLat(longitude, latitude)));
-//            results.moveToNext();
-//        }
-//        results.close();
-
         //--jieun--//
         this.mapboxMap = mapboxMap;
-
         //marker 생성 (foodTuck)
         List<Feature> FoodTruckPlaceList = new ArrayList<>();
         for (int i = 0; i < pinPlaceFoodTruck.size(); i++) {
@@ -340,7 +318,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             tourPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
             tourPlaceList.get(i).addStringProperty("name", name);
         }
-
         //jieun - mapbox on fling & on move events
         mapboxMap.addOnMoveListener(new MapboxMap.OnMoveListener() {
             @Override
@@ -367,7 +344,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(HomeActivity.this, "onFling", Toast.LENGTH_SHORT).show();
             }
         });
-        // 길게 누를때 - 화면 넘어감
+        // 길게 누를때
         mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
             @Override
             public boolean onMapLongClick(@NonNull LatLng point) {
@@ -401,23 +378,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (!Tourfeatures.isEmpty()) {
                     String idx = Tourfeatures.get(0).getStringProperty("idx");
                     Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
-
                     intent.putExtra("idx", idx);
                     startActivity(intent);
-                    Toast.makeText(HomeActivity.this, "index 는 : " + idx + "입니다.",
-                            Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 List<Feature> FoodTruckfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Foodtruck);
                 if (!FoodTruckfeatures.isEmpty()) {
                     String idx = FoodTruckfeatures.get(0).getStringProperty("idx");
                     Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
-
-                    Toast.makeText(HomeActivity.this, "index 는 : " + idx + "입니다.",
-                            Toast.LENGTH_SHORT).show();
                     intent.putExtra("idx", idx);
                     startActivity(intent);
-
                     return true;
                 }
                 return false;
@@ -445,7 +415,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SymbolLayer TourLayer = new SymbolLayer(LAYER_ID_Tour, SOURCE_ID_Tour)
                         .withProperties(PropertyFactory.iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(TourLayer);
-
                 //floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
                 homeTourFab.setOnClickListener(new View.OnClickListener() {
@@ -497,7 +466,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             editor.putBoolean("isFirst", false);
             editor.commit();
         }
-
         //roomdb 방식, 관광지 데이터 조회
         mPlaceViewModel.getAllTourPlace().observe(this, new Observer<List<Place>>() {
             @Override
@@ -516,6 +484,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+        // 장소 정보 조회
         mPlaceViewModel.getAllPlace().observe(this, new Observer<List<Place>>() {
             @Override
             public void onChanged(@Nullable List<Place> places) {
@@ -607,12 +576,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     //--seung eun--//
-
-
-
-    public void create_pie_chart(){
+    public void create_pie_chart() {
         PieChartView pieChartview;
-        pieChartview= findViewById(R.id.pie_chart);
+        pieChartview = findViewById(R.id.pie_chart);
 
         List pieData = new ArrayList<>();
         pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
@@ -626,7 +592,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         pieChartData.setHasLabels(true).setValueLabelTextSize(12);
         //원 안에 텍스트 넣을 수 있는 코드
         pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
-
         pieChartview.setPieChartData(pieChartData);
 
     }
@@ -682,7 +647,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
-
 
     @Override
     public void onExplanationNeeded(List<String> permissionsToExplain) {
@@ -743,7 +707,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this, String.format(getString(R.string.current_location),
                     locationComponent.getLastKnownLocation().getLatitude(),
                     locationComponent.getLastKnownLocation().getLongitude()), Toast.LENGTH_LONG).show();
+
+            Double Latitude = locationComponent.getLastKnownLocation().getLatitude();
+            Double Longitude = locationComponent.getLastKnownLocation().getLongitude();
+            Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
+            intent.putExtra("idx", "currentLocation");
+            intent.putExtra("Latitude", Latitude);
+            intent.putExtra("Longitude", Longitude);
+            startActivity(intent);
         }
+
     }
 
     // -- jieun --// custom Dialog
