@@ -68,12 +68,12 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
 
         CameraPosition position = new CameraPosition.Builder()
                 .target(new LatLng(latitude, longtitude))
-                .zoom(13)
+                .zoom(17)
                 .bearing(180)
                 .tilt(30)
                 .build();
         mapboxMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(position), 5000);
+                .newCameraPosition(position), 7000);
 
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
@@ -95,28 +95,20 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
         super.onResume();
         mapView.onResume();
         Intent intent = getIntent();
-        final TextView detailInfoTextView;
-        detailInfoTextView = (TextView) findViewById(R.id.detailInfo_name_textView);
-
-
         idx = intent.getExtras().getString("idx");
-        if (idx.equals("currentLocation")) {
-            name = "현위치";
-            longtitude = intent.getExtras().getDouble("Longitude");
-            latitude = intent.getExtras().getDouble("Latitude");
-            detailInfoTextView.setText(name);
-        } else {
-            mPlaceViewModel.getPlaceInfo(Integer.parseInt(idx)).observe(this, new Observer<Place>() {
-                @Override
-                public void onChanged(@Nullable Place place) {
-                    name = place.getPName();
-                    longtitude = place.getPLongitude();
-                    latitude = place.getPLatitude();
-                    detailInfoTextView.setText(name);
+        mPlaceViewModel.getPlaceInfo(Integer.parseInt(idx)).observe(this, new Observer<Place>() {
+            @Override
+            public void onChanged(@Nullable Place place) {
+                name = place.getPName();
+                longtitude = place.getPLongitude();
+                latitude = place.getPLatitude();
+                TextView detailInfoTextView;
+                detailInfoTextView = (TextView) findViewById(R.id.detailInfo_name_textView);
+                detailInfoTextView.setText(name);
 
-                }
-            });
-        }
+            }
+        });
+
     }
 
     @Override
