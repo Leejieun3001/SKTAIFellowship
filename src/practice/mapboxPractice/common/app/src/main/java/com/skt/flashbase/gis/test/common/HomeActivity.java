@@ -223,7 +223,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             Double longitude = pinPlaceFoodTruck.get(i).getPLongitude();
             Double latitude = pinPlaceFoodTruck.get(i).getPLatitude();
             int index = pinPlaceFoodTruck.get(i).getPidx();
-            String name = pinPlaceTour.get(i).getPName();
+            String name = pinPlaceFoodTruck.get(i).getPName();
             FoodTruckPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
             FoodTruckPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
