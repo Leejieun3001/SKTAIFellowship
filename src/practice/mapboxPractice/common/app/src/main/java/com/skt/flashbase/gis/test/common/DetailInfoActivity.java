@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
@@ -101,6 +102,10 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
                 name = place.getPName();
                 longtitude = place.getPLongitude();
                 latitude = place.getPLatitude();
+                TextView detailInfoTextView;
+                detailInfoTextView = (TextView) findViewById(R.id.detailInfo_name_textView);
+                detailInfoTextView.setText(name);
+
             }
         });
 
