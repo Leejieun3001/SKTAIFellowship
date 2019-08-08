@@ -16,6 +16,7 @@ public class PlaceRepository {
     private LiveData<List<Place>> mAllPlaces;
     private LiveData<List<Place>> mAllTourPlaces;
     private LiveData<List<Place>> mAllFoodtruckPlaces;
+    private LiveData<Place> mPlaceInfo;
 
 
     public PlaceRepository(Application application) {
@@ -26,17 +27,26 @@ public class PlaceRepository {
         mAllPlaces = mPlaceDAO.getAllPlaces();
         mAllTourPlaces = mPlaceDAO.getAllTourPlaces();
         mAllFoodtruckPlaces = mPlaceDAO.getAllFoddTrucks();
+
     }
 
     public LiveData<List<Place>> getAllPlace() {
         return mAllPlaces;
     }
+
     public LiveData<List<Place>> getAllTour() {
         return mAllTourPlaces;
     }
+
     public LiveData<List<Place>> getAllFoodtruck() {
         return mAllFoodtruckPlaces;
     }
+
+    public LiveData<Place> getPlaceInfo(int pidx) {
+        mPlaceInfo = mPlaceDAO.getPlaceInfo(pidx);
+        return mPlaceInfo;
+    }
+
     //place 추가하는 함수
     public void insert(Place place) {
         new insertAsyncTaske(mPlaceDAO).execute(place);

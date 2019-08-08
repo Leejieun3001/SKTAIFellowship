@@ -3,6 +3,7 @@ package com.skt.flashbase.gis.test.roomDB;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.support.annotation.NonNull;
 
 import com.skt.flashbase.gis.test.roomDB.dataModel.PlaceRepository;
 
@@ -15,6 +16,7 @@ public class PlaceViewModel extends AndroidViewModel {
 
     private LiveData<List<Place>> mAllTourPlace;
     private LiveData<List<Place>> mAllFoodtruckPlace;
+    private LiveData<Place> mPlaceInfo;
 
     public PlaceViewModel(Application application) {
         super(application);
@@ -35,6 +37,11 @@ public class PlaceViewModel extends AndroidViewModel {
 
     public LiveData<List<Place>> getAllFoodtruckPlace() {
         return mAllFoodtruckPlace;
+    }
+
+    public LiveData<Place> getPlaceInfo(int idx) {
+        mPlaceInfo = mPlaceRepository.getPlaceInfo(idx);
+        return mPlaceInfo;
     }
 
     public void insert(Place place) {

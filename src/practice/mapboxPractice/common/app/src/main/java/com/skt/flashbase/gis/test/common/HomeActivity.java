@@ -223,9 +223,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             Double longitude = pinPlaceFoodTruck.get(i).getPLongitude();
             Double latitude = pinPlaceFoodTruck.get(i).getPLatitude();
             int index = pinPlaceFoodTruck.get(i).getPidx();
+            String name = pinPlaceTour.get(i).getPName();
             FoodTruckPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
             FoodTruckPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
+            FoodTruckPlaceList.get(i).addStringProperty("name", name);
         }
         //marker 생성 (Tour)
         List<Feature> tourPlaceList = new ArrayList<>();
@@ -233,9 +235,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             Double longitude = pinPlaceTour.get(i).getPLongitude();
             Double latitude = pinPlaceTour.get(i).getPLatitude();
             int index = pinPlaceTour.get(i).getPidx();
+            String name = pinPlaceTour.get(i).getPName();
             tourPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
             tourPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
+            tourPlaceList.get(i).addStringProperty("name", name);
         }
 
         //jieun - mapbox on fling & on move events
@@ -264,6 +268,30 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(HomeActivity.this, "onFling", Toast.LENGTH_SHORT).show();
             }
         });
+        // 길게 누를때
+        mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
+            @Override
+            public boolean onMapLongClick(@NonNull LatLng point) {
+                PointF pointf = mapboxMap.getProjection().toScreenLocation(point);
+                RectF rectF = new RectF(pointf.x - 10, pointf.y - 10, pointf.x + 10, pointf.y + 10);
+                List<Feature> Tourfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Tour);
+                if (!Tourfeatures.isEmpty()) {
+                    String name = Tourfeatures.get(0).getStringProperty("name");
+
+                    Toast.makeText(HomeActivity.this, name + "입니다.",
+                            Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                List<Feature> FoodTruckfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Foodtruck);
+                if (!FoodTruckfeatures.isEmpty()) {
+                    String name = FoodTruckfeatures.get(0).getStringProperty("name");
+                    Toast.makeText(HomeActivity.this, name + "입니다.",
+                            Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
         mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
             @Override
             public boolean onMapClick(@NonNull LatLng point) {
@@ -271,20 +299,25 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 RectF rectF = new RectF(pointf.x - 10, pointf.y - 10, pointf.x + 10, pointf.y + 10);
                 List<Feature> Tourfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Tour);
                 if (!Tourfeatures.isEmpty()) {
-                    String name = Tourfeatures.get(0).getStringProperty("idx");
+                    String idx = Tourfeatures.get(0).getStringProperty("idx");
                     Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
+
+                    intent.putExtra("idx", idx);
                     startActivity(intent);
-                    Toast.makeText(HomeActivity.this, "index 는 : " + name + "입니다.",
+                    Toast.makeText(HomeActivity.this, "index 는 : " + idx + "입니다.",
                             Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 List<Feature> FoodTruckfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Foodtruck);
                 if (!FoodTruckfeatures.isEmpty()) {
-                    String name = FoodTruckfeatures.get(0).getStringProperty("idx");
+                    String idx = FoodTruckfeatures.get(0).getStringProperty("idx");
                     Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(HomeActivity.this, "index 는 : " + name + "입니다.",
+
+                    Toast.makeText(HomeActivity.this, "index 는 : " + idx + "입니다.",
                             Toast.LENGTH_SHORT).show();
+                    intent.putExtra("idx", idx);
+                    startActivity(intent);
+
                     return true;
                 }
                 return false;
@@ -312,7 +345,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SymbolLayer TourLayer = new SymbolLayer(LAYER_ID_Tour, SOURCE_ID_Tour)
                         .withProperties(PropertyFactory.iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(TourLayer);
-
 
                 //floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
@@ -473,6 +505,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
     //--seung eun--//
     void createChart() {
         lineChart = (LineChart) findViewById(R.id.chart);
@@ -540,7 +573,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     = LocationComponentActivationOptions.builder(this, loadedMapStyle).locationComponentOptions(customLocationComponentOptions).build();
             // Activate with options
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
-
 // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 // Set the component's camera mode
@@ -638,7 +670,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    // jieun  custom Dialog
+    // -- jieun --// custom Dialog
     public void setCustomDialogSearh() {
         Button homeSearchBtn;
         homeSearchBtn = (Button) findViewById(R.id.home_search_btn);

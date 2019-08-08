@@ -25,4 +25,7 @@ public interface PlaceDAO {
 
     @Query("SELECT * from placeInfo Where category = 2 ORDER BY id ASC")
     LiveData<List<Place>> getAllFoddTrucks();
+
+    @Query("SELECT * from placeInfo Where id = :pidx")
+    LiveData<Place> getPlaceInfo(int pidx);
 }
