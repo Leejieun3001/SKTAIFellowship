@@ -10,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -18,9 +21,21 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.layers.Property;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.style.sources.Source;
+import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.skt.flashbase.gis.test.R;
 import com.skt.flashbase.gis.test.roomDB.Place;
 import com.skt.flashbase.gis.test.roomDB.PlaceViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MapView mapView;
@@ -29,7 +44,9 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
     private double longtitude;
     private double latitude;
     private String name;
-
+    private static final String SOURCE_ID = "SOURCE_ID";
+    private static final String ICON_ID = "ICON_ID";
+    private static final String LAYER_ID = "LAYER_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +55,6 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_detail_info);
         mapView = findViewById(R.id.detailInfo_mapView_mapView);
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
-
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
@@ -46,6 +62,8 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
+        List<Feature> symbolLayerIconFeatureList = new ArrayList<>();
+        symbolLayerIconFeatureList.add(Feature.fromGeometry(Point.fromLngLat(longtitude, latitude)));
 
         CameraPosition position = new CameraPosition.Builder()
                 .target(new LatLng(latitude, longtitude))
@@ -59,11 +77,18 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
+                style.addImageAsync(ICON_ID, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.blue_marker)));
+                Source source = new GeoJsonSource(SOURCE_ID,
+                        FeatureCollection.fromFeatures(symbolLayerIconFeatureList));
+                style.addSource(source);
+                SymbolLayer layer = new SymbolLayer(LAYER_ID, SOURCE_ID)
+                        .withProperties(PropertyFactory.iconImage(ICON_ID), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+                style.addLayer(layer);
             }
         });
     }
 
-    // Add the mapView lifecycle to the activity's lifecycle methods
     @Override
     public void onResume() {
         super.onResume();

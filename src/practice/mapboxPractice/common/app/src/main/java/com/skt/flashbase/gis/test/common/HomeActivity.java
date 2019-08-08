@@ -268,7 +268,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(HomeActivity.this, "onFling", Toast.LENGTH_SHORT).show();
             }
         });
-        // 길게 누를때
+        // 길게 누를때 - 화면 넘어감
         mapboxMap.addOnMapLongClickListener(new MapboxMap.OnMapLongClickListener() {
             @Override
             public boolean onMapLongClick(@NonNull LatLng point) {
@@ -292,6 +292,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return false;
             }
         });
+        // 그냥 클릭시 다음 화면으로 넘어감
         mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
             @Override
             public boolean onMapClick(@NonNull LatLng point) {
