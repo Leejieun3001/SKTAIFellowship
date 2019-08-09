@@ -1,7 +1,5 @@
 package com.skt.flashbase.gis.test.common;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -22,7 +20,6 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
@@ -41,6 +38,8 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MapView mapView;
     private PlaceViewModel mPlaceViewModel;
+    private TextView detailInfoTextView;
+
     private String idx;
     private double longtitude;
     private double latitude;
@@ -59,6 +58,10 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+        Intent intent = getIntent();
+        idx = intent.getExtras().getString("idx");
+        detailInfoTextView = (TextView) findViewById(R.id.detailInfo_name_textView);
+        setPlaceData();
     }
 
     @Override
@@ -94,21 +97,7 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
     public void onResume() {
         super.onResume();
         mapView.onResume();
-        Intent intent = getIntent();
-        idx = intent.getExtras().getString("idx");
-        mPlaceViewModel.getPlaceInfo(Integer.parseInt(idx)).observe(this, new Observer<Place>() {
-            @Override
-            public void onChanged(@Nullable Place place) {
-                name = place.getPName();
-                longtitude = place.getPLongitude();
-                latitude = place.getPLatitude();
-                TextView detailInfoTextView;
-                detailInfoTextView = (TextView) findViewById(R.id.detailInfo_name_textView);
-                detailInfoTextView.setText(name);
-
-            }
-        });
-
+        detailInfoTextView.setText(name);
     }
 
     @Override
@@ -145,5 +134,17 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    public void setPlaceData() {
+        mPlaceViewModel.getPlaceInfo(Integer.parseInt(idx)).observe(this, new Observer<Place>() {
+            @Override
+            public void onChanged(@Nullable Place place) {
+                name = place.getPName();
+                longtitude = place.getPLongitude();
+                latitude = place.getPLatitude();
+                detailInfoTextView.setText(name);
+            }
+        });
     }
 }
