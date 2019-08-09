@@ -84,7 +84,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Sol
     int storedValue = 50;
-
     //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
     private static final String ICON_ID_Foodtruck = "Foodtruck";
@@ -150,8 +149,17 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         //--jieun--//
         //Model Provider 생성 RoomDB
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
-        // 카테고리 검색 다이얼로그 생성
+        SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
+        boolean isFirst = pref.getBoolean("isFirst", true);
+        //SharedPreferences 처음 실행하는 경우에만 sqLite에 저장
+        if (isFirst) {
+            CSVtoSqLite();
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("isFirst", false);
+            editor.commit();
+        }
         setCustomDialogSearh();
+        setPlaceData();
 
         //--seungeun--//
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
@@ -229,7 +237,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
                 if (spinner.getSelectedItemPosition() == 0) {
                     bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
                         @NonNull
@@ -301,20 +309,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-        //SQLite 방식
-//        db = openOrCreateDatabase("location.db", Context.MODE_PRIVATE, null);
-//        String sql = "select * from landmark ; ";
-//        Cursor results = db.rawQuery(sql, null);
-//        results.moveToFirst();
-//        while (!results.isAfterLast()) {
-//            Double longitude = results.getDouble(3);
-//            Double latitude = results.getDouble(2);
-//            symbolLayerIconFeatureList.add(Feature.fromGeometry(
-//                    Point.fromLngLat(longitude, latitude)));
-//            results.moveToNext();
-//        }
-//        results.close();
-
         //--jieun--//
         this.mapboxMap = mapboxMap;
 
@@ -403,23 +397,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (!Tourfeatures.isEmpty()) {
                     String idx = Tourfeatures.get(0).getStringProperty("idx");
                     Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
-
                     intent.putExtra("idx", idx);
                     startActivity(intent);
-                    Toast.makeText(HomeActivity.this, "index 는 : " + idx + "입니다.",
-                            Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 List<Feature> FoodTruckfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Foodtruck);
                 if (!FoodTruckfeatures.isEmpty()) {
                     String idx = FoodTruckfeatures.get(0).getStringProperty("idx");
                     Intent intent = new Intent(getApplicationContext(), DetailInfoActivity.class);
-
-                    Toast.makeText(HomeActivity.this, "index 는 : " + idx + "입니다.",
-                            Toast.LENGTH_SHORT).show();
                     intent.putExtra("idx", idx);
                     startActivity(intent);
-
                     return true;
                 }
                 return false;
@@ -489,44 +476,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onResume() {
         super.onResume();
         mapView.onResume();
-        //--jieun--//
-        SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
-        boolean isFirst = pref.getBoolean("isFirst", true);
-        //SharedPreferences 처음 실행하는 경우에만 sqLite에 저장
-        if (isFirst) {
-            CSVtoSqLite();
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("isFirst", false);
-            editor.commit();
-        }
-
-        //roomdb 방식, 관광지 데이터 조회
-        mPlaceViewModel.getAllTourPlace().observe(this, new Observer<List<Place>>() {
-            @Override
-            public void onChanged(@Nullable List<Place> places) {
-                for (int i = 0; i < places.size(); i++) {
-                    pinPlaceTour.add(i, places.get(i));
-                }
-            }
-        });
-        //roomdb 방식, 푸드트럭 데이터 조회
-        mPlaceViewModel.getAllFoodtruckPlace().observe(this, new Observer<List<Place>>() {
-            @Override
-            public void onChanged(@Nullable List<Place> places) {
-                for (int i = 0; i < places.size(); i++) {
-                    pinPlaceFoodTruck.add(i, places.get(i));
-                }
-            }
-        });
-        mPlaceViewModel.getAllPlace().observe(this, new Observer<List<Place>>() {
-            @Override
-            public void onChanged(@Nullable List<Place> places) {
-                for (int i = 0; i < places.size(); i++) {
-                    pinPlaceAll.add(i, places.get(i));
-                }
-
-            }
-        });
     }
 
     @SuppressWarnings({"MissingPermission"})
@@ -607,10 +556,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-
     //--seung eun--//
-
-
     public void create_pie_chart() {
         PieChartView pieChartview;
         pieChartview = findViewById(R.id.pie_chart);
@@ -777,7 +723,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-    //jieun - BackKey 두번 출려
+
+    // -- jieun --// - BackKey 두번 출려
     @Override
     public void onBackPressed() {
         long tempTime = System.currentTimeMillis();
@@ -789,6 +736,29 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             this.backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    // -- jieun --//  데이터 추가 함수
+    public void setPlaceData() {
+        //roomdb 방식, 관광지 데이터 조회
+        mPlaceViewModel.getAllTourPlace().observe(this, new Observer<List<Place>>() {
+            @Override
+            public void onChanged(@Nullable List<Place> places) {
+                for (int i = 0; i < places.size(); i++) {
+                    pinPlaceTour.add(i, places.get(i));
+                }
+            }
+        });
+        //roomdb 방식, 푸드트럭 데이터 조회
+        mPlaceViewModel.getAllFoodtruckPlace().observe(this, new Observer<List<Place>>() {
+            @Override
+            public void onChanged(@Nullable List<Place> places) {
+                for (int i = 0; i < places.size(); i++) {
+                    pinPlaceFoodTruck.add(i, places.get(i));
+                }
+            }
+        });
 
     }
 }

@@ -68,7 +68,7 @@ public class DetailInfoActivity extends AppCompatActivity implements OnMapReadyC
 
         CameraPosition position = new CameraPosition.Builder()
                 .target(new LatLng(latitude, longtitude))
-                .zoom(17)
+                .zoom(13)
                 .bearing(180)
                 .tilt(30)
                 .build();
