@@ -80,7 +80,6 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
-
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
@@ -104,6 +103,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
     private MapboxMap mapboxMap;
+    //Back 키 두번 클릭 여부 확인
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
     //jieun
 
     //seungeun
@@ -129,7 +131,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             transaction.add(R.id.mapSearchBar, autocompleteFragment, PlaceAutocompleteFragment.TAG);
             transaction.commit();
         } else {
-            autocompleteFragment = (PlaceAutocompleteFragment)getSupportFragmentManager().findFragmentByTag(PlaceAutocompleteFragment.TAG);
+            autocompleteFragment = (PlaceAutocompleteFragment) getSupportFragmentManager().findFragmentByTag(PlaceAutocompleteFragment.TAG);
         }
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -189,7 +191,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         Calendar cal = Calendar.getInstance();
 
         bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
-            @NonNull @Override
+            @NonNull
+            @Override
             public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
                 array.clear();
                 cal.add(Calendar.DAY_OF_MONTH, -3);
@@ -227,7 +230,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
-                if(spinner.getSelectedItemPosition() == 0) {
+                if (spinner.getSelectedItemPosition() == 0) {
                     bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
                         @NonNull
                         @Override
@@ -277,6 +280,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     });
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -607,10 +611,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     //--seung eun--//
 
 
-
-    public void create_pie_chart(){
+    public void create_pie_chart() {
         PieChartView pieChartview;
-        pieChartview= findViewById(R.id.pie_chart);
+        pieChartview = findViewById(R.id.pie_chart);
 
         List pieData = new ArrayList<>();
         pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
@@ -773,5 +776,19 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 customDialogSearch.show();
             }
         });
+    }
+    //jieun - BackKey 두번 출려
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            super.onBackPressed();
+        } else {
+            this.backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
