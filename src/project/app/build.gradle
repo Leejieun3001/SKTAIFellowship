@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.skt.flashbase.gis"
         minSdkVersion 15
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -17,6 +16,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //apk 파일을 위한 추가
+    android {
+        lintOptions {
+            checkReleaseBuilds false
+
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+
+            abortOnError false
+
+        }
+
+    }
+}
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+    maven { url 'http://repo1.maven.org/maven2' }
+    google()
+    jcenter()
 }
 
 dependencies {
@@ -26,4 +50,57 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //CSV 파일 읽기
+    implementation 'com.opencsv:opencsv:3.9'
+    //mapbox
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.1.0'
+
+    //floating button
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+
+    // add butter knife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    //add retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //mapbox geojson
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-core:4.8.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-geojson:4.8.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:4.8.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:4.8.0'
+    //floating button
+    implementation "com.getbase:floatingactionbutton:1.10.1"
+    //timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation "com.getbase:floatingactionbutton:1.10.1"
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+    //bottom sheet
+    implementation 'com.android.support:design:28.+'
+    implementation 'com.android.support:support-v4:28.0.0'
+
+    // Room components
+    implementation "android.arch.persistence.room:runtime:1.1.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.0"
+    androidTestImplementation "android.arch.persistence.room:testing:1.1.0"
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    androidTestImplementation "android.arch.persistence.room:testing:1.0.0"
+
+    // Lifecycle components
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+
+    //chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    //pie chart
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
+    //sol search bar
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:7.2.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v7:0.5.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v7:0.7.0'
 }

@@ -36,6 +36,7 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -323,6 +324,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Point.fromLngLat(longitude, latitude)));
             FoodTruckPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
             FoodTruckPlaceList.get(i).addStringProperty("name", name);
+
+
+
         }
         //marker 생성 (Tour)
         List<Feature> tourPlaceList = new ArrayList<>();
