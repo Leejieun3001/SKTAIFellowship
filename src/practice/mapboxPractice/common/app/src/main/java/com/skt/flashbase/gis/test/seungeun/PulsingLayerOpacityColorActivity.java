@@ -59,7 +59,6 @@ public class PulsingLayerOpacityColorActivity extends AppCompatActivity implemen
         mapView.getMapAsync(this);
     }
 
-
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
 

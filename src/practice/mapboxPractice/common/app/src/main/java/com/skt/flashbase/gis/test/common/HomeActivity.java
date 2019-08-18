@@ -179,7 +179,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onSlide(@NonNull View view, float v) {
             }
         });
-        //createChart();
 
         create_pie_chart();
 //        //markerview activity는 마커 자체에 보여지는 내용에 대한 뷰
@@ -575,9 +574,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         PieChartData pieChartData = new PieChartData(pieData);
         pieChartData.setHasLabels(true).setValueLabelTextSize(12);
-        //원 안에 텍스트 넣을 수 있는 코드
-        pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
 
+        //원 안에 텍스트 넣을 수 있는 코드
+        pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText2("약 5000명 ").setCenterText2Color(Color.parseColor("#0097A7"))
+                .setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
         pieChartview.setPieChartData(pieChartData);
 
     }
