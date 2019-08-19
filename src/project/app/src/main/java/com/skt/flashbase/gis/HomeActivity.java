@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -61,7 +62,8 @@ import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
+
+public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
     int storedValue = 50;
@@ -140,7 +142,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             FoodTruckPlaceList.get(i).addStringProperty("name", name);
 
 
-
         }
         //marker 생성 (Tour)
         List<Feature> tourPlaceList = new ArrayList<>();
@@ -155,30 +156,23 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             tourPlaceList.get(i).addStringProperty("name", name);
         }
 
-        //jieun - mapbox on fling & on move events
-        mapboxMap.addOnMoveListener(new MapboxMap.OnMoveListener() {
+        mapboxMap.addOnCameraMoveListener(new MapboxMap.OnCameraMoveListener() {
             @Override
-            public void onMoveBegin(MoveGestureDetector detector) {
-                // user started moving the map
-            }
-
-            @Override
-            public void onMove(MoveGestureDetector detector) {
-                // user is moving the map
-            }
-
-            @Override
-            public void onMoveEnd(MoveGestureDetector detector) {
-                // user stopped moving the map
-                int viewportWidth = mapView.getWidth();
-                int viewportHeight = mapView.getHeight();
-                Toast.makeText(HomeActivity.this, "onMoveEnd", Toast.LENGTH_SHORT).show();
+            public void onCameraMove() {
+            //    Toast.makeText(getApplicationContext(), "camera Move",Toast.LENGTH_SHORT).show();
             }
         });
-        mapboxMap.addOnFlingListener(new MapboxMap.OnFlingListener() {
+        mapboxMap.addOnCameraMoveCancelListener(new MapboxMap.OnCameraMoveCanceledListener() {
             @Override
-            public void onFling() {
-                Toast.makeText(HomeActivity.this, "onFling", Toast.LENGTH_SHORT).show();
+            public void onCameraMoveCanceled() {
+                Toast.makeText(getApplicationContext(), "camera Canceled",Toast.LENGTH_SHORT).show();
+            }
+        });
+        mapboxMap.addOnCameraMoveStartedListener(new MapboxMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int reason) {
+               // Toast.makeText(getApplicationContext(), "camera start",Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -335,7 +329,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             while ((record = read.readNext()) != null) {
                 // Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[6] + ", 경도: " + record[7]);
                 if (!record[6].equals("위도")) {
-                    //     dbHelper.insertLandmark(record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
+                    //dbHelper.insertLandmark(record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
                     //room db 이용 / 카테고리 2 = 푸드트럭
                     if (!record[0].isEmpty() && !record[6].isEmpty() && !record[7].isEmpty()) {
                         Place place = new Place(0, 2, record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
@@ -453,6 +447,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onCameraTrackingChanged(int currentMode) {
 
+        Toast.makeText(this, "change" ,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -530,6 +525,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 }
