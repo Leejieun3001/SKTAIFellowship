@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Detail.MarkerDetailInfoActivity">
+
+    <com.mapbox.mapboxsdk.maps.MapView
+      android:id="@+id/detailInfo_mapView_mapView"
+      android:layout_width="match_parent"
+      android:layout_height="220dp"
+      mapbox:mapbox_cameraTargetLat="37.4968662"
+      mapbox:mapbox_cameraTargetLng="127.0246298"
+      mapbox:mapbox_cameraZoom="10" />
+
+
+    <TextView
+        android:id="@+id/detailInfo_name_textView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/black_semi_transparent"
+        android:gravity="center_horizontal"
+        android:textSize="18dp"
+        />
+
+</LinearLayout>
