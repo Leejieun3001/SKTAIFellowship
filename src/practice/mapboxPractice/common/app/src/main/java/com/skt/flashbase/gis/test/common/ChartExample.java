@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -17,8 +18,12 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.data.RadarDataSet;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -29,10 +34,6 @@ import com.skt.flashbase.gis.test.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.view.PieChartView;
-
 
 /**
  * The most basic example of adding a map to an activity.
@@ -40,12 +41,13 @@ import lecho.lib.hellocharts.view.PieChartView;
 public class ChartExample extends AppCompatActivity {
 
     private MapView mapView;
-    public PieChartView pieChartview;
     public LineChart lineChart;
+    public RadarChart radarChart;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         // Mapbox access token is configured here. This needs to be called either in your application
@@ -57,48 +59,25 @@ public class ChartExample extends AppCompatActivity {
 
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
-        mapView.setActivated(false);
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull MapboxMap mapboxMap) {
                 mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
-
                         // Map is set up and the style has loaded. Now you can add data or make other map adjustments.
-
-
                     }
                 });
             }
         });
-        //create_pie_chart();
         create_bar_chart();
         createChart();
+        create_radar_chart();
+
         //markerview activity는 마커 자체에 보여지는 내용에 대한 뷰
         MyMarkerView marker = new MyMarkerView(this, R.layout.activity_my_marker_view);
         marker.setChartView(lineChart);
         lineChart.setMarker(marker);
-    }
-
-    public void create_pie_chart(){
-        pieChartview= findViewById(R.id.pie_chart);
-
-        List pieData = new ArrayList<>();
-        pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
-        pieData.add(new SliceValue(25, Color.parseColor("#cb7575")).setLabel("30대 : 25%"));
-        pieData.add(new SliceValue(10, Color.parseColor("#ef9e9f")).setLabel("10대 : 10%"));
-        pieData.add(new SliceValue(60, Color.parseColor("#8283a7")).setLabel("40대 : 10%"));
-        pieData.add(new SliceValue(10, Color.parseColor("#589167")).setLabel("50대 : 35%"));
-        pieData.add(new SliceValue(60, Color.parseColor("#ebce95")).setLabel("그 외 : 5%"));
-
-        PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
-        //원 안에 텍스트 넣을 수 있는 코드
-        pieChartData.setHasCenterCircle(true).setCenterText1("").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
-
-        pieChartview.setPieChartData(pieChartData);
-
     }
 
     public void create_bar_chart(){
@@ -131,16 +110,15 @@ public class ChartExample extends AppCompatActivity {
         int startYear = 10;
         int endYear = 70;
 
-        List<BarEntry> total_List = new ArrayList<BarEntry>();
+        List<BarEntry> man_List = new ArrayList<BarEntry>();
         List<BarEntry> woman_List = new ArrayList<BarEntry>();
-//        List<BarEntry> man_List = new ArrayList<BarEntry>();
 
         int n = 300;
         int n2 = 143;
-        int n3 = 160;
 
+        //BarEntry 첫번째 인자는 x축 두번째 인자는 y축
         for (int i = startYear; i <= endYear; i+=10) {
-            total_List.add(new BarEntry(i, n));
+            man_List.add(new BarEntry(i, n));
             n+= 10;
         }
         for (int i = startYear; i <= endYear; i+=10) {
@@ -148,42 +126,35 @@ public class ChartExample extends AppCompatActivity {
             n2+=30;
         }
 
-
-        BarDataSet set1, set2, set3;
+        BarDataSet set1, set2;
 
         if (barChart.getData() != null && barChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) barChart.getData().getDataSetByIndex(0);
             set2 = (BarDataSet) barChart.getData().getDataSetByIndex(1);
-    //        set3 = (BarDataSet) barChart.getData().getDataSetByIndex(2);
 
-            set1.setValues(total_List);
+            set1.setValues(man_List);
             set2.setValues(woman_List);
 
             barChart.getData().notifyDataChanged();
             barChart.notifyDataSetChanged();
 
         } else {
-            set1 = new BarDataSet(total_List, "man");
-            set1.setColors(ColorTemplate.COLORFUL_COLORS);
+            set1 = new BarDataSet(man_List, "man");
+            set1.setColors(Color.parseColor("#264973"));
 
             set2 = new BarDataSet(woman_List, " woman");
-            set2.setColors(ColorTemplate.COLORFUL_COLORS);
-
+            set2.setColors(Color.parseColor("#822B30"));
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
             dataSets.add(set2);
 
-
             BarData data = new BarData(dataSets);
             barChart.setData(data);
         }
-
         barChart.getBarData().setBarWidth(barWidth);
         barChart.groupBars(startYear, groupSpace, barSpace);
         barChart.invalidate();
-
-
     }
 
     void createChart() {
@@ -233,9 +204,54 @@ public class ChartExample extends AppCompatActivity {
         lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
         lineChart.invalidate();
     }
+    void create_radar_chart(){
+
+        ArrayList<RadarEntry> entries = new ArrayList<>();
+        entries.add(new RadarEntry(0f, 0.21f));
+        entries.add(new RadarEntry(1f, 0.12f));
+        entries.add(new RadarEntry(2f, 0.20f));
+        entries.add(new RadarEntry(3f, 0.52f));
+        entries.add(new RadarEntry(4f, 0.29f));
+        entries.add(new RadarEntry(5f, 0.62f));
+
+        ArrayList<RadarEntry> entries2 = new ArrayList<>();
+        entries.add(new RadarEntry(0f, 0.44f));
+        entries.add(new RadarEntry(1f, 0.32f));
+        entries.add(new RadarEntry(2f, 0.24f));
+        entries.add(new RadarEntry(3f, 0.18f));
+        entries.add(new RadarEntry(4f, 0.22f));
+        entries.add(new RadarEntry(5f, 0.65f));
+
+        radarChart = findViewById(R.id.radarChart);
+        RadarDataSet radarDataSet = new RadarDataSet(entries, "woman");
+        radarDataSet.setColors(Color.parseColor("#822B30"));
+        radarDataSet.setDrawFilled(true);
+
+        RadarDataSet radarDataSet2 = new RadarDataSet(entries2, "man");
+        radarDataSet.setColors(Color.parseColor("#264973"));
+        radarDataSet2.setDrawFilled(true);
 
 
-    // Add the mapView lifecycle to the activity's lifecycle methods
+        ArrayList<IRadarDataSet> sets = new ArrayList<>();
+        sets.add(radarDataSet);
+        sets.add(radarDataSet2);
+
+        RadarData radarData = new RadarData(sets);
+
+        XAxis xAxis = radarChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+
+        final String[] ages = new String[]{"10대", "20대", "30대", "40대", "50대", "60대"};
+        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(ages);
+        xAxis.setGranularity(2f);
+        xAxis.setValueFormatter(formatter);
+        radarChart.setData(radarData);
+
+        radarChart.animateXY(5000, 5000);
+        radarChart.invalidate();
+    }
+
     @Override
     public void onResume() {
         super.onResume();

@@ -1,34 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
 
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context=".common.DetailInfoActivity">
 
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/detailInfo_mapView_mapView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="30"
-        mapbox:mapbox_cameraTargetLat="37.4968662"
-        mapbox:mapbox_cameraTargetLng="127.0246298"
-        mapbox:mapbox_cameraZoom="10" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="70">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#DCDEE0">
 
-        <TextView
-            android:id="@+id/detailInfo_name_textView"
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:id="@+id/detailInfo_mapView_mapView"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_weight="30"
+            mapbox:mapbox_cameraTargetLat="37.4968662"
+            mapbox:mapbox_cameraTargetLng="127.0246298"
+            mapbox:mapbox_cameraZoom="10" />
+
+        <LinearLayout
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="장소는 : "/>
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
+
+            <TextView
+                android:background="@drawable/round_corner"
+                android:id="@+id/detailInfo_name_textView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/black_semi_transparent"
+                android:gravity="center_horizontal"
+                android:textSize="18dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/half_black">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E68383"
+                android:layout_gravity="center_horizontal"
+                android:text="실시간 유동인구"
+                android:textSize="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="2dp" />
+
+            <TextView
+                android:textColor="#E68383"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성별 분석 차트 "
+                android:textSize="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:paddingTop="20dp"
+                android:id="@+id/bar_chart"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal">
+            </com.github.mikephil.charting.charts.HorizontalBarChart>
+
+            <com.github.mikephil.charting.charts.RadarChart
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/radarChart"
+                android:layout_width="@dimen/chart_size"
+                android:layout_height="@dimen/chart_size" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
