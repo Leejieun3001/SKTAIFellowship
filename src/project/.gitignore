@@ -11,7 +11,7 @@
 /build
 /captures
 .externalNativeBuild
-/app/src/main/res/values/tokens.xml
+/app/src/main/res/values/strings.xml
 
 
 # Created by https://www.gitignore.io/api/android
