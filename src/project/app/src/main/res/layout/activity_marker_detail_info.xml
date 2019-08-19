@@ -1,28 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context=".Detail.MarkerDetailInfoActivity">
 
     <com.mapbox.mapboxsdk.maps.MapView
-      android:id="@+id/detailInfo_mapView_mapView"
-      android:layout_width="match_parent"
-      android:layout_height="220dp"
-      mapbox:mapbox_cameraTargetLat="37.4968662"
-      mapbox:mapbox_cameraTargetLng="127.0246298"
-      mapbox:mapbox_cameraZoom="10" />
+        android:id="@+id/detailInfo_mapView_mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+        mapbox:mapbox_cameraTargetLat="37.4968662"
+        mapbox:mapbox_cameraTargetLng="127.0246298"
+        mapbox:mapbox_cameraZoom="10" />
 
 
     <TextView
         android:id="@+id/detailInfo_name_textView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textColor="@color/black_semi_transparent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:gravity="center_horizontal"
-        android:textSize="18dp"
-        />
+        android:textColor="@color/black_semi_transparent"
+        android:textSize="18dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="60"
+        android:background="@color/white_pressed"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카테고리 : "
+                android:textColor="@color/black_semi_transparent" />
+
+            <TextView
+                android:id="@+id/detailInfo_category_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_semi_transparent"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="링크 : "
+                android:textColor="@color/black_semi_transparent" />
+
+            <TextView
+                android:id="@+id/detailInfo_link_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_semi_transparent"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="설명 : "
+
+                android:textColor="@color/black_semi_transparent" />
+
+            <TextView
+                android:id="@+id/detailInfo_description_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_semi_transparent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전화번호 : "
+
+                android:textColor="@color/black_semi_transparent" />
+
+            <TextView
+                android:id="@+id/detailInfo_phone_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_semi_transparent"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주소"
+                android:textColor="@color/black_semi_transparent" />
+
+            <TextView
+                android:id="@+id/detailInfo_address_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_semi_transparent" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

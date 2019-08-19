@@ -28,7 +28,6 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
     private CheckBox searchWoman60CheckBox;
 
 
-
     private Context context;
 
     private CustomDialogSearchListener customDialogSearchListener;
