@@ -1,3 +1,5 @@
+
+
 # Compiled class file
 *.class
 # Log file
@@ -22,4 +24,6 @@
 hs_err_pid*
 src/practice/mapboxPractice/common/app/.idea/workspace.xml
 src/project/app/src/main/res/values/tokens.xml
+src/project/app/src/main/res/values/tokens.xml
+
 
