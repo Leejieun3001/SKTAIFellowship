@@ -139,7 +139,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         btn_chart_ex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), WholeDetailInfoActivityd.class);
+                Intent intent = new Intent(getApplicationContext(), WholeDetailInfoActivity.class);
                 startActivity(intent);
             }
         });
