@@ -12,16 +12,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.github.mikephil.charting.charts.LineChart;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.android.gestures.MoveGestureDetector;
@@ -50,6 +54,7 @@ import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.Detail.MarkerDetailInfoActivity;
+import com.skt.flashbase.gis.Detail.WholeDetailInfoActivity;
 import com.skt.flashbase.gis.roomDB.Place;
 import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
@@ -57,6 +62,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.view.PieChartView;
 
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
@@ -67,6 +76,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
 
     //Sol
     int storedValue = 50;
+
     //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
     private static final String ICON_ID_Foodtruck = "Foodtruck";
@@ -76,6 +86,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
     private static final String LAYER_ID_Tour = "Tour";
     private MapView mapView;
     SQLiteDatabase db;
+
     private PlaceViewModel mPlaceViewModel;
     private List<Place> pinPlaceTour = new ArrayList<>();
     private List<Place> pinPlaceFoodTruck = new ArrayList<>();
@@ -92,6 +103,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
 
     //seungeun
     private LineChart lineChart;
+    private LinearLayout llBottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +132,17 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         setCustomDialogSearh();
         setPlaceData();
 
+        create_bottomsheet();
 
+        TextView btn_chart_ex = (TextView) findViewById(R.id.btn_chart_example);
+
+        btn_chart_ex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), WholeDetailInfoActivityd.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -530,6 +552,49 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    void create_bottomsheet(){
+
+        llBottomSheet = findViewById(R.id.bottom_sheet);
+
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_DRAGGING);
+        bottomSheetBehavior.setHideable(false);
+        bottomSheetBehavior.setPeekHeight(100);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+            }
+        });
+
+        create_pie_chart();
+    }
+    //--seung eun--//
+    public void create_pie_chart() {
+        PieChartView pieChartview;
+        pieChartview = findViewById(R.id.pie_chart);
+
+        List pieData = new ArrayList<>();
+        pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
+        pieData.add(new SliceValue(25, Color.parseColor("#cb7575")).setLabel("30대 : 25%"));
+        pieData.add(new SliceValue(10, Color.parseColor("#ef9e9f")).setLabel("10대 : 10%"));
+        pieData.add(new SliceValue(60, Color.parseColor("#8283a7")).setLabel("40대 : 10%"));
+        pieData.add(new SliceValue(10, Color.parseColor("#589167")).setLabel("50대 : 35%"));
+        pieData.add(new SliceValue(60, Color.parseColor("#ebce95")).setLabel("그 외 : 5%"));
+
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+
+        //원 안에 텍스트 넣을 수 있는 코드
+        pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText2("약 5000명 ").setCenterText2Color(Color.parseColor("#0097A7"))
+                .setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
+        pieChartview.setPieChartData(pieChartData);
 
     }
 }

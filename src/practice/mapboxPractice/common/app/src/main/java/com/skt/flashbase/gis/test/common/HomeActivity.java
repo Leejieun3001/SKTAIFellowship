@@ -81,6 +81,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
+
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol

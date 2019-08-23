@@ -14,6 +14,7 @@
         android:layout_margin="6dp"
         android:layout_marginRight="0dp"
         android:background="@drawable/ic_search_btn_custom" />
+
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -25,6 +26,7 @@
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/home_category_menu_fab"
         android:layout_width="wrap_content"
@@ -64,5 +66,8 @@
             fab:fab_title="@string/fab_title_user" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+    <include layout="@layout/bottomsheet"/>
 
 </FrameLayout>

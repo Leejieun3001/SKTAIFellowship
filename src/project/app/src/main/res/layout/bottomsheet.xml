@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinator"
+    >
+
+    <!-- coordinatiorLayout 자식 뷰에서 bottomsheet를 사용하고 싶은 레이아웃에 behavior속성을
+    주면 된다. 해당 레이아웃에서는 linearlayout에서 사용 -> homeactivity.java에서 linearlayout에
+    속성을 줌!
+   !-->
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#00ff0000"
+                android:gravity="center"
+                android:src="@drawable/up"
+                android:textColor="@color/white_pressed"
+                android:textFontWeight="3dp"
+                android:textSize="17dp"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mapboxWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="시간대 별 인구 수"
+                    android:textColor="#161717"
+                    />
+                <TextView
+                    android:id="@+id/btn_chart_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="270dp"
+                    android:text="자세히보기"
+                    android:textColor="@color/mapboxBlue" />
+
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/pie_chart"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="10dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

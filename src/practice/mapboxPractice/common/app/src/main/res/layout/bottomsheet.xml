@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinator"
     >
 
     <!-- coordinatiorLayout 자식 뷰에서 bottomsheet를 사용하고 싶은 레이아웃에 behavior속성을

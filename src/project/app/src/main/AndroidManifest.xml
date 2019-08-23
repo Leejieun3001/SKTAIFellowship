@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Detail.MarkerDetailInfoActivity"></activity>
+        <activity android:name=".Detail.AnalysisInfoDetail"></activity>
+        <activity android:name=".Detail.MyMarkerView" />
+        <activity android:name=".Detail.WholeDetailInfoActivity" />
+        <activity android:name=".Detail.MarkerDetailInfoActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -21,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity" />
     </application>
 
 </manifest>
