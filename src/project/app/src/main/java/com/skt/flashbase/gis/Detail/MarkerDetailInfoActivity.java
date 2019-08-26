@@ -9,24 +9,34 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
+
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.charts.RadarChart;
+
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+
+
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
@@ -50,11 +60,11 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
-import com.skt.flashbase.gis.HomeActivity;
 import com.skt.flashbase.gis.R;
 import com.skt.flashbase.gis.roomDB.Place;
 import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -64,7 +74,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
 import java.util.List;
+
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -93,17 +105,12 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
     private TextView DetailInfoPhoneTextView;
     private TextView DetailInfoAddressTextView;
     //seungeun
-    public LineChart lineChart;
-    public RadarChart radarChart;
-    BarChart chart ;
-    ArrayList<BarEntry> BARENTRY ;
-    ArrayList<String> BarEntryLabels ;
-    BarDataSet Bardataset ;
-    BarData BARDATA ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("ddfdf","dfdfddfdff");
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_marker_detail_info);
         mapView = findViewById(R.id.detailInfo_mapView_mapView);
@@ -116,9 +123,11 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
         idx = intent.getExtras().getString("idx");
         detailInfoTextView = (TextView) findViewById(R.id.detailInfo_name_textView);
         setPlaceData();
-        chart();
 
         Button btn_analysis_info_detail = (Button)findViewById(R.id.analysis_info_detail);
+
+        create_chart();
+        create_pie_chart();
 
         btn_analysis_info_detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +136,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -175,7 +185,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                 TextView detailInfoTextView;
                 detailInfoTextView = findViewById(R.id.detailInfo_name_textView);
                 detailInfoTextView.setText(name);
-                //searchNaverLocationAPI(name);
+                searchNaverLocationAPI(name);
             }
         });
 
@@ -340,11 +350,31 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                         DetailInfoAddressTextView = (TextView) findViewById(R.id.detailInfo_address_textView);
 
 
-                        DetailInfoCategoryTextView.setText(category);
-                        DetailInfoLinkTextView.setText(link);
-                        DetailInfoDescriptionTextView.setText(description);
-                        DetailInfoPhoneTextView.setText(phone);
-                        DetailInfoAddressTextView.setText(address);
+                        LinearLayout linear_categoty = findViewById(R.id.place_category);
+                        LinearLayout linear_address = findViewById(R.id.place_address);
+                        LinearLayout linear_link = findViewById(R.id.place_link);
+                        LinearLayout linear_description = findViewById(R.id.place_description);
+                        LinearLayout linear_phonenum = findViewById(R.id.place_phonenum);
+
+                        if(category == null){
+                            linear_categoty.setVisibility(View.GONE);
+                        } else{DetailInfoCategoryTextView.setText(category);}
+
+                        if(address == null){
+                            linear_address.setVisibility(View.GONE);
+                        } else{DetailInfoAddressTextView.setText(address);}
+
+                        if(link == null){
+                            linear_link.setVisibility(View.GONE);
+                        } else{DetailInfoLinkTextView.setText(link);}
+
+                        if(description == null){
+                            linear_description.setVisibility(View.GONE);
+                        } else{DetailInfoDescriptionTextView.setText(description);}
+
+                        if(phone == null){
+                            linear_phonenum.setVisibility(View.GONE);
+                        } else{DetailInfoPhoneTextView.setText(phone);}
 
 
 
@@ -354,100 +384,62 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
 
         }.start();
     }
-    public void chart(){
-        create_bar_chart();
-        //createChart();
-        create_radar_chart();
-        create_real_time_pie_chart();
-        create_lineChart();
 
-        //markerview activity는 마커 자체에 보여지는 내용에 대한 뷰
-        MyMarkerView marker = new MyMarkerView(this, R.layout.activity_my_marker_view);
-        marker.setChartView(lineChart);
-        lineChart.setMarker(marker);
-
+    public void create_chart(){
+        //pie_chart();
+        bar_chart();
+        radar_chart();
+        line_Chart();
 
     }
 
-    public void create_bar_chart() {
 
-        HorizontalBarChart barChart = findViewById(R.id.bar_chart);
-
-//        barChart.setDrawBarShadow(false);
-        barChart.setDrawValueAboveBar(true);
-//        Description description = new Description();
-//        description.setText("");
-//        barChart.setDescription(description);
-//        barChart.setMaxVisibleValueCount(60);
-        barChart.setPinchZoom(true);
-//        barChart.setDrawGridBackground(false);
+//    public void line_chart(){
+//        LineChart lineChart = findViewById(R.id.line_chart);
+//        List<Entry> lineEntries = getDataSet();
+//        LineDataSet lineDataSet = new LineDataSet(lineEntries, "");
+//        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+//        lineDataSet.setHighlightEnabled(true);
+//        lineDataSet.setLineWidth(2);
+//        lineDataSet.setColor(Color.RED);
+//        lineDataSet.setCircleColor(Color.YELLOW);
+//        lineDataSet.setCircleRadius(6);
+//        lineDataSet.setCircleHoleRadius(3);
+//        lineDataSet.setDrawHighlightIndicators(true);
+//        lineDataSet.setHighLightColor(Color.RED);
+//        lineDataSet.setValueTextSize(12);
+//        lineDataSet.setValueTextColor(Color.DKGRAY);
 //
-//        XAxis xl = barChart.getXAxis();
-//        xl.setGranularity(10f);
-//        xl.setCenterAxisLabels(true);
+//        LineData lineData = new LineData(lineDataSet);
+//        lineChart.getDescription().setText("");
+//        lineChart.getDescription().setTextSize(12);
+//        lineChart.setDrawMarkers(true);
+//        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+//        lineChart.animateY(1000);
+//        lineChart.getXAxis().setGranularityEnabled(true);
+//        lineChart.getXAxis().setGranularity(1.0f);
+//        lineChart.getXAxis().setLabelCount(lineDataSet.getEntryCount());
+//        lineChart.setData(lineData);
+//    }
+//    private List<Entry> getDataSet() {
+//        List<Entry> lineEntries = new ArrayList<Entry>();
+//        lineEntries.add(new Entry(0, 1));
+//        lineEntries.add(new Entry(1, 2));
+//        lineEntries.add(new Entry(2, 3));
+//        lineEntries.add(new Entry(3, 4));
+//        lineEntries.add(new Entry(4, 2));
+//        lineEntries.add(new Entry(5, 3));
+//        lineEntries.add(new Entry(6, 1));
+//        lineEntries.add(new Entry(7, 5));
+//        lineEntries.add(new Entry(8, 7));
+//        lineEntries.add(new Entry(9, 6));
+//        lineEntries.add(new Entry(10, 4));
+//        lineEntries.add(new Entry(11, 5));
+//        return lineEntries;
+//    }
+//    public void hbar_chart(){
 //
-//        YAxis leftAxis = barChart.getAxisLeft();
-//        leftAxis.setDrawGridLines(false);
-//        leftAxis.setSpaceTop(30f);
-        barChart.getAxisRight().setEnabled(false);
-
-//data
-        float groupSpace = 4.6f;
-        float barSpace = 0.8f;
-        float barWidth = 2f;
-
-        int startYear = 10;
-        int endYear = 70;
-
-        List<BarEntry> man_List = new ArrayList<BarEntry>();
-        List<BarEntry> woman_List = new ArrayList<BarEntry>();
-
-        int n = 300;
-        int n2 = 143;
-
-        //BarEntry 첫번째 인자는 x축 두번째 인자는 y축
-        for (int i = startYear; i <= endYear; i += 10) {
-            man_List.add(new BarEntry(i, n));
-            n += 10;
-        }
-        for (int i = startYear; i <= endYear; i += 10) {
-            woman_List.add(new BarEntry(i, n2));
-            n2 += 30;
-        }
-
-        BarDataSet set1, set2;
-
-        if (barChart.getData() != null && barChart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) barChart.getData().getDataSetByIndex(0);
-            set2 = (BarDataSet) barChart.getData().getDataSetByIndex(1);
-
-            set1.setValues(man_List);
-            set2.setValues(woman_List);
-
-            barChart.getData().notifyDataChanged();
-            barChart.notifyDataSetChanged();
-
-        } else {
-            set1 = new BarDataSet(man_List, "man");
-            set1.setColors(Color.parseColor("#264973"));
-
-            set2 = new BarDataSet(woman_List, " woman");
-            set2.setColors(Color.parseColor("#822B30"));
-
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-            dataSets.add(set1);
-            dataSets.add(set2);
-
-            BarData data = new BarData(dataSets);
-            barChart.setData(data);
-        }
-        barChart.getBarData().setBarWidth(barWidth);
-        barChart.groupBars(startYear, groupSpace, barSpace);
-        barChart.invalidate();
-    }
-//
-//    void createChart() {
-//        lineChart = findViewById(R.id.line_chart);
+//        LineChart lineChart = findViewById(R.id.bar_chart);
 //        List<Entry> entries = new ArrayList<>();
 //
 //        entries.add(new Entry(1, 1));
@@ -493,7 +485,200 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
 //        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
 //        lineChart.invalidate();
 //    }
-    public void create_radar_chart(){
+//    void radar_chart(){
+//
+//        ArrayList<RadarEntry> entries = new ArrayList<>();
+//        entries.add(new RadarEntry(0f, 0.21f));
+//        entries.add(new RadarEntry(1f, 0.12f));
+//        entries.add(new RadarEntry(2f, 0.20f));
+//        entries.add(new RadarEntry(3f, 0.52f));
+//        entries.add(new RadarEntry(4f, 0.29f));
+//        entries.add(new RadarEntry(5f, 0.62f));
+//
+//        ArrayList<RadarEntry> entries2 = new ArrayList<>();
+//        entries.add(new RadarEntry(0f, 0.44f));
+//        entries.add(new RadarEntry(1f, 0.32f));
+//        entries.add(new RadarEntry(2f, 0.24f));
+//        entries.add(new RadarEntry(3f, 0.18f));
+//        entries.add(new RadarEntry(4f, 0.22f));
+//        entries.add(new RadarEntry(5f, 0.65f));
+//
+//        RadarChart radarChart = findViewById(R.id.radar_chart);
+//        RadarDataSet radarDataSet = new RadarDataSet(entries, "woman");
+//        radarDataSet.setColors(Color.parseColor("#822B30"));
+//        radarDataSet.setDrawFilled(true);
+//
+//        RadarDataSet radarDataSet2 = new RadarDataSet(entries2, "man");
+//        radarDataSet.setColors(Color.parseColor("#264973"));
+//        radarDataSet2.setDrawFilled(true);
+//
+//
+//        ArrayList<IRadarDataSet> sets = new ArrayList<>();
+//        sets.add(radarDataSet);
+//        sets.add(radarDataSet2);
+//
+//        RadarData radarData = new RadarData(sets);
+//
+//        XAxis xAxis = radarChart.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//
+//
+//        final String[] ages = new String[]{"10대", "20대", "30대", "40대", "50대", "60대"};
+//        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(ages);
+//        xAxis.setGranularity(2f);
+//        xAxis.setValueFormatter(formatter);
+//        radarChart.setData(radarData);
+//
+//        radarChart.animateXY(5000, 5000);
+//        radarChart.invalidate();
+//    }
+//
+////    public void pie_chart() {
+////        PieChart pieChart = (PieChart)findViewById(R.id.pie_chart);
+////        PieDataSet pieDataSet = new PieDataSet(getData(),"Inducesmile");
+////        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+////        PieData pieData = new PieData(pieDataSet);
+////        //pieChart.setCenterText("사람이 많아요");
+////        //pieChart.setCenterTextColor(Color.parseColor("#264973"));
+////
+////        pieChart.setData(pieData);
+////        pieChart.animateXY(5000, 5000);
+////        pieChart.invalidate();
+////    }
+//    private ArrayList getData(){
+//        ArrayList<PieEntry> entries = new ArrayList<>();
+//        entries.add(new PieEntry(945f, "Ayo"));
+//        entries.add(new PieEntry(1030f, "Adekola"));
+//        entries.add(new PieEntry(1143f, "Henry"));
+//        entries.add(new PieEntry(1250f, "Mark"));
+//        return entries;
+//    }
+
+    public void bar_chart(){
+
+        HorizontalBarChart barChart = findViewById(R.id.bar_chart);
+
+//        barChart.setDrawBarShadow(false);
+        barChart.setDrawValueAboveBar(true);
+//        Description description = new Description();
+//        description.setText("");
+//        barChart.setDescription(description);
+//        barChart.setMaxVisibleValueCount(60);
+        barChart.setPinchZoom(true);
+//        barChart.setDrawGridBackground(false);
+//
+//        XAxis xl = barChart.getXAxis();
+//        xl.setGranularity(10f);
+//        xl.setCenterAxisLabels(true);
+//
+//        YAxis leftAxis = barChart.getAxisLeft();
+//        leftAxis.setDrawGridLines(false);
+//        leftAxis.setSpaceTop(30f);
+        barChart.getAxisRight().setEnabled(false);
+
+//data
+        float groupSpace = 4.6f;
+        float barSpace = 0.8f;
+        float barWidth = 2f;
+
+        int startYear = 10;
+        int endYear = 70;
+
+        List<BarEntry> man_List = new ArrayList<BarEntry>();
+        List<BarEntry> woman_List = new ArrayList<BarEntry>();
+
+        int n = 300;
+        int n2 = 143;
+
+        //BarEntry 첫번째 인자는 x축 두번째 인자는 y축
+        for (int i = startYear; i <= endYear; i+=10) {
+            man_List.add(new BarEntry(i, n));
+            n+= 10;
+        }
+        for (int i = startYear; i <= endYear; i+=10) {
+            woman_List.add(new BarEntry(i, n2));
+            n2+=30;
+        }
+
+        BarDataSet set1, set2;
+
+        if (barChart.getData() != null && barChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) barChart.getData().getDataSetByIndex(0);
+            set2 = (BarDataSet) barChart.getData().getDataSetByIndex(1);
+
+            set1.setValues(man_List);
+            set2.setValues(woman_List);
+
+            barChart.getData().notifyDataChanged();
+            barChart.notifyDataSetChanged();
+
+        } else {
+            set1 = new BarDataSet(man_List, "man");
+            set1.setColors(Color.parseColor("#264973"));
+
+            set2 = new BarDataSet(woman_List, " woman");
+            set2.setColors(Color.parseColor("#822B30"));
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            dataSets.add(set1);
+            dataSets.add(set2);
+
+            BarData data = new BarData(dataSets);
+            barChart.setData(data);
+        }
+        barChart.getBarData().setBarWidth(barWidth);
+        barChart.groupBars(startYear, groupSpace, barSpace);
+        barChart.invalidate();
+    }
+
+    void line_Chart() {
+        LineChart lineChart = findViewById(R.id.line_chart);
+        List<Entry> entries = new ArrayList<>();
+
+        entries.add(new Entry(1, 1));
+        entries.add(new Entry(2, 2));
+        entries.add(new Entry(3, 0));
+        entries.add(new Entry(4, 4));
+        entries.add(new Entry(5, 3));
+
+        LineDataSet lineDataSet = new LineDataSet(entries, "시간대별 유동인구");
+        lineDataSet.setLineWidth(1);
+        lineDataSet.setCircleRadius(4);
+        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
+        lineDataSet.setCircleColorHole(Color.BLUE);
+        lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
+        lineDataSet.setDrawCircleHole(true);
+        lineDataSet.setDrawCircles(true);
+        lineDataSet.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet.setDrawHighlightIndicators(false);
+        lineDataSet.setDrawValues(false);
+
+        LineData lineData = new LineData(lineDataSet);
+        lineChart.setData(lineData);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.enableGridDashedLine(8, 24, 0);
+
+        YAxis yLAxis = lineChart.getAxisLeft();
+        yLAxis.setTextColor(Color.BLACK);
+
+        YAxis yRAxis = lineChart.getAxisRight();
+        yRAxis.setDrawLabels(false);
+        yRAxis.setDrawAxisLine(false);
+        yRAxis.setDrawGridLines(false);
+
+        Description description = new Description();
+        description.setText("");
+
+        lineChart.setDoubleTapToZoomEnabled(false);
+        lineChart.setDrawGridBackground(false);
+        lineChart.setDescription(description);
+        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
+        lineChart.invalidate();
+    }
+    void radar_chart(){
 
         ArrayList<RadarEntry> entries = new ArrayList<>();
         entries.add(new RadarEntry(0f, 0.21f));
@@ -511,7 +696,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
         entries.add(new RadarEntry(4f, 0.22f));
         entries.add(new RadarEntry(5f, 0.65f));
 
-        radarChart = findViewById(R.id.radarChart);
+        RadarChart radarChart = findViewById(R.id.radar_chart);
         RadarDataSet radarDataSet = new RadarDataSet(entries, "woman");
         radarDataSet.setColors(Color.parseColor("#822B30"));
         radarDataSet.setDrawFilled(true);
@@ -540,11 +725,9 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
         radarChart.animateXY(5000, 5000);
         radarChart.invalidate();
     }
-
-    //파이 차트
-    public void create_real_time_pie_chart() {
+    public void create_pie_chart() {
         PieChartView pieChartview;
-        pieChartview = findViewById(R.id.real_time_pie_chart);
+        pieChartview = findViewById(R.id.pie_chart);
 
         List pieData = new ArrayList<>();
         pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
@@ -564,95 +747,4 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
 
     }
 
-    //라인 차트 - 월 ~ 금 통계 차트 제공
-    private void create_lineChart() {
-        LineChart lineChart = findViewById(R.id.line_chart);
-        List<Entry> lineEntries = getDataSet();
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, " ");
-        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        lineDataSet.setHighlightEnabled(true);
-        lineDataSet.setLineWidth(2);
-        lineDataSet.setColor(Color.BLUE);
-        lineDataSet.setCircleColor(Color.WHITE);
-        lineDataSet.setFillColor(Color.LTGRAY);
-        lineDataSet.setCircleRadius(5);
-        lineDataSet.setCircleHoleRadius(2);
-        lineDataSet.setDrawHighlightIndicators(true);
-        lineDataSet.setHighLightColor(Color.RED);
-        lineDataSet.setValueTextSize(12);
-        lineDataSet.setValueTextColor(Color.DKGRAY);
-
-        LineData lineData = new LineData(lineDataSet);
-        //lineChart.getDescription().setText(getString(R.string.price_in_last_12_days));
-        lineChart.getDescription().setTextSize(12);
-        lineChart.setDrawMarkers(true);
-        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED);
-        lineChart.animateY(1000);
-        lineChart.getXAxis().setGranularityEnabled(true);
-        lineChart.getXAxis().setGranularity(1.0f);
-        lineChart.getXAxis().setLabelCount(lineDataSet.getEntryCount());
-        lineChart.setData(lineData);
-    }
-
-    public List<Entry> getDataSet() {
-        List<Entry> lineEntries = new ArrayList<Entry>();
-        int time = 22;
-        int iValue;
-
-        for(int i=0; i<=time; i++){
-            double dValue = Math.random();
-            iValue = (int)(dValue * 10);
-            lineEntries.add(new Entry(i,iValue));
-        }
-
-        return lineEntries;
-    }
-//    public void create_bar_chart() {
-//
-//
-//        BARENTRY = new ArrayList<>();
-//
-//        BarEntryLabels = new ArrayList<String>();
-//
-//        AddValuesToBARENTRY();
-//
-//        AddValuesToBarEntryLabels();
-//
-//        Bardataset = new BarDataSet(BARENTRY, "Projects");
-//
-//        final String[] ages = new String[]{"10대", "20대", "30대", "40대", "50대", "60대"};
-//        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(ages);
-//
-//        BARDATA = new BarData(BarEntryLabels, Bardataset);
-//
-//        Bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-//
-//        chart.setData(BARDATA);
-//
-//        chart.animateY(3000);
-//
-//    }
-//
-//
-//    public void AddValuesToBARENTRY(){
-//
-//        BARENTRY.add(new BarEntry(2f, 0));
-//        BARENTRY.add(new BarEntry(4f, 1));
-//        BARENTRY.add(new BarEntry(6f, 2));
-//        BARENTRY.add(new BarEntry(8f, 3));
-//        BARENTRY.add(new BarEntry(7f, 4));
-//        BARENTRY.add(new BarEntry(3f, 5));
-//
-//    }
-//
-//    public void AddValuesToBarEntryLabels(){
-//
-//        BarEntryLabels.add("January");
-//        BarEntryLabels.add("February");
-//        BarEntryLabels.add("March");
-//        BarEntryLabels.add("April");
-//        BarEntryLabels.add("May");
-//        BarEntryLabels.add("June");
-//
-//    }
 }

@@ -54,6 +54,8 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/place_category"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
@@ -68,12 +70,12 @@
                     android:id="@+id/detailInfo_category_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black_semi_transparent"
-
-                    />
+                    android:textColor="@color/black_semi_transparent" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/place_link"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
@@ -94,6 +96,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/place_description"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
@@ -102,7 +106,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="설명 : "
-
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -113,6 +116,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/place_phonenum"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
@@ -120,8 +125,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="전화번호 : "
-
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -134,6 +137,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/place_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
@@ -173,14 +177,16 @@
                 android:text="실시간 유동인구"
                 android:textSize="20dp"
                 android:layout_margin="10dp"/>
-
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/real_time_pie_chart"
+            <lecho.lib.hellocharts.view.PieChartView
+                android:id="@+id/pie_chart"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                android:layout_gravity="center"
-                android:padding="2dp"/>
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="10dp"/>
+
+
+<!--
+-->
             <View
                 android:paddingTop="10dp"
                 android:layout_width="match_parent"
@@ -211,68 +217,71 @@
                 android:layout_margin="10dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
-<!--                <TextView-->
-<!--                    android:text="<"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="15dp"/>-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="월"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_marginLeft="15dp"/>-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="화"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_marginLeft="15dp"/>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="수"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_marginLeft="15dp"/>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="목"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_marginLeft="15dp"/>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="금"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_marginLeft="15dp"/>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="토"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_marginLeft="10dp"/>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="일"-->
-<!--                    android:textColor="@color/black_semi_transparent"-->
-<!--                    android:layout_marginLeft="15dp"/>-->
-
-                <TextView
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black_semi_transparent"
-                    android:text=">"
-                    android:layout_marginLeft="15dp"/>
+                    android:text="월"
+                    android:background="#00ff0000"
+                    android:layout_weight="1"
+                    android:textColor="@color/mapbox_blue"
+                    android:layout_marginLeft="3dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="화"
+                    android:background="#00ff0000"
+                    android:layout_weight="1"
+                    android:textColor="@color/mapbox_blue"
+                    android:layout_marginLeft="3dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수"
+                    android:background="#00ff0000"
+                    android:layout_weight="1"
+                    android:textColor="@color/mapbox_blue"
+                    android:layout_marginLeft="3dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="목"
+                    android:background="#00ff0000"
+                    android:layout_weight="1"
+                    android:textColor="@color/mapbox_blue"
+                    android:layout_marginLeft="3dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="금"
+                    android:background="#00ff0000"
+                    android:layout_weight="1"
+                    android:textColor="@color/mapbox_blue"
+                    android:layout_marginLeft="3dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="토"
+                    android:background="#00ff0000"
+                    android:layout_weight="1"
+                    android:textColor="@color/mapbox_blue"
+                    android:layout_marginLeft="3dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="일 "
+                    android:background="#00ff0000"
+                    android:layout_weight="1"
+                    android:textColor="@color/mapbox_blue"
+                    android:layout_marginLeft="3dp"/>
+
 
             </LinearLayout>
 
@@ -283,7 +292,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="연령별 / 성별별 유동인구 "
                 android:textSize="20dp"
-                android:layout_margin="10dp"/>
+                android:layout_margin="20dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -293,8 +302,8 @@
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
                     android:paddingTop="20dp"
-                    android:layout_width="120dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
                     android:id="@+id/bar_chart"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginRight="20dp">
@@ -303,9 +312,9 @@
 
                 <com.github.mikephil.charting.charts.RadarChart
 
-                    android:id="@+id/radarChart"
-                    android:layout_width="120dp"
-                    android:layout_height="100dp"/>
+                    android:id="@+id/radar_chart"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"/>
 
             </LinearLayout>
 
