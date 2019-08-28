@@ -1,6 +1,5 @@
 package com.skt.flashbase.gis;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,17 +8,21 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -28,7 +31,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
-import com.mapbox.android.gestures.MoveGestureDetector;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
@@ -45,6 +48,8 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceAutocompleteFragment;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.ui.PlaceSelectionListener;
 import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
@@ -53,6 +58,7 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
+import com.skt.flashbase.gis.Bubble.BubbleSeekBar;
 import com.skt.flashbase.gis.Detail.MarkerDetailInfoActivity;
 import com.skt.flashbase.gis.Detail.WholeDetailInfoActivity;
 import com.skt.flashbase.gis.roomDB.Place;
@@ -60,7 +66,9 @@ import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lecho.lib.hellocharts.model.PieChartData;
@@ -73,7 +81,6 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 
 public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
-
     //Sol
     int storedValue = 50;
 
@@ -133,6 +140,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         setPlaceData();
 
         create_bottomsheet();
+        createSeekBar();
 
         TextView btn_chart_ex = (TextView) findViewById(R.id.btn_chart_example);
 
@@ -144,7 +152,6 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
             }
         });
     }
-
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
@@ -575,6 +582,115 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
 
         create_pie_chart();
     }
+
+    public void createSeekBar() {
+        // sol BubbleSeekBar
+
+        final BubbleSeekBar bubbleSeekBar3 = findViewById(R.id.demo_4_seek_bar_3);
+        bubbleSeekBar3.setProgress(storedValue);
+
+        SimpleDateFormat sdf_hour = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat sdf_day = new SimpleDateFormat("MM/dd");
+        SimpleDateFormat sdf_month = new SimpleDateFormat("yy/MM");
+        Calendar cal = Calendar.getInstance();
+
+        bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+            @NonNull
+            @Override
+            public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                array.clear();
+                cal.add(Calendar.DAY_OF_MONTH, -3);
+                array.put(0, sdf_day.format(cal.getTime()));
+                for (int i = 1; i < 7; i++) {
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    array.put(i, sdf_day.format(cal.getTime()));
+                }
+                return array;
+            }
+        });
+
+        bubbleSeekBar3.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+                // 탐색 시간 전달하는 코드 추가
+            }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+            }
+        });
+
+        // sol's spinner
+        Spinner spinner = (Spinner) findViewById(R.id.txt_question_type);
+        SpinnerAdapter sAdapter = ArrayAdapter.createFromResource(this, R.array.question, android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(sAdapter);
+        spinner.setSelection(1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                //  Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                if (spinner.getSelectedItemPosition() == 0) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.HOUR, -3);
+                            array.put(0, sdf_hour.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.HOUR, +1);
+                                array.put(i, sdf_hour.format(cal.getTime()));
+                            }
+                            return array;
+                        }
+                    });
+                } else if (spinner.getSelectedItemPosition() == 1) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.DAY_OF_MONTH, -3);
+                            array.put(0, sdf_day.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.DAY_OF_MONTH, +1);
+                                array.put(i, sdf_day.format(cal.getTime()));
+                            }
+                            return array;
+                        }
+                    });
+                } else if (spinner.getSelectedItemPosition() == 2) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.MONTH, -3);
+                            array.put(0, sdf_month.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.MONTH, +1);
+                                array.put(i, sdf_month.format(cal.getTime()));
+                            }
+                            return array;
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+    }
+
     //--seung eun--//
     public void create_pie_chart() {
         PieChartView pieChartview;
@@ -595,6 +711,5 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText2("약 5000명 ").setCenterText2Color(Color.parseColor("#0097A7"))
                 .setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
         pieChartview.setPieChartData(pieChartData);
-
     }
 }
