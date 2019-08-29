@@ -41,6 +41,7 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -127,7 +128,9 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
         Button btn_analysis_info_detail = (Button)findViewById(R.id.analysis_info_detail);
 
         create_chart();
-        create_pie_chart();
+        real_time_pie_chart();
+        average_pie_chart();
+
 
         btn_analysis_info_detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +246,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
     public void searchNaverLocationAPI(String location) {
 
         String clientId = "vMpT6HoKgZdoqmxsEeYo";//애플리케이션 클라이언트 아이디값";
-//        String clientSecret = getString(R.string.naver_access_token);//애플리케이션 클라이언트 시크릿값";
+        String clientSecret = getString(R.string.naver_access_token);//애플리케이션 클라이언트 시크릿값";
 
         new Thread() {
              String category = "";
@@ -261,7 +264,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
                     con.setRequestProperty("X-Naver-Client-Id", clientId);
-//                    con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+                    con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
                     int responseCode = con.getResponseCode();
                     BufferedReader br;
                     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -348,7 +351,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                         DetailInfoDescriptionTextView = (TextView) findViewById(R.id.detailInfo_description_textView);
                         DetailInfoPhoneTextView = (TextView) findViewById(R.id.detailInfo_phone_textView);
                         DetailInfoAddressTextView = (TextView) findViewById(R.id.detailInfo_address_textView);
-
+                        Log.i("category  ",category);
 
                         LinearLayout linear_categoty = findViewById(R.id.place_category);
                         LinearLayout linear_address = findViewById(R.id.place_address);
@@ -376,8 +379,6 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                             linear_phonenum.setVisibility(View.GONE);
                         } else{DetailInfoPhoneTextView.setText(phone);}
 
-
-
                     }
                 });
             }
@@ -386,348 +387,60 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
     }
 
     public void create_chart(){
-        //pie_chart();
+
         bar_chart();
-        radar_chart();
-        line_Chart();
-
+        line_chart();
     }
 
 
-//    public void line_chart(){
-//        LineChart lineChart = findViewById(R.id.line_chart);
-//        List<Entry> lineEntries = getDataSet();
-//        LineDataSet lineDataSet = new LineDataSet(lineEntries, "");
-//        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-//        lineDataSet.setHighlightEnabled(true);
-//        lineDataSet.setLineWidth(2);
-//        lineDataSet.setColor(Color.RED);
-//        lineDataSet.setCircleColor(Color.YELLOW);
-//        lineDataSet.setCircleRadius(6);
-//        lineDataSet.setCircleHoleRadius(3);
-//        lineDataSet.setDrawHighlightIndicators(true);
-//        lineDataSet.setHighLightColor(Color.RED);
-//        lineDataSet.setValueTextSize(12);
-//        lineDataSet.setValueTextColor(Color.DKGRAY);
-//
-//        LineData lineData = new LineData(lineDataSet);
-//        lineChart.getDescription().setText("");
-//        lineChart.getDescription().setTextSize(12);
-//        lineChart.setDrawMarkers(true);
-//        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED);
-//        lineChart.animateY(1000);
-//        lineChart.getXAxis().setGranularityEnabled(true);
-//        lineChart.getXAxis().setGranularity(1.0f);
-//        lineChart.getXAxis().setLabelCount(lineDataSet.getEntryCount());
-//        lineChart.setData(lineData);
-//    }
-//    private List<Entry> getDataSet() {
-//        List<Entry> lineEntries = new ArrayList<Entry>();
-//        lineEntries.add(new Entry(0, 1));
-//        lineEntries.add(new Entry(1, 2));
-//        lineEntries.add(new Entry(2, 3));
-//        lineEntries.add(new Entry(3, 4));
-//        lineEntries.add(new Entry(4, 2));
-//        lineEntries.add(new Entry(5, 3));
-//        lineEntries.add(new Entry(6, 1));
-//        lineEntries.add(new Entry(7, 5));
-//        lineEntries.add(new Entry(8, 7));
-//        lineEntries.add(new Entry(9, 6));
-//        lineEntries.add(new Entry(10, 4));
-//        lineEntries.add(new Entry(11, 5));
-//        return lineEntries;
-//    }
-//    public void hbar_chart(){
-//
-//        LineChart lineChart = findViewById(R.id.bar_chart);
-//        List<Entry> entries = new ArrayList<>();
-//
-//        entries.add(new Entry(1, 1));
-//        entries.add(new Entry(2, 2));
-//        entries.add(new Entry(3, 0));
-//        entries.add(new Entry(4, 4));
-//        entries.add(new Entry(5, 3));
-//
-//        LineDataSet lineDataSet = new LineDataSet(entries, "시간대별 유동인구");
-//        lineDataSet.setLineWidth(1);
-//        lineDataSet.setCircleRadius(4);
-//        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
-//        lineDataSet.setCircleColorHole(Color.BLUE);
-//        lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
-//        lineDataSet.setDrawCircleHole(true);
-//        lineDataSet.setDrawCircles(true);
-//        lineDataSet.setDrawHorizontalHighlightIndicator(false);
-//        lineDataSet.setDrawHighlightIndicators(false);
-//        lineDataSet.setDrawValues(false);
-//
-//        LineData lineData = new LineData(lineDataSet);
-//        lineChart.setData(lineData);
-//
-//        XAxis xAxis = lineChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setTextColor(Color.BLACK);
-//        xAxis.enableGridDashedLine(8, 24, 0);
-//
-//        YAxis yLAxis = lineChart.getAxisLeft();
-//        yLAxis.setTextColor(Color.BLACK);
-//
-//        YAxis yRAxis = lineChart.getAxisRight();
-//        yRAxis.setDrawLabels(false);
-//        yRAxis.setDrawAxisLine(false);
-//        yRAxis.setDrawGridLines(false);
-//
-//        Description description = new Description();
-//        description.setText("");
-//
-//        lineChart.setDoubleTapToZoomEnabled(false);
-//        lineChart.setDrawGridBackground(false);
-//        lineChart.setDescription(description);
-//        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
-//        lineChart.invalidate();
-//    }
-//    void radar_chart(){
-//
-//        ArrayList<RadarEntry> entries = new ArrayList<>();
-//        entries.add(new RadarEntry(0f, 0.21f));
-//        entries.add(new RadarEntry(1f, 0.12f));
-//        entries.add(new RadarEntry(2f, 0.20f));
-//        entries.add(new RadarEntry(3f, 0.52f));
-//        entries.add(new RadarEntry(4f, 0.29f));
-//        entries.add(new RadarEntry(5f, 0.62f));
-//
-//        ArrayList<RadarEntry> entries2 = new ArrayList<>();
-//        entries.add(new RadarEntry(0f, 0.44f));
-//        entries.add(new RadarEntry(1f, 0.32f));
-//        entries.add(new RadarEntry(2f, 0.24f));
-//        entries.add(new RadarEntry(3f, 0.18f));
-//        entries.add(new RadarEntry(4f, 0.22f));
-//        entries.add(new RadarEntry(5f, 0.65f));
-//
-//        RadarChart radarChart = findViewById(R.id.radar_chart);
-//        RadarDataSet radarDataSet = new RadarDataSet(entries, "woman");
-//        radarDataSet.setColors(Color.parseColor("#822B30"));
-//        radarDataSet.setDrawFilled(true);
-//
-//        RadarDataSet radarDataSet2 = new RadarDataSet(entries2, "man");
-//        radarDataSet.setColors(Color.parseColor("#264973"));
-//        radarDataSet2.setDrawFilled(true);
-//
-//
-//        ArrayList<IRadarDataSet> sets = new ArrayList<>();
-//        sets.add(radarDataSet);
-//        sets.add(radarDataSet2);
-//
-//        RadarData radarData = new RadarData(sets);
-//
-//        XAxis xAxis = radarChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//
-//
-//        final String[] ages = new String[]{"10대", "20대", "30대", "40대", "50대", "60대"};
-//        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(ages);
-//        xAxis.setGranularity(2f);
-//        xAxis.setValueFormatter(formatter);
-//        radarChart.setData(radarData);
-//
-//        radarChart.animateXY(5000, 5000);
-//        radarChart.invalidate();
-//    }
-//
-////    public void pie_chart() {
-////        PieChart pieChart = (PieChart)findViewById(R.id.pie_chart);
-////        PieDataSet pieDataSet = new PieDataSet(getData(),"Inducesmile");
-////        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-////        PieData pieData = new PieData(pieDataSet);
-////        //pieChart.setCenterText("사람이 많아요");
-////        //pieChart.setCenterTextColor(Color.parseColor("#264973"));
-////
-////        pieChart.setData(pieData);
-////        pieChart.animateXY(5000, 5000);
-////        pieChart.invalidate();
-////    }
-//    private ArrayList getData(){
-//        ArrayList<PieEntry> entries = new ArrayList<>();
-//        entries.add(new PieEntry(945f, "Ayo"));
-//        entries.add(new PieEntry(1030f, "Adekola"));
-//        entries.add(new PieEntry(1143f, "Henry"));
-//        entries.add(new PieEntry(1250f, "Mark"));
-//        return entries;
-//    }
-
-    public void bar_chart(){
-
-        HorizontalBarChart barChart = findViewById(R.id.bar_chart);
-
-//        barChart.setDrawBarShadow(false);
-        barChart.setDrawValueAboveBar(true);
-//        Description description = new Description();
-//        description.setText("");
-//        barChart.setDescription(description);
-//        barChart.setMaxVisibleValueCount(60);
-        barChart.setPinchZoom(true);
-//        barChart.setDrawGridBackground(false);
-//
-//        XAxis xl = barChart.getXAxis();
-//        xl.setGranularity(10f);
-//        xl.setCenterAxisLabels(true);
-//
-//        YAxis leftAxis = barChart.getAxisLeft();
-//        leftAxis.setDrawGridLines(false);
-//        leftAxis.setSpaceTop(30f);
-        barChart.getAxisRight().setEnabled(false);
-
-//data
-        float groupSpace = 4.6f;
-        float barSpace = 0.8f;
-        float barWidth = 2f;
-
-        int startYear = 10;
-        int endYear = 70;
-
-        List<BarEntry> man_List = new ArrayList<BarEntry>();
-        List<BarEntry> woman_List = new ArrayList<BarEntry>();
-
-        int n = 300;
-        int n2 = 143;
-
-        //BarEntry 첫번째 인자는 x축 두번째 인자는 y축
-        for (int i = startYear; i <= endYear; i+=10) {
-            man_List.add(new BarEntry(i, n));
-            n+= 10;
-        }
-        for (int i = startYear; i <= endYear; i+=10) {
-            woman_List.add(new BarEntry(i, n2));
-            n2+=30;
-        }
-
-        BarDataSet set1, set2;
-
-        if (barChart.getData() != null && barChart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) barChart.getData().getDataSetByIndex(0);
-            set2 = (BarDataSet) barChart.getData().getDataSetByIndex(1);
-
-            set1.setValues(man_List);
-            set2.setValues(woman_List);
-
-            barChart.getData().notifyDataChanged();
-            barChart.notifyDataSetChanged();
-
-        } else {
-            set1 = new BarDataSet(man_List, "man");
-            set1.setColors(Color.parseColor("#264973"));
-
-            set2 = new BarDataSet(woman_List, " woman");
-            set2.setColors(Color.parseColor("#822B30"));
-
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-            dataSets.add(set1);
-            dataSets.add(set2);
-
-            BarData data = new BarData(dataSets);
-            barChart.setData(data);
-        }
-        barChart.getBarData().setBarWidth(barWidth);
-        barChart.groupBars(startYear, groupSpace, barSpace);
-        barChart.invalidate();
-    }
-
-    void line_Chart() {
+    public void line_chart(){
         LineChart lineChart = findViewById(R.id.line_chart);
-        List<Entry> entries = new ArrayList<>();
-
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 0));
-        entries.add(new Entry(4, 4));
-        entries.add(new Entry(5, 3));
-
-        LineDataSet lineDataSet = new LineDataSet(entries, "시간대별 유동인구");
+        List<Entry> lineEntries = getDataSet();
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "");
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        lineDataSet.setHighlightEnabled(false);
         lineDataSet.setLineWidth(1);
-        lineDataSet.setCircleRadius(4);
-        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setCircleColorHole(Color.BLUE);
-        lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setDrawCircleHole(true);
-        lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet.setColor(Color.BLUE);
+        lineDataSet.setCircleColor(Color.YELLOW);
+        lineDataSet.setCircleRadius(1);
+        lineDataSet.setCircleHoleRadius(3);
         lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setDrawValues(false);
+        lineDataSet.setHighLightColor(Color.RED);
+        lineDataSet.setValueTextSize(12);
+        lineDataSet.setValueTextColor(Color.DKGRAY);
 
         LineData lineData = new LineData(lineDataSet);
+        lineChart.getDescription().setText("");
+        lineChart.getDescription().setTextSize(12);
+        //lineChart.setDrawMarkers(true);
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        lineChart.animateY(1000);
+        lineChart.getXAxis().setGranularityEnabled(false);
+        lineChart.getXAxis().setGranularity(1.0f);
+        lineChart.getXAxis().setLabelCount(lineDataSet.getEntryCount());
         lineChart.setData(lineData);
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(Color.BLACK);
-        xAxis.enableGridDashedLine(8, 24, 0);
-
-        YAxis yLAxis = lineChart.getAxisLeft();
-        yLAxis.setTextColor(Color.BLACK);
-
-        YAxis yRAxis = lineChart.getAxisRight();
-        yRAxis.setDrawLabels(false);
-        yRAxis.setDrawAxisLine(false);
-        yRAxis.setDrawGridLines(false);
-
-        Description description = new Description();
-        description.setText("");
-
-        lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.setDrawGridBackground(false);
-        lineChart.setDescription(description);
-        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
-        lineChart.invalidate();
     }
-    void radar_chart(){
+    private List<Entry> getDataSet() {
+        List<Entry> lineEntries = new ArrayList<Entry>();
 
-        ArrayList<RadarEntry> entries = new ArrayList<>();
-        entries.add(new RadarEntry(0f, 0.21f));
-        entries.add(new RadarEntry(1f, 0.12f));
-        entries.add(new RadarEntry(2f, 0.20f));
-        entries.add(new RadarEntry(3f, 0.52f));
-        entries.add(new RadarEntry(4f, 0.29f));
-        entries.add(new RadarEntry(5f, 0.62f));
-
-        ArrayList<RadarEntry> entries2 = new ArrayList<>();
-        entries.add(new RadarEntry(0f, 0.44f));
-        entries.add(new RadarEntry(1f, 0.32f));
-        entries.add(new RadarEntry(2f, 0.24f));
-        entries.add(new RadarEntry(3f, 0.18f));
-        entries.add(new RadarEntry(4f, 0.22f));
-        entries.add(new RadarEntry(5f, 0.65f));
-
-        RadarChart radarChart = findViewById(R.id.radar_chart);
-        RadarDataSet radarDataSet = new RadarDataSet(entries, "woman");
-        radarDataSet.setColors(Color.parseColor("#822B30"));
-        radarDataSet.setDrawFilled(true);
-
-        RadarDataSet radarDataSet2 = new RadarDataSet(entries2, "man");
-        radarDataSet.setColors(Color.parseColor("#264973"));
-        radarDataSet2.setDrawFilled(true);
-
-
-        ArrayList<IRadarDataSet> sets = new ArrayList<>();
-        sets.add(radarDataSet);
-        sets.add(radarDataSet2);
-
-        RadarData radarData = new RadarData(sets);
-
-        XAxis xAxis = radarChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-
-        final String[] ages = new String[]{"10대", "20대", "30대", "40대", "50대", "60대"};
-        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter(ages);
-        xAxis.setGranularity(2f);
-        xAxis.setValueFormatter(formatter);
-        radarChart.setData(radarData);
-
-        radarChart.animateXY(5000, 5000);
-        radarChart.invalidate();
+        lineEntries.add(new Entry(0, 1));
+        lineEntries.add(new Entry(2, 2));
+        lineEntries.add(new Entry(4, 3));
+        lineEntries.add(new Entry(6, 4));
+        lineEntries.add(new Entry(8, 2));
+        lineEntries.add(new Entry(10, 3));
+        lineEntries.add(new Entry(12, 1));
+        lineEntries.add(new Entry(14, 5));
+        lineEntries.add(new Entry(16, 7));
+        lineEntries.add(new Entry(18, 6));
+        lineEntries.add(new Entry(20, 4));
+        lineEntries.add(new Entry(22, 5));
+        return lineEntries;
     }
-    public void create_pie_chart() {
+
+    public void real_time_pie_chart() {
         PieChartView pieChartview;
-        pieChartview = findViewById(R.id.pie_chart);
+        pieChartview = findViewById(R.id.real_time_pie_chart);
 
         List pieData = new ArrayList<>();
         pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
@@ -746,5 +459,85 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
         pieChartview.setPieChartData(pieChartData);
 
     }
+    public void average_pie_chart() {
+        PieChartView pieChartview;
+        pieChartview = findViewById(R.id.average_pie_chart);
+        int man_average_value=65;
+        int woman_average_value=35;
+
+        List pieData = new ArrayList<>();
+        pieData.add(new SliceValue(man_average_value, Color.parseColor("#4F86C6")).setLabel("남 : "+ man_average_value+"%"));
+        pieData.add(new SliceValue(woman_average_value, Color.parseColor("#c03546")).setLabel("여 : "+ woman_average_value+"%"));
+
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartview.setPieChartData(pieChartData);
+
+    }
+
+    public void bar_chart(){
+        HorizontalBarChart chart = findViewById(R.id.rating_chart);
+
+
+        ArrayList<String> labels = new ArrayList();
+        labels.add(Integer.toString(10));
+        for(int i=10; i <= 60; i+=10){
+            labels.add(Integer.toString(i));
+        }
+
+        ArrayList yVals1 = new ArrayList();
+
+        int a = 25;
+
+        for(int i= 1; i<= 6 ; i++){
+            yVals1.add(new BarEntry(i,a));
+            a+=5;
+        }
+
+        BarDataSet set1;
+        set1 = new BarDataSet(yVals1,"");
+
+        set1.setColor(Color.parseColor("#548687"));
+        set1.setDrawValues(true);
+        BarData data = new BarData(set1);
+        data.setValueFormatter(new PercentFormatter());
+        data.setBarWidth(0.4f);
+        chart.setData(data);
+        chart.setFitBars(true); // make the x-axis fit exactly all bars
+        chart.invalidate();
+
+
+        chart.setScaleEnabled(false);
+        data.setHighlightEnabled(false);
+        chart.setTouchEnabled(true);
+
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setTextColor(Color.BLACK);
+        //xAxis.setLabelCount(labels.size()+1);
+        xAxis.setDrawLabels(true);
+        //xAxis.setCenterAxisLabels(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+
+
+        chart.getAxisRight().setEnabled(false);
+        YAxis leftAxis = chart.getAxisLeft();
+        //leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setGranularityEnabled(true);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setDrawZeroLine(true);
+        leftAxis.setDrawLabels(false);
+        leftAxis.setValueFormatter(new PercentFormatter());
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setSpaceTop(35f);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setAxisMaximum(50f);
+        leftAxis.setLabelCount(6, true);
+
+    }
+
 
 }
+

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2804a677-aa95-4c3d-a4fa-8bd79bb36a35" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/caches/gradle_models.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/libraries/Gradle__android_arch_lifecycle_extensions_1_1_0_aar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/libraries/Gradle__android_arch_persistence_db_1_0_0_aar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/libraries/Gradle__android_arch_persistence_db_framework_1_0_0_aar.xml" beforeDir="false" />
@@ -13,11 +12,7 @@
       <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/libraries/Gradle__android_arch_persistence_room_testing_1_0_0_aar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/libraries/Gradle__com_github_PhilJay_MPAndroidChart_v3_0_2_jar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_1_3_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/mapboxPractice/common/app/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/app/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/app/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/app/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/app/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/app/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/app/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/app/build.gradle" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,8 +32,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>

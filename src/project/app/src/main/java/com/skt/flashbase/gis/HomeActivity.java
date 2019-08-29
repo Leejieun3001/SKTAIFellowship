@@ -63,6 +63,7 @@ import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.Bubble.BubbleSeekBar;
+import com.skt.flashbase.gis.Detail.AnalysisInfoDetail;
 import com.skt.flashbase.gis.Detail.MarkerDetailInfoActivity;
 import com.skt.flashbase.gis.Detail.WholeDetailInfoActivity;
 import com.skt.flashbase.gis.roomDB.Place;
@@ -152,12 +153,12 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         create_bottomsheet();
         createSeekBar();
 
-        TextView btn_chart_ex = (TextView) findViewById(R.id.btn_chart_example);
+        TextView btn_chart_ex = (TextView) findViewById(R.id.txt_detail_info);
 
         btn_chart_ex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), WholeDetailInfoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AnalysisInfoDetail.class);
                 startActivity(intent);
             }
         });

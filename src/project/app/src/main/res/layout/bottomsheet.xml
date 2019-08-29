@@ -20,34 +20,43 @@
 
 
             <ImageView
-                android:layout_marginTop="10dp"
+
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:background="#00ff0000"
                 android:gravity="center"
-                android:src="@drawable/up"
+                android:src="@drawable/up_icon"
                 android:textColor="@color/white_pressed"
                 android:textFontWeight="3dp"
                 android:textSize="17dp"
 
                 />
 
+
             <LinearLayout
+                android:paddingTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/mapboxWhite"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@color/mapboxWhite">
 
                 <TextView
-                    android:paddingTop="5dp"
+
+                    android:background="@drawable/round_corner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_height="50dp"
                     android:text="시간대 별 인구 수"
-                    android:textColor="#161717"
-                    />
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/black_semi_transparent"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="18dp" />
+
+
                 <TextView
-                    android:id="@+id/btn_chart_example"
+                    android:id="@+id/txt_detail_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="270dp"

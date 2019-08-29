@@ -125,6 +125,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="전화번호 : "
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -145,7 +146,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="주소"
+                    android:text="주소 : "
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -177,16 +178,14 @@
                 android:text="실시간 유동인구"
                 android:textSize="20dp"
                 android:layout_margin="10dp"/>
+
             <lecho.lib.hellocharts.view.PieChartView
-                android:id="@+id/pie_chart"
+                android:id="@+id/real_time_pie_chart"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
                 android:paddingBottom="10dp"/>
 
-
-<!--
--->
             <View
                 android:paddingTop="10dp"
                 android:layout_width="match_parent"
@@ -301,20 +300,19 @@
 
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:paddingTop="20dp"
-                    android:layout_width="150dp"
-                    android:layout_height="200dp"
-                    android:id="@+id/bar_chart"
+                    android:id="@+id/rating_chart"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginRight="20dp">
+                    android:paddingBottom="10dp"/>
 
-                </com.github.mikephil.charting.charts.HorizontalBarChart>
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/average_pie_chart"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="10dp"/>
 
-                <com.github.mikephil.charting.charts.RadarChart
-
-                    android:id="@+id/radar_chart"
-                    android:layout_width="150dp"
-                    android:layout_height="200dp"/>
 
             </LinearLayout>
 
