@@ -243,7 +243,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
     public void searchNaverLocationAPI(String location) {
 
         String clientId = "vMpT6HoKgZdoqmxsEeYo";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = getString(R.string.naver_access_token);//애플리케이션 클라이언트 시크릿값";
+//        String clientSecret = getString(R.string.naver_access_token);//애플리케이션 클라이언트 시크릿값";
 
         new Thread() {
              String category = "";
@@ -261,7 +261,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
                     con.setRequestProperty("X-Naver-Client-Id", clientId);
-                    con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+//                    con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
                     int responseCode = con.getResponseCode();
                     BufferedReader br;
                     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();

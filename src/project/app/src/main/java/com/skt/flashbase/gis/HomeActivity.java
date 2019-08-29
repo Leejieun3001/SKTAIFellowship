@@ -5,34 +5,41 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.gson.JsonObject;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
-import com.mapbox.android.gestures.MoveGestureDetector;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -45,6 +52,8 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
@@ -53,6 +62,7 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
+import com.skt.flashbase.gis.Bubble.BubbleSeekBar;
 import com.skt.flashbase.gis.Detail.MarkerDetailInfoActivity;
 import com.skt.flashbase.gis.Detail.WholeDetailInfoActivity;
 import com.skt.flashbase.gis.roomDB.Place;
@@ -60,7 +70,9 @@ import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lecho.lib.hellocharts.model.PieChartData;
@@ -69,13 +81,18 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
-
 
 public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
-    int storedValue = 50;
+    int storedValue = 3;
+    private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
+    private CarmenFeature home;
+    private CarmenFeature work;
+    private String geojsonSourceLayerId = "geojsonSourceLayerId";
+    private String symbolIconId = "symbolIconId";
 
     //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
@@ -133,6 +150,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         setPlaceData();
 
         create_bottomsheet();
+        createSeekBar();
 
         TextView btn_chart_ex = (TextView) findViewById(R.id.btn_chart_example);
 
@@ -226,6 +244,17 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
+                initSearchFab();
+
+                addUserLocations();
+
+                // Add the symbol layer icon to map for future use
+                style.addImage(symbolIconId, BitmapFactory.decodeResource(
+                        HomeActivity.this.getResources(), R.drawable.blue_marker_view));
+
+                // Set up a new symbol layer for displaying the searched location's feature coordinates
+                setupLayer(style);
+
                 enableLocationComponent(style);
                 // foodtruck marker style 지정
                 style.addImageAsync(ICON_ID_Foodtruck, BitmapUtils.getBitmapFromDrawable(
@@ -234,7 +263,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
                         FeatureCollection.fromFeatures(FoodTruckPlaceList));
                 style.addSource(FoodTruck);
                 SymbolLayer FoodTruckLayer = new SymbolLayer(LAYER_ID_Foodtruck, SOURCE_ID_Foodtruck)
-                        .withProperties(PropertyFactory.iconImage(ICON_ID_Foodtruck), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+                        .withProperties(iconImage(ICON_ID_Foodtruck), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(FoodTruckLayer);
                 // tour marker style 지정
                 style.addImageAsync(ICON_ID_Tour, BitmapUtils.getBitmapFromDrawable(
@@ -243,7 +272,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
                         FeatureCollection.fromFeatures(tourPlaceList));
                 style.addSource(Tour);
                 SymbolLayer TourLayer = new SymbolLayer(LAYER_ID_Tour, SOURCE_ID_Tour)
-                        .withProperties(PropertyFactory.iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+                        .withProperties(iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(TourLayer);
 
                 //floating btn event
@@ -596,5 +625,218 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
                 .setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
         pieChartview.setPieChartData(pieChartData);
 
+    }
+
+    public void createSeekBar() {
+        // sol Bubble Seek Bar
+        final BubbleSeekBar bubbleSeekBar3 = findViewById(R.id.demo_4_seek_bar_3);
+
+        bubbleSeekBar3.getConfigBuilder()
+                .min(0)
+                .max(6)
+                .sectionCount(6)
+                .seekBySection()
+                .autoAdjustSectionMark()
+                .showThumbText()
+                .build();
+
+        bubbleSeekBar3.setProgress(storedValue);
+
+        SimpleDateFormat sdf_hour = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat sdf_day = new SimpleDateFormat("MM/dd");
+        SimpleDateFormat sdf_month = new SimpleDateFormat("yy/MM");
+        Calendar cal = Calendar.getInstance();
+
+        bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+            @NonNull
+            @Override
+            public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                array.clear();
+                cal.add(Calendar.DAY_OF_MONTH, -3);
+                array.put(0, sdf_day.format(cal.getTime()));
+                for (int i = 1; i < 7; i++) {
+                    cal.add(Calendar.DAY_OF_MONTH, +1);
+                    array.put(i, sdf_day.format(cal.getTime()));
+                }
+                array.put(3, "NOW");
+
+                return array;
+            }
+        });
+
+        bubbleSeekBar3.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+                int color;
+                if (progress <= 3) {
+                    color = ContextCompat.getColor(HomeActivity.this, R.color.mapboxRed);
+                } else {
+                    color = ContextCompat.getColor(HomeActivity.this, R.color.mapboxTeal);
+                }
+                bubbleSeekBar.setSecondTrackColor(color);
+                bubbleSeekBar.setThumbColor(color);
+                bubbleSeekBar.setBubbleColor(color);
+            }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+            }
+        });
+
+        // sol's spinner
+        final Spinner spinner = findViewById(R.id.spinner_field);
+
+        String[] str = getResources().getStringArray(R.array.question);
+        final ArrayAdapter<String> adapter= new ArrayAdapter<String>(this, R.layout.spinner_item, str);
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                //  Toast.makeText(HomeActivity.this, (String) sAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                if (spinner.getSelectedItemPosition() == 0) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.HOUR, -3);
+                            array.put(0, sdf_hour.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.HOUR, +1);
+                                array.put(i, sdf_hour.format(cal.getTime()));
+                            }
+                            array.put(3, "NOW");
+
+                            return array;
+                        }
+                    });
+                } else if (spinner.getSelectedItemPosition() == 1) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.DAY_OF_MONTH, -3);
+                            array.put(0, sdf_day.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.DAY_OF_MONTH, +1);
+                                array.put(i, sdf_day.format(cal.getTime()));
+                            }
+                            array.put(3, "NOW");
+
+                            return array;
+                        }
+                    });
+                } else if (spinner.getSelectedItemPosition() == 2) {
+                    bubbleSeekBar3.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+                        @NonNull
+                        @Override
+                        public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                            array.clear();
+                            Calendar cal = Calendar.getInstance();
+                            cal.add(Calendar.MONTH, -3);
+                            array.put(0, sdf_month.format(cal.getTime()));
+                            for (int i = 1; i < 7; i++) {
+                                cal.add(Calendar.MONTH, +1);
+                                array.put(i, sdf_month.format(cal.getTime()));
+                            }
+                            array.put(3, "NOW");
+
+                            return array;
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+    }
+
+    private void initSearchFab() {
+        findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new PlaceAutocomplete.IntentBuilder()
+                        .accessToken(Mapbox.getAccessToken())
+                        .placeOptions(PlaceOptions.builder()
+                                .backgroundColor(Color.parseColor("#EEEEEE"))
+                                .limit(10)
+                                .addInjectedFeature(home)
+                                .addInjectedFeature(work)
+                                .build(PlaceOptions.MODE_CARDS))
+                        .build(HomeActivity.this);
+                startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+            }
+        });
+    }
+
+    private void addUserLocations() {
+        home = CarmenFeature.builder().text("Mapbox SF Office")
+                .geometry(Point.fromLngLat(-122.3964485, 37.7912561))
+                .placeName("50 Beale St, San Francisco, CA")
+                .id("mapbox-sf")
+                .properties(new JsonObject())
+                .build();
+
+        work = CarmenFeature.builder().text("Mapbox DC Office")
+                .placeName("740 15th Street NW, Washington DC")
+                .geometry(Point.fromLngLat(-77.0338348, 38.899750))
+                .id("mapbox-dc")
+                .properties(new JsonObject())
+                .build();
+    }
+
+    private void setUpSource(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
+    }
+
+    private void setupLayer(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addLayer(new SymbolLayer("SYMBOL_LAYER_ID", geojsonSourceLayerId).withProperties(
+                iconImage(symbolIconId),
+                iconOffset(new Float[] {0f, -8f})
+        ));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+
+            // Retrieve selected location's CarmenFeature
+            CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
+
+            // Create a new FeatureCollection and add a new Feature to it using selectedCarmenFeature above.
+            // Then retrieve and update the source designated for showing a selected location's symbol layer icon
+
+            if (mapboxMap != null) {
+                Style style = mapboxMap.getStyle();
+                if (style != null) {
+                    GeoJsonSource source = style.getSourceAs(geojsonSourceLayerId);
+                    if (source != null) {
+                        source.setGeoJson(FeatureCollection.fromFeatures(
+                                new Feature[] {Feature.fromJson(selectedCarmenFeature.toJson())}));
+                    }
+
+                    // Move map camera to the selected location
+                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                            new CameraPosition.Builder()
+                                    .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                                            ((Point) selectedCarmenFeature.geometry()).longitude()))
+                                    .zoom(14)
+                                    .build()), 4000);
+                }
+            }
+        }
     }
 }

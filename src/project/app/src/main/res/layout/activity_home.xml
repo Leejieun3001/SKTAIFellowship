@@ -7,13 +7,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
+
     <Button
         android:id="@+id/home_search_btn"
-        android:layout_width="51dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:background="@drawable/ic_search_btn_custom" />
+
+    <Button
+        android:id="@+id/fab_location_search"
+        android:layout_width="338dp"
+        android:layout_height="49dp"
+        android:layout_gravity="end|top"
+        android:layout_margin="9dp"
+        android:layout_marginRight="0dp"
+        android:background="@drawable/ic_search_bar" />
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
@@ -25,13 +36,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        layout_weight="4"/>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/home_category_menu_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_marginBottom="120dp"
         fab:fab_addButtonColorNormal="@color/mapboxRed"
         fab:fab_addButtonColorPressed="@color/mapboxWhite"
@@ -67,6 +79,60 @@
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="@color/mapboxWhite"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@color/mapboxWhite"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/unit"
+                android:textColor="@color/black_semi_transparent" />
+
+            <Spinner
+                android:id="@+id/spinner_field"
+                android:layout_width="72dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/arrowspinner"
+                android:drawSelectorOnTop="true"
+                android:textColor="@color/black_semi_transparent" />
+
+        </LinearLayout>
+
+        <com.skt.flashbase.gis.Bubble.BubbleSeekBar
+            android:id="@+id/demo_4_seek_bar_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/mapboxWhite"
+            android:paddingBottom="2dp"
+            app:bsb_auto_adjust_section_mark="true"
+            app:bsb_second_track_color="@color/mapboxRed"
+            app:bsb_section_count="6"
+            app:bsb_section_text_position="below_section_mark"
+            app:bsb_show_section_mark="true"
+            app:bsb_show_section_text="true"
+            app:bsb_touch_to_seek="true"
+            app:bsb_track_color="@color/half_black"/>
+        <!--app:bsb_always_show_bubble="true"-->
+
+    </LinearLayout>
 
     <include layout="@layout/bottomsheet"/>
 
