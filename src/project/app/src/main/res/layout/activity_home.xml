@@ -19,7 +19,7 @@
 
     <Button
         android:id="@+id/fab_location_search"
-        android:layout_width="338dp"
+        android:layout_width="300dp"
         android:layout_height="49dp"
         android:layout_gravity="end|top"
         android:layout_margin="9dp"

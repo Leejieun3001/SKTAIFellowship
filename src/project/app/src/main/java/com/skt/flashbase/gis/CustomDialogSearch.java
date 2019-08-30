@@ -2,11 +2,14 @@ package com.skt.flashbase.gis;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+
+import static android.content.Context.MODE_PRIVATE;
 
 //jieun
 // custom Dialog 생성
@@ -19,7 +22,6 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
     private CheckBox searchMan40CheckBox;
     private CheckBox searchMan50CheckBox;
     private CheckBox searchMan60CheckBox;
-
     private CheckBox searchWoman10CheckBox;
     private CheckBox searchWoman20CheckBox;
     private CheckBox searchWoman30CheckBox;
@@ -40,7 +42,6 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
     //set interface (클릭 이벤트 전달)
     interface CustomDialogSearchListener {
         void onPositiveClicked(String result);
-
         void onNegativeClicked();
     }
 
@@ -62,7 +63,6 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
         searchOKBtn = (Button) findViewById(R.id.search_ok_btn);
         searchNoBtn = (Button) findViewById(R.id.search_cancel_btn);
 
-
         searchMan10CheckBox = (CheckBox) findViewById(R.id.search_man_10_checkbox);
         searchMan20CheckBox = (CheckBox) findViewById(R.id.search_man_20_checkbox);
         searchMan30CheckBox = (CheckBox) findViewById(R.id.search_man_30_checkbox);
@@ -78,9 +78,12 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
         searchWoman60CheckBox = (CheckBox) findViewById(R.id.search_woman_60_checkbox);
 
 
+
         //add button Listener
         searchOKBtn.setOnClickListener(this);
         searchNoBtn.setOnClickListener(this);
+
+
 
 
     }
@@ -108,6 +111,8 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
 
                 //인터페이스의 함수를 호출하여 변수에 저장된 값들을 Activity로 전달
                 customDialogSearchListener.onPositiveClicked(result);
+
+
                 dismiss();
                 break;
             case R.id.search_cancel_btn:
