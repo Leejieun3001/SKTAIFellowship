@@ -1,116 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
-
-    <Button
-        android:id="@+id/home_search_btn"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:background="@drawable/ic_search_btn_custom" />
-
-    <Button
-        android:id="@+id/fab_location_search"
-        android:layout_width="300dp"
-        android:layout_height="49dp"
-        android:layout_gravity="end|top"
-        android:layout_margin="9dp"
-        android:layout_marginRight="0dp"
-        android:background="@drawable/ic_search_bar" />
-
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        mapbox:mapbox_cameraTargetLat="37.4968662"
-        mapbox:mapbox_cameraTargetLng="127.0246298"
-        mapbox:mapbox_cameraZoom="10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        layout_weight="4"/>
-
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/home_category_menu_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="120dp"
-        fab:fab_addButtonColorNormal="@color/mapboxRed"
-        fab:fab_addButtonColorPressed="@color/mapboxWhite"
-        fab:fab_addButtonPlusIconColor="@color/mapboxWhite"
-        fab:fab_labelStyle="@style/menu_labels_style">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/home_landmark_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/mapboxBlue"
-            fab:fab_colorPressed="@color/mapboxWhite"
-            fab:fab_size="mini"
-            fab:fab_title="@string/fab_title_landmark" />
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/home_food_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/mapboxGreen"
-            fab:fab_colorPressed="@color/mapboxWhite"
-            fab:fab_size="mini"
-            fab:fab_title="@string/fab_title_foodTruck" />
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/home_user_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/mapboxRed"
-            fab:fab_colorPressed="@color/mapboxWhite"
-            fab:fab_size="mini"
-            fab:fab_title="@string/fab_title_user" />
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/fab_location_search"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="end|top"
+                android:layout_margin="9dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/ic_search_bar" />
+
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                mapbox:mapbox_cameraTargetLat="37.4968662"
+                mapbox:mapbox_cameraTargetLng="127.0246298"
+                mapbox:mapbox_cameraZoom="10" />
+
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:id="@+id/home_category_menu_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="10dp"
+                fab:fab_addButtonColorNormal="@color/mapboxRed"
+                fab:fab_addButtonColorPressed="@color/mapboxWhite"
+                fab:fab_addButtonPlusIconColor="@color/mapboxWhite"
+                fab:fab_labelStyle="@style/menu_labels_style">
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/home_landmark_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorPressed="@color/mapboxWhite"
+                    fab:fab_colorNormal="@color/mapboxBlue"
+                    fab:fab_icon="@mipmap/pin_tour"
+                    fab:fab_size="mini" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/home_food_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@mipmap/pin_foodtruck"
+                    fab:fab_colorNormal="@color/mapboxGreen"
+                    fab:fab_colorPressed="@color/mapboxWhite"
+                    fab:fab_size="mini" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/home_user_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/mapboxRed"
+                    fab:fab_colorPressed="@color/mapboxWhite"
+                    fab:fab_size="mini"
+                    fab:fab_title="@string/fab_title_user" />
+
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
+            <!--app:bsb_always_show_bubble="true"-->
+            <include layout="@layout/bottomsheet" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="bottom"
-        android:orientation="vertical"
+        android:layout_weight="1"
         android:background="@color/mapboxWhite"
-        android:layout_weight="1" >
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:background="@color/mapboxWhite"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:text="@string/unit"
                 android:textColor="@color/black_semi_transparent" />
 
             <Spinner
                 android:id="@+id/spinner_field"
-                android:layout_width="88dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/arrowspinner"
                 android:drawSelectorOnTop="true"
+                android:gravity="left"
                 android:textColor="@color/black_semi_transparent" />
+
+            <TextView
+                android:id="@+id/home_search_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:text="@string/chose_sex_age"
+                android:textColor="@color/mapbox_blue" />
 
         </LinearLayout>
 
@@ -119,22 +132,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="15dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
             android:background="@color/mapboxWhite"
             android:paddingBottom="2dp"
             app:bsb_auto_adjust_section_mark="true"
             app:bsb_second_track_color="@color/mapboxRed"
-            app:bsb_section_text_position="below_section_mark"
             app:bsb_section_count="6"
+            app:bsb_section_text_position="below_section_mark"
             app:bsb_show_section_mark="true"
             app:bsb_show_section_text="true"
             app:bsb_touch_to_seek="true"
-            app:bsb_track_color="@color/half_black"/>
-        <!--app:bsb_always_show_bubble="true"-->
+            app:bsb_track_color="@color/half_black" />
 
     </LinearLayout>
 
-    <include layout="@layout/bottomsheet"/>
 
-</FrameLayout>
+</LinearLayout>

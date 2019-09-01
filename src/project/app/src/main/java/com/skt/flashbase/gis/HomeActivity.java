@@ -103,18 +103,14 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
     private static final String ICON_ID_Tour = "Tour";
     private static final String LAYER_ID_Tour = "Tour";
     private MapView mapView;
-    SQLiteDatabase db;
 
     private PlaceViewModel mPlaceViewModel;
     private List<Place> pinPlaceTour = new ArrayList<>();
     private List<Place> pinPlaceFoodTruck = new ArrayList<>();
-    private List<Place> pinPlaceAll = new ArrayList<>();
-    // current location
     private PermissionsManager permissionsManager;
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
     private MapboxMap mapboxMap;
-    //Back 키 두번 클릭 여부 확인
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
     //jieun
@@ -196,28 +192,6 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
             tourPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
             tourPlaceList.get(i).addStringProperty("name", name);
         }
-
-        mapboxMap.addOnCameraMoveListener(new MapboxMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-            //    Toast.makeText(getApplicationContext(), "camera Move",Toast.LENGTH_SHORT).show();
-            }
-        });
-        mapboxMap.addOnCameraMoveCancelListener(new MapboxMap.OnCameraMoveCanceledListener() {
-            @Override
-            public void onCameraMoveCanceled() {
-                Toast.makeText(getApplicationContext(), "camera Canceled",Toast.LENGTH_SHORT).show();
-            }
-        });
-        mapboxMap.addOnCameraMoveStartedListener(new MapboxMap.OnCameraMoveStartedListener() {
-            @Override
-            public void onCameraMoveStarted(int reason) {
-               // Toast.makeText(getApplicationContext(), "camera start",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // 그냥 클릭시 다음 화면으로 넘어감
         mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
             @Override
             public boolean onMapClick(@NonNull LatLng point) {
@@ -367,13 +341,11 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
             while ((record = read.readNext()) != null) {
                 // Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
                 if (!record[4].equals("위도")) {
-                    //saHelper 이용
                     //room db 이용, 카테고리 1 =관광지
                     Place place = new Place(0, 1, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
                     mPlaceViewModel.insert(place);
                 }
             }
-
             //카테고리 2, 푸드트럭
             read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.foodtruck_permission_area), "EUC-KR"));
             record = null;
@@ -499,7 +471,6 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
     @Override
     public void onCameraTrackingChanged(int currentMode) {
 
-        Toast.makeText(this, "change" ,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -513,9 +484,9 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
 
     // -- jieun --// custom Dialog
     public void setCustomDialogSearh() {
-        Button homeSearchBtn;
-        homeSearchBtn = (Button) findViewById(R.id.home_search_btn);
-        homeSearchBtn.setOnClickListener(new View.OnClickListener() {
+        TextView homeSearchTextView;
+        homeSearchTextView = (TextView) findViewById(R.id.home_search_textView);
+        homeSearchTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CustomDialogSearch customDialogSearch = new CustomDialogSearch(HomeActivity.this);

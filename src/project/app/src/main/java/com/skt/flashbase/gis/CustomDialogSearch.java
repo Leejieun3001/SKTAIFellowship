@@ -108,11 +108,7 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
                 if (searchMan50CheckBox.isChecked()) result += "50대 남성 ";
                 if (searchMan60CheckBox.isChecked()) result += "60대 남성 ";
 
-
-                //인터페이스의 함수를 호출하여 변수에 저장된 값들을 Activity로 전달
                 customDialogSearchListener.onPositiveClicked(result);
-
-
                 dismiss();
                 break;
             case R.id.search_cancel_btn:
