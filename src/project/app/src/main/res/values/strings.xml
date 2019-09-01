@@ -10,6 +10,9 @@
     <string name="click_on_map_instruction">Tap on the map</string>
     <string name="showing_time_labels_on_line_toast">Now showing minute labels on lines</string>
     <string name="chose_sex_age">성별, 연령 선택</string>
+    <string name="chose_all">전체 선택</string>
+    <string name="cancel_all">전체 취소</string>
+
     <!--LocationPickerActivity activity-->
     <string name="location_picker_select_location_button_cancel">Cancel</string>
     <string name="location_picker_select_location_button_select">Select a location</string>

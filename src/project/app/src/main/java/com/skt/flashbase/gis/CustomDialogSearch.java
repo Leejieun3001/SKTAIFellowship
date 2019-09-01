@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -28,7 +29,8 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
     private CheckBox searchWoman40CheckBox;
     private CheckBox searchWoman50CheckBox;
     private CheckBox searchWoman60CheckBox;
-
+    private TextView searchchoseWholeBtn;
+    private TextView searchcancelWholeBtn;
 
     private Context context;
 
@@ -42,6 +44,7 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
     //set interface (클릭 이벤트 전달)
     interface CustomDialogSearchListener {
         void onPositiveClicked(String result);
+
         void onNegativeClicked();
     }
 
@@ -77,15 +80,14 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
         searchWoman50CheckBox = (CheckBox) findViewById(R.id.search_woman_50_checkbox);
         searchWoman60CheckBox = (CheckBox) findViewById(R.id.search_woman_60_checkbox);
 
-
+        searchchoseWholeBtn = (TextView) findViewById(R.id.search_choseWhole_textView);
+        searchcancelWholeBtn = (TextView) findViewById(R.id.search_cancelWhole_textView);
 
         //add button Listener
         searchOKBtn.setOnClickListener(this);
         searchNoBtn.setOnClickListener(this);
-
-
-
-
+        searchchoseWholeBtn.setOnClickListener(this);
+        searchcancelWholeBtn.setOnClickListener(this);
     }
 
     @Override
@@ -115,6 +117,35 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
                 customDialogSearchListener.onNegativeClicked();
                 cancel();
                 break;
+            case R.id.search_choseWhole_textView:
+                searchWoman10CheckBox.setChecked(true);
+                searchWoman20CheckBox.setChecked(true);
+                searchWoman30CheckBox.setChecked(true);
+                searchWoman40CheckBox.setChecked(true);
+                searchWoman50CheckBox.setChecked(true);
+                searchWoman60CheckBox.setChecked(true);
+                searchMan10CheckBox.setChecked(true);
+                searchMan20CheckBox.setChecked(true);
+                searchMan30CheckBox.setChecked(true);
+                searchMan40CheckBox.setChecked(true);
+                searchMan50CheckBox.setChecked(true);
+                searchMan60CheckBox.setChecked(true);
+                break;
+            case R.id.search_cancelWhole_textView:
+                searchWoman10CheckBox.setChecked(false);
+                searchWoman20CheckBox.setChecked(false);
+                searchWoman30CheckBox.setChecked(false);
+                searchWoman40CheckBox.setChecked(false);
+                searchWoman50CheckBox.setChecked(false);
+                searchWoman60CheckBox.setChecked(false);
+                searchMan10CheckBox.setChecked(false);
+                searchMan20CheckBox.setChecked(false);
+                searchMan30CheckBox.setChecked(false);
+                searchMan40CheckBox.setChecked(false);
+                searchMan50CheckBox.setChecked(false);
+                searchMan60CheckBox.setChecked(false);
+                break;
+
         }
     }
 }
