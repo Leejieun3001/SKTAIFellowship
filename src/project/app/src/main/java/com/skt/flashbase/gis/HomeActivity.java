@@ -145,6 +145,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         }
         setCustomDialogSearh();
         setPlaceData();
+        setAboutFlashBase();
 
         create_bottomsheet();
         createSeekBar();
@@ -548,6 +549,19 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
                 }
             }
         });
+
+    }
+    // --jieun--// 홈페이지 연결
+    public void setAboutFlashBase(){
+        TextView homeAboutFlachBaseBtn = (TextView) findViewById(R.id.home_aboutFlashBase_textView);
+        homeAboutFlachBaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AboutFlashBaseActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 

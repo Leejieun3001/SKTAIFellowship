@@ -3,6 +3,7 @@
     package="com.skt.flashbase.gis">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Detail.AnalysisInfoDetail"></activity>
+        <activity android:name=".AboutFlashBaseActivity"></activity>
+        <activity android:name=".Detail.AnalysisInfoDetail" />
         <activity android:name=".Detail.WholeDetailInfoActivity" />
         <activity android:name=".Detail.MarkerDetailInfoActivity" />
         <activity
