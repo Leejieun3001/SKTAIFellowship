@@ -9,7 +9,10 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.FontRequest;
+import android.provider.FontsContract;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -65,6 +68,7 @@ import com.skt.flashbase.gis.R;
 import com.skt.flashbase.gis.roomDB.Place;
 import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
+import org.apache.commons.collections.functors.FalsePredicate;
 import org.apache.commons.lang3.ObjectUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -85,6 +89,9 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textFont;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MapView mapView;
@@ -114,10 +121,12 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
         Log.i("ddfdf","dfdfddfdff");
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_marker_detail_info);
+
         mapView = findViewById(R.id.detailInfo_mapView_mapView);
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
 
 
         Intent intent = getIntent();

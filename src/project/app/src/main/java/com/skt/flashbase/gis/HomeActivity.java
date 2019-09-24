@@ -596,18 +596,18 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         pieChartview = findViewById(R.id.pie_chart);
 
         List pieData = new ArrayList<>();
-        pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
-        pieData.add(new SliceValue(25, Color.parseColor("#cb7575")).setLabel("30대 : 25%"));
-        pieData.add(new SliceValue(10, Color.parseColor("#ef9e9f")).setLabel("10대 : 10%"));
-        pieData.add(new SliceValue(60, Color.parseColor("#8283a7")).setLabel("40대 : 10%"));
-        pieData.add(new SliceValue(10, Color.parseColor("#589167")).setLabel("50대 : 35%"));
-        pieData.add(new SliceValue(60, Color.parseColor("#ebce95")).setLabel("그 외 : 5%"));
+        pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel(" 15%")); // 20
+        pieData.add(new SliceValue(25, Color.parseColor("#cb7575")).setLabel(" 25%")); // 30
+        pieData.add(new SliceValue(10, Color.parseColor("#ef9e9f")).setLabel(" 10%")); // 10
+        pieData.add(new SliceValue(60, Color.parseColor("#8283a7")).setLabel(" 10% ")); // 40
+        pieData.add(new SliceValue(10, Color.parseColor("#589167")).setLabel(" 35%")); // 35
+        pieData.add(new SliceValue(60, Color.parseColor("#ebce95")).setLabel(" 5%")); // 그외
 
         PieChartData pieChartData = new PieChartData(pieData);
         pieChartData.setHasLabels(true).setValueLabelTextSize(12);
 
         //원 안에 텍스트 넣을 수 있는 코드
-        pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText2("약 5000명 ").setCenterText2Color(Color.parseColor("#0097A7"))
+        pieChartData.setHasCenterCircle(true).setCenterText1("").setCenterText2("").setCenterText2Color(Color.parseColor("#0097A7"))
                 .setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
         pieChartview.setPieChartData(pieChartData);
 

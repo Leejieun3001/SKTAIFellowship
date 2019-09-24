@@ -29,4 +29,6 @@
     <string name="tracking_already_enabled">Tracking already enabled. Move the map</string>
     <string name="current_location">Lat: %1$f Long: %2$f</string>
     <string name="unit">단위</string>
+
+
 </resources>

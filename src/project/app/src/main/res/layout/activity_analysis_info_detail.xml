@@ -1,95 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Detail.AnalysisInfoDetail"
     android:background="@color/mapboxWhite"
-    android:orientation="vertical">
 
+    >
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/mapboxWhite"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/unit"
-            android:textColor="@color/black_semi_transparent" />
-
-        <Spinner
-            android:id="@+id/spinner_field"
-            android:layout_width="72dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/arrowspinner"
-            android:drawSelectorOnTop="true"
-            android:textColor="@color/black_semi_transparent" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/real_time_linechart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:padding="2dp"
-            android:layout_gravity="center_horizontal"/>
-
-
-    </LinearLayout>
-
-    <com.skt.flashbase.gis.Bubble.BubbleSeekBar
-        android:id="@+id/demo_4_seek_bar_3"
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="5dp"
         android:background="@color/mapboxWhite"
-        android:padding="2dp"
-        app:bsb_auto_adjust_section_mark="true"
-        app:bsb_second_track_color="@color/mapboxRed"
-        app:bsb_section_count="6"
-        app:bsb_section_text_position="below_section_mark"
-        app:bsb_show_section_mark="true"
-        app:bsb_show_section_text="true"
-        app:bsb_touch_to_seek="true"
-        app:bsb_track_color="@color/half_black"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:textColor="#E68383"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="성별 분석 차트 "
-            android:textSize="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:textColor="@color/black_semi_transparent"
+            android:text="자 세 히 보 기"
+            android:fontFamily="@font/nanumsquareb"
+            android:textSize="30dp"/>
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#ced4da">
+        </View>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="단위 시간 별 유동 인구"
+            android:fontFamily="@font/nanumsquareb"
+            android:textColor="@color/black_semi_transparent"
+            android:textSize="15dp"/>
 
 
-        <com.github.mikephil.charting.charts.HorizontalBarChart
-            android:paddingTop="20dp"
-            android:id="@+id/bar_chart"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal">
-        </com.github.mikephil.charting.charts.HorizontalBarChart>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/mapboxWhite"
+            android:orientation="horizontal"
+            android:layout_gravity="right">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/unit"
+                android:textColor="@color/black_semi_transparent" />
+
+            <Spinner
+                android:id="@+id/spinner_field"
+                android:layout_width="72dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/arrowspinner"
+                android:drawSelectorOnTop="true"
+                android:textColor="@color/black_semi_transparent" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/real_time_linechart"
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:layout_gravity="center_horizontal" />
+
+
+        </LinearLayout>
+
+        <com.skt.flashbase.gis.Bubble.BubbleSeekBar
+            android:id="@+id/demo_4_seek_bar_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/mapboxWhite"
+            android:padding="2dp"
+            app:bsb_auto_adjust_section_mark="true"
+            app:bsb_second_track_color="@color/mapboxRed"
+            app:bsb_section_count="6"
+            app:bsb_section_text_position="below_section_mark"
+            app:bsb_show_section_mark="true"
+            app:bsb_show_section_text="true"
+            app:bsb_touch_to_seek="true"
+            app:bsb_track_color="@color/half_black"/>
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="성별 유동 인구"
+                android:fontFamily="@font/nanumsquareb"
+                android:textColor="@color/black_semi_transparent"
+                android:textSize="15dp"/>
+
+
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:paddingTop="20dp"
+                android:id="@+id/bar_chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="100dp">
+            </com.github.mikephil.charting.charts.HorizontalBarChart>
+
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

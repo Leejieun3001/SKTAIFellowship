@@ -78,7 +78,8 @@
 
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
             <!--app:bsb_always_show_bubble="true"-->
-            <include layout="@layout/bottomsheet" />
+            <include layout="@layout/bottomsheet"/>
+
 
         </FrameLayout>
     </LinearLayout>
@@ -160,6 +161,5 @@
 
 
     </LinearLayout>
-
 
 </LinearLayout>

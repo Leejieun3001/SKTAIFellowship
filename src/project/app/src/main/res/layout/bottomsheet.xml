@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/coordinator"
-    >
+    android:id="@+id/coordinator">
 
     <!-- coordinatiorLayout 자식 뷰에서 bottomsheet를 사용하고 싶은 레이아웃에 behavior속성을
     주면 된다. 해당 레이아웃에서는 linearlayout에서 사용 -> homeactivity.java에서 linearlayout에
     속성을 줌!
    !-->
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <LinearLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/roundlayout"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
             <ImageView
-
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -29,47 +27,289 @@
                 android:src="@drawable/up_icon"
                 android:textColor="@color/white_pressed"
                 android:textFontWeight="3dp"
-                android:textSize="17dp"
-
-                />
-
+                android:textSize="13dp" />
 
             <LinearLayout
                 android:paddingTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:background="@color/mapboxWhite">
 
                 <TextView
-
-                    android:background="@drawable/round_corner"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="시간대 별 인구 수"
-                    android:gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/nanumsquareb"
+                    android:text="상 세 정 보"
                     android:textColor="@color/black_semi_transparent"
+                    android:textSize="25dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_height="2dp"
+                    android:background="#ced4da">
+                </View>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:textSize="18dp" />
+                    android:fontFamily="@font/nanumsquareb"
+                    android:text="실시간 유동인구 비율"
+                    android:textColor="@color/black_semi_transparent"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/nanumsquareb"
+                    android:text=" 현재 지도에 표시된 유동인구를 연령별로 나타낸 표 입니다."
+                    android:textColor="@color/black_semi_transparent"
+                    android:textSize="12dp" />
 
 
                 <TextView
                     android:id="@+id/txt_detail_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="270dp"
+                    android:fontFamily="@font/nanumsquareb"
+                    android:paddingLeft="300dp"
                     android:text="자세히보기"
                     android:textColor="@color/mapboxBlue" />
 
-                <lecho.lib.hellocharts.view.PieChartView
-                    android:id="@+id/pie_chart"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:layout_gravity="center_horizontal"
-                    android:paddingBottom="10dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <lecho.lib.hellocharts.view.PieChartView
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/pie_chart"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:paddingBottom="10dp"/>
+
+                    <LinearLayout
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="     "
+                                android:layout_marginBottom="5dp"
+                                android:background="#ef9e9f"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 10대 "
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/black_semi_transparent"
+                                android:fontFamily="@font/nanumsquareb"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="     "
+                                android:layout_marginBottom="5dp"
+                                android:background="#a3c9c7"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 20대 "
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/black_semi_transparent"
+                                android:fontFamily="@font/nanumsquareb"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="     "
+                                android:layout_marginBottom="5dp"
+                                android:background="#cb7575"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 30대 "
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/black_semi_transparent"
+                                android:fontFamily="@font/nanumsquareb"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="     "
+                                android:layout_marginBottom="5dp"
+                                android:background="#8283a7"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 40대 "
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/black_semi_transparent"
+                                android:fontFamily="@font/nanumsquareb"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="     "
+                                android:layout_marginBottom="5dp"
+                                android:background="#589167"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 50대 "
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/black_semi_transparent"
+                                android:fontFamily="@font/nanumsquareb"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="     "
+                                android:layout_marginBottom="5dp"
+                                android:background="#ebce95"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 그 외 "
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="@color/black_semi_transparent"
+                                android:fontFamily="@font/nanumsquareb"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/peopleicon" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="현재인구 : 약 5000 명 "
+                            android:textColor="@color/black_semi_transparent"
+                            android:textSize="20dp"
+                            android:fontFamily="@font/nanumsquareb" />
+
+                        <TextView
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 사람이 많아요!"
+                            android:textColor="@color/mapboxPinkDark"
+                            android:textSize="25dp"
+                            android:fontFamily="@font/nanumsquareb" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/black_semi_transparent">
+                </View>
 
             </LinearLayout>
+
         </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

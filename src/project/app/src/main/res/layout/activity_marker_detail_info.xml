@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#DCDEE0">
+        android:background="@color/white_pressed">
 
         <com.mapbox.mapboxsdk.maps.MapView
             android:id="@+id/detailInfo_mapView_mapView"
@@ -32,17 +32,25 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            android:background="@color/white_pressed">
 
             <TextView
                 android:id="@+id/detailInfo_name_textView"
                 android:background="@drawable/round_corner"
+                android:fontFamily="@font/nanumsquareb"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
                 android:textColor="@color/black_semi_transparent"
                 android:layout_marginBottom="10dp"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/black_semi_transparent">
+            </View>
 
         </LinearLayout>
 
@@ -50,8 +58,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="60"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white_pressed"
             android:orientation="vertical">
+
+
 
             <LinearLayout
                 android:id="@+id/place_category"
@@ -60,10 +72,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
 
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="카테고리 : "
+                    android:fontFamily="@font/nanumsquareb"
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -84,6 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="링크 : "
+                    android:fontFamily="@font/nanumsquareb"
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -106,6 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="설명 : "
+                    android:fontFamily="@font/nanumsquareb"
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -126,6 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="전화번호 : "
+                    android:fontFamily="@font/nanumsquareb"
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -147,6 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="주소 : "
+                    android:fontFamily="@font/nanumsquareb"
                     android:textColor="@color/black_semi_transparent" />
 
                 <TextView
@@ -166,42 +184,55 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/half_black">
+                android:layout_height="4dp"
+                android:background="#ced4da">
             </View>
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Analysis Data"
+                android:textColor="@color/black_semi_transparent"
+                android:textSize="20dp"
+                android:fontFamily="@font/nanumsquareb"
+                />
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#E68383"
-                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black_semi_transparent"
+                android:layout_marginLeft="10dp"
                 android:text="실시간 유동인구"
-                android:textSize="20dp"
-                android:layout_margin="10dp"/>
+                android:textSize="15dp"
+                android:layout_marginTop="10dp"/>
 
             <lecho.lib.hellocharts.view.PieChartView
                 android:id="@+id/real_time_pie_chart"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_gravity="center_horizontal"
                 android:paddingBottom="10dp"/>
 
             <View
-                android:paddingTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/half_black"
-                android:layout_margin="10dp">
+                android:layout_height="0.5dp"
+                android:background="@color/black_semi_transparent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
             </View>
 
             <TextView
-                android:textColor="#E68383"
-                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black_semi_transparent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nanumsquareb"
                 android:text="시간대 별 평균 유동인구 "
-                android:textSize="20dp"
-                android:layout_margin="10dp"/>
+                android:textSize="15dp"/>
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/line_chart"
@@ -222,6 +253,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="월"
+                    android:fontFamily="@font/nanumsquareb"
                     android:background="#00ff0000"
                     android:layout_weight="1"
                     android:textColor="@color/mapbox_blue"
@@ -231,6 +263,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="화"
+                    android:fontFamily="@font/nanumsquareb"
                     android:background="#00ff0000"
                     android:layout_weight="1"
                     android:textColor="@color/mapbox_blue"
@@ -240,6 +273,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="수"
+                    android:fontFamily="@font/nanumsquareb"
                     android:background="#00ff0000"
                     android:layout_weight="1"
                     android:textColor="@color/mapbox_blue"
@@ -249,6 +283,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="목"
+                    android:fontFamily="@font/nanumsquareb"
                     android:background="#00ff0000"
                     android:layout_weight="1"
                     android:textColor="@color/mapbox_blue"
@@ -258,6 +293,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="금"
+                    android:fontFamily="@font/nanumsquareb"
                     android:background="#00ff0000"
                     android:layout_weight="1"
                     android:textColor="@color/mapbox_blue"
@@ -267,6 +303,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="토"
+                    android:fontFamily="@font/nanumsquareb"
                     android:background="#00ff0000"
                     android:layout_weight="1"
                     android:textColor="@color/mapbox_blue"
@@ -276,6 +313,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="일 "
+                    android:fontFamily="@font/nanumsquareb"
                     android:background="#00ff0000"
                     android:layout_weight="1"
                     android:textColor="@color/mapbox_blue"
@@ -287,11 +325,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#E68383"
-                android:layout_gravity="center_horizontal"
-                android:text="연령별 / 성별별 유동인구 "
-                android:textSize="20dp"
-                android:layout_margin="20dp"/>
+                android:textColor="@color/black_semi_transparent"
+                android:text="연령 별 / 성별 별 유동인구 "
+                android:fontFamily="@font/nanumsquareb"
+                android:textSize="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -304,14 +345,16 @@
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:layout_gravity="center_horizontal"
-                    android:paddingBottom="10dp"/>
+                    android:layout_marginRight="15dp"
+                    />
 
                 <lecho.lib.hellocharts.view.PieChartView
+                    android:layout_marginTop="20dp"
                     android:id="@+id/average_pie_chart"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
                     android:layout_gravity="center_horizontal"
-                    android:paddingBottom="10dp"/>
+                    />
 
 
             </LinearLayout>
@@ -321,10 +364,10 @@
                 android:id="@+id/analysis_info_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="자세히보기"
-                android:background="@color/mapboxGray"/>
-
-
+                android:text="자 세 히 보 기"
+                android:textColor="@color/black_semi_transparent"
+                android:fontFamily="@font/nanumsquareb"
+                android:background="#ced4da"/>
 
         </LinearLayout>
 
