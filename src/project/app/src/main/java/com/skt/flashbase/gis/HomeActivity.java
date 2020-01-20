@@ -54,12 +54,15 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
+import com.mapbox.mapboxsdk.style.layers.FillLayer;
 import com.mapbox.mapboxsdk.style.layers.Layer;
+import com.mapbox.mapboxsdk.style.layers.LineLayer;
 import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
+import com.mapbox.mapboxsdk.style.sources.VectorSource;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.Bubble.BubbleSeekBar;
@@ -71,6 +74,8 @@ import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,7 +90,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
-public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
     //Sol
     int storedValue = 3;
@@ -131,6 +136,8 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         mapView.getMapAsync(this);
 
 
+
+
         //--jieun--//
         //Model Provider 생성 RoomDB
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
@@ -166,6 +173,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         //--jieun--//
         this.mapboxMap = mapboxMap;
+
 
         //marker 생성 (foodTuck)
         List<Feature> FoodTruckPlaceList = new ArrayList<>();
@@ -217,9 +225,14 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
                 return false;
             }
         });
+
+
+
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
+
+
                 initSearchFab();
 
                 addUserLocations();
@@ -551,8 +564,9 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         });
 
     }
+
     // --jieun--// 홈페이지 연결
-    public void setAboutFlashBase(){
+    public void setAboutFlashBase() {
         TextView homeAboutFlachBaseBtn = (TextView) findViewById(R.id.home_aboutFlashBase_textView);
         homeAboutFlachBaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -570,7 +584,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
 
     }
 
-    void create_bottomsheet(){
+    void create_bottomsheet() {
 
         llBottomSheet = findViewById(R.id.bottom_sheet);
 
@@ -590,6 +604,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
 
         create_pie_chart();
     }
+
     //--seung eun--//
     public void create_pie_chart() {
         PieChartView pieChartview;
@@ -677,7 +692,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
         final Spinner spinner = findViewById(R.id.spinner_field);
 
         String[] str = getResources().getStringArray(R.array.question);
-        final ArrayAdapter<String> adapter= new ArrayAdapter<String>(this, R.layout.spinner_item, str);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, str);
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
@@ -790,7 +805,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
     private void setupLayer(@NonNull Style loadedMapStyle) {
         loadedMapStyle.addLayer(new SymbolLayer("SYMBOL_LAYER_ID", geojsonSourceLayerId).withProperties(
                 iconImage(symbolIconId),
-                iconOffset(new Float[] {0f, -8f})
+                iconOffset(new Float[]{0f, -8f})
         ));
     }
 
@@ -811,7 +826,7 @@ public class HomeActivity extends AppCompatActivity implements  OnMapReadyCallba
                     GeoJsonSource source = style.getSourceAs(geojsonSourceLayerId);
                     if (source != null) {
                         source.setGeoJson(FeatureCollection.fromFeatures(
-                                new Feature[] {Feature.fromJson(selectedCarmenFeature.toJson())}));
+                                new Feature[]{Feature.fromJson(selectedCarmenFeature.toJson())}));
                     }
 
                     // Move map camera to the selected location

@@ -1,0 +1,25 @@
+{
+  "version": 8,
+  "sources": {
+    "osm": {
+      "type": "vector",
+      "tiles": ["http://192.168.111.32:4762/fb-gis/pcell/10/873/397.pbf"]
+    }
+  },
+  "layers": [{
+    "id": "background",
+    "type": "background",
+    "paint": {
+      "background-color": "#111111"
+    }
+  }, {
+    "id": "pcell",
+    "type": "fill",
+    "source": "osm",
+    "source-layer": "pcell",
+    "filter": ["==", "$type", "Polygon"],
+    "paint": {
+      "fill-color": "#3887be"
+    }
+  }]
+}
