@@ -3,8 +3,9 @@
     package="com.skt.flashbase.gis">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon"
@@ -12,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".AboutFlashBaseActivity"></activity>
+        <activity android:name=".AddLocationActivity"></activity>
+        <activity android:name=".AboutFlashBaseActivity" />
         <activity android:name=".Detail.AnalysisInfoDetail" />
         <activity android:name=".Detail.WholeDetailInfoActivity" />
         <activity android:name=".Detail.MarkerDetailInfoActivity" />

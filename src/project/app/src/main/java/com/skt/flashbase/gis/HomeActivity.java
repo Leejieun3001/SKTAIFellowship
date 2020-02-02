@@ -283,7 +283,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
 
                 FloatingActionButton homeaddFab = findViewById(R.id.home_add_fab);
-                
+                homeaddFab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), AddLocationActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
 
             }
         });
