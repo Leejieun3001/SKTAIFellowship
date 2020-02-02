@@ -19,12 +19,21 @@
 
             <Button
                 android:id="@+id/fab_location_search"
-                android:layout_width="match_parent"
+                android:layout_width="335dp"
+                android:layout_height="50dp"
+                android:layout_gravity="top"
+                android:layout_margin="9dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/ic_search_bar" />
+
+            <Button
+                android:id="@+id/fab_location_search_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end|top"
                 android:layout_margin="9dp"
                 android:layout_marginRight="0dp"
-                android:background="@drawable/ic_search_bar" />
+                android:background="@drawable/ic_search_btn" />
 
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/mapView"
@@ -121,7 +130,7 @@
 
             <Spinner
                 android:id="@+id/spinner_field"
-                android:layout_width="0dp"
+                android:layout_width="25dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/arrowspinner"

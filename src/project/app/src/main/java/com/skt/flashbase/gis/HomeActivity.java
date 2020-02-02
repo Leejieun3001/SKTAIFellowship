@@ -833,22 +833,25 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void initSearchFab() {
-        findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new PlaceAutocomplete.IntentBuilder()
-                        .accessToken(Mapbox.getAccessToken())
-                        .placeOptions(PlaceOptions.builder()
-                                .backgroundColor(Color.parseColor("#EEEEEE"))
-                                .limit(10)
-                                .addInjectedFeature(home)
-                                .addInjectedFeature(work)
-                                .build(PlaceOptions.MODE_CARDS))
-                        .build(HomeActivity.this);
-                startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
-            }
-        });
+        findViewById(R.id.fab_location_search).setOnClickListener(ForSearch);
+        findViewById(R.id.fab_location_search_btn).setOnClickListener(ForSearch);
     }
+
+    private View.OnClickListener ForSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new PlaceAutocomplete.IntentBuilder()
+                    .accessToken(Mapbox.getAccessToken())
+                    .placeOptions(PlaceOptions.builder()
+                            .backgroundColor(Color.parseColor("#EEEEEE"))
+                            .limit(10)
+                            .addInjectedFeature(home)
+                            .addInjectedFeature(work)
+                            .build(PlaceOptions.MODE_CARDS))
+                    .build(HomeActivity.this);
+            startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+        }
+    };
 
     private void addUserLocations() {
         home = CarmenFeature.builder().text("Mapbox SF Office")
