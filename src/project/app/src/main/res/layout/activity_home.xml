@@ -68,9 +68,21 @@
                     fab:fab_size="mini" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/home_add_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/floating_btn_plus"
+                    fab:fab_colorNormal="@color/mapboxRed"
+                    fab:fab_colorPressed="@color/mapboxWhite"
+                    fab:fab_size="mini"
+                    fab:fab_title="@string/fab_title_add" />
+
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/home_user_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/floating_btn_location"
                     fab:fab_colorNormal="@color/mapboxRed"
                     fab:fab_colorPressed="@color/mapboxWhite"
                     fab:fab_size="mini"
