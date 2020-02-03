@@ -152,11 +152,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //--jieun--//
-        //Model Provider 생성 RoomDB
+        //Create Model Provider ( RoomDB )
         mPlaceViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
         SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
         boolean isFirst = pref.getBoolean("isFirst", true);
-        //SharedPreferences 처음 실행하는 경우에만 sqLite에 저장
         if (isFirst) {
             CSVtoSqLite();
             SharedPreferences.Editor editor = pref.edit();
@@ -189,7 +188,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.mapboxMap = mapboxMap;
 
 
-        //marker 생성 (foodTuck)
+        //create marker  (foodTuck)
         List<Feature> FoodTruckPlaceList = new ArrayList<>();
         for (int i = 0; i < pinPlaceFoodTruck.size(); i++) {
             Double longitude = pinPlaceFoodTruck.get(i).getPLongitude();
@@ -203,7 +202,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         }
-        //marker 생성 (Tour)
+        //create marker  (Tour)
         List<Feature> tourPlaceList = new ArrayList<>();
         for (int i = 0; i < pinPlaceTour.size(); i++) {
             Double longitude = pinPlaceTour.get(i).getPLongitude();
@@ -216,8 +215,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             tourPlaceList.get(i).addStringProperty("name", name);
         }
 
-
-        //marker 생성 (Fishing)
+        //create marker 생성 (Fishing)
         List<Feature> fishingPlaceList = new ArrayList<>();
         for (int i = 0; i < pinPlaceFishing.size(); i++) {
             Double longitude = pinPlaceFishing.get(i).getPLongitude();
@@ -273,11 +271,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 addUserLocations();
 
-                // Add the symbol layer icon to map for future use
+                // Add the symbol layer icon
                 style.addImage(symbolIconId, BitmapFactory.decodeResource(
                         HomeActivity.this.getResources(), R.drawable.blue_marker_view));
 
-                // Set up a new symbol layer for displaying the searched location's feature coordinates
                 setupLayer(style);
                 enableLocationComponent(style);
                 // foodtruck marker style
@@ -323,7 +320,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 style.addLayer(TourLayer);
 
-               // finshing marker style
+               // fishing marker style
                 style.addImageAsync(ICON_ID_Fishing_min, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.ic_fishing_pin_custom_min)));
                 style.addImageAsync(ICON_ID_Fishing, BitmapUtils.getBitmapFromDrawable(
@@ -443,7 +440,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     //--jieun--//
-    //csv 데이터 저장
+
     void CSVtoSqLite() {
         try {
             // 카테고리 (1) 관광지

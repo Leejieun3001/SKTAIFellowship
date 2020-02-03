@@ -14,7 +14,6 @@ import android.widget.TextView;
 import static android.content.Context.MODE_PRIVATE;
 
 //jieun
-// custom Dialog 생성
 public class CustomDialogSearch extends Dialog implements View.OnClickListener {
     private Button searchOKBtn;
     private Button searchNoBtn;
@@ -43,14 +42,14 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
         this.context = context;
     }
 
-    //set interface (클릭 이벤트 전달)
+    //set interface
     interface CustomDialogSearchListener {
         void onPositiveClicked(String result);
 
         void onNegativeClicked();
     }
 
-    //init listener (값을 전달하기 위해 선언)
+    //init listener
     public void setDialogListener(CustomDialogSearchListener customDialogSearchListener) {
         this.customDialogSearchListener = customDialogSearchListener;
     }
@@ -58,7 +57,7 @@ public class CustomDialogSearch extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //다이얼 로그 밖의 화면은 흐리게
+
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.8f;

@@ -8,7 +8,12 @@
   <component name="ChangeListManager">
     <list default="true" id="136532a3-5574-467d-9578-fd64ff508853" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/CustomDialogSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/CustomDialogSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/MarkerDetailInfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/MarkerDetailInfoActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/Place.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceRoomDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceRoomDatabase.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/../.gradle/" />
     <ignored path="$PROJECT_DIR$/build/classes/" />
@@ -70,63 +75,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="253" column="17" selection-start-line="253" selection-start-column="17" selection-end-line="253" selection-end-column="17" />
+            <state relative-caret-position="-4385">
+              <caret line="442" selection-start-line="442" selection-end-line="442" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#16986#16987#0" expanded="true" />
-                <element signature="e#17071#17072#0" expanded="true" />
-                <element signature="e#17345#17346#0" expanded="true" />
-                <element signature="e#17435#17436#0" expanded="true" />
-                <element signature="e#17708#17709#0" expanded="true" />
-                <element signature="e#17796#17797#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/res/mipmap-xxhdpi/pin_foodtruck.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/mipmap-xxhdpi/pin_tour.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/mipmap-hdpi/icon.jpg">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/values/tokens.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/MyMarkerView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="48" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="48" />
+            <state relative-caret-position="27">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/values/strings.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/WholeDetailInfoActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_home.xml">
-          <provider editor-type-id="android-designer2" />
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="82" column="57" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
+            <state relative-caret-position="60">
+              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -141,19 +115,55 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceRoomDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10">
-              <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+            <state relative-caret-position="135">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceRoomDatabase.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+            <state relative-caret-position="12">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/Place.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/PlaceViewModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/CustomDialogSearch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3483">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/MarkerDetailInfoActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="305">
+              <caret line="112" column="45" selection-start-line="112" selection-start-column="45" selection-end-line="112" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -178,8 +188,12 @@
         <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceDAO.java" />
         <option value="$PROJECT_DIR$/src/main/res/layout/activity_home.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/PlaceViewModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java" />
         <option value="$PROJECT_DIR$/src/main/res/values/tokens.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/MarkerDetailInfoActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceRoomDatabase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/Place.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/CustomDialogSearch.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java" />
       </list>
     </option>
@@ -411,67 +425,67 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>220</line>
+          <line>218</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>206</line>
+          <line>205</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>192</line>
+          <line>191</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>233</line>
+          <line>231</line>
           <properties />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>222</line>
+          <line>220</line>
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>223</line>
+          <line>221</line>
           <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>224</line>
+          <line>222</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>226</line>
+          <line>224</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>225</line>
+          <line>223</line>
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>229</line>
+          <line>227</line>
           <properties />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java</url>
-          <line>473</line>
+          <line>470</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
@@ -547,41 +561,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/res/drawable-v24/ic_tour_pin.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/PlaceViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/Place.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-266">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceRoomDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10">
-          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/values/tokens.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -604,22 +583,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="253" column="17" selection-start-line="253" selection-start-column="17" selection-end-line="253" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#16986#16987#0" expanded="true" />
-            <element signature="e#17071#17072#0" expanded="true" />
-            <element signature="e#17345#17346#0" expanded="true" />
-            <element signature="e#17435#17436#0" expanded="true" />
-            <element signature="e#17708#17709#0" expanded="true" />
-            <element signature="e#17796#17797#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/mipmap-hdpi/icon.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -628,6 +591,86 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/mipmap-xxhdpi/pin_foodtruck.png">
       <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/AnalysisInfoDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/MarkerDetailInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="112" column="45" selection-start-line="112" selection-start-column="45" selection-end-line="112" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/MyMarkerView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/Detail/WholeDetailInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/local/PlaceRoomDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/dataModel/PlaceRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/Place.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/roomDB/PlaceViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/CustomDialogSearch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3483">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/skt/flashbase/gis/HomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4385">
+          <caret line="442" selection-start-line="442" selection-end-line="442" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

@@ -118,7 +118,6 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("ddfdf","dfdfddfdff");
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_marker_detail_info);
 
@@ -267,8 +266,7 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
             public void run() {
                 try {
                     String text = URLEncoder.encode(location, "UTF-8");
-                    String apiURL = "https://openapi.naver.com/v1/search/local.xml?query=" + text + "&display=1"; // json 결과
-                    //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
+                    String apiURL = "https://openapi.naver.com/v1/search/local.xml?query=" + text + "&display=1";
                     URL url = new URL(apiURL);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
@@ -278,9 +276,9 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
                     BufferedReader br;
                     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                     XmlPullParser xpp = factory.newPullParser();
-                    if (responseCode == 200) { // 정상 호출
+                    if (responseCode == 200) {
                         xpp.setInput(new InputStreamReader(con.getInputStream(), "UTF-8"));
-                    } else {  // 에러 발생
+                    } else {
                         br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
                     }
                     String tag;
@@ -298,40 +296,25 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
 
                             case XmlPullParser.START_TAG:
 
-                                tag = xpp.getName();    //테그 이름 얻어오기
-
-
-                                if (tag.equals("item")) ;// 첫번째 검색결과
-
+                                tag = xpp.getName();
+                                if (tag.equals("item")) ;
                                 else if (tag.equals("link")) {
                                     xpp.next();
                                     link = xpp.getText();
-
-
                                 } else if (tag.equals("category")) {
                                     xpp.next();
                                     category = xpp.getText();
                                 } else if (tag.equals("description")) {
                                     xpp.next();
-
-                                    description = xpp.getText(); //description 요소의 TEXT 읽어와서 문자열버퍼에 추가
-
+                                    description = xpp.getText();
                                 } else if (tag.equals("telephone")) {
-
                                     xpp.next();
-
-                                    phone = xpp.getText(); //telephone 요소의 TEXT 읽어와서 문자열버퍼에 추가
-
+                                    phone = xpp.getText();
                                 } else if (tag.equals("address")) {
-
                                     xpp.next();
-
                                     address = xpp.getText();
-
                                 }
-
                                 break;
-
                             case XmlPullParser.TEXT:
 
                                 break;

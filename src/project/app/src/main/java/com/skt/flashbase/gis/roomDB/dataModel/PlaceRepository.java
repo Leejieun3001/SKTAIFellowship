@@ -24,9 +24,7 @@ public class PlaceRepository {
 
     public PlaceRepository(Application application) {
         PlaceRoomDatabase db = PlaceRoomDatabase.getDatabase(application);
-        //RoomDatabase에 있는 Dao를 가져온다.
         mPlaceDAO = db.placeDAO();
-        //Dao의 쿼리를 이용하여 저장되어있는 모든 word를 가져온다.
         mAllPlaces = mPlaceDAO.getAllPlaces();
         mAllTourPlaces = mPlaceDAO.getAllTourPlaces();
         mAllFoodtruckPlaces = mPlaceDAO.getAllFoodTrucks();
@@ -52,7 +50,7 @@ public class PlaceRepository {
         return mPlaceInfo;
     }
 
-    //place 추가하는 함수
+
     public void insert(Place place) {
         new insertAsyncTaske(mPlaceDAO).execute(place);
     }
