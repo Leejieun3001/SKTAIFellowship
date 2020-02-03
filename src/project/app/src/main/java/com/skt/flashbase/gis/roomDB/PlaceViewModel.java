@@ -17,6 +17,7 @@ public class PlaceViewModel extends AndroidViewModel {
 
     private LiveData<List<Place>> mAllTourPlace;
     private LiveData<List<Place>> mAllFoodtruckPlace;
+    private LiveData<List<Place>> mAllFishingPlace;
     private LiveData<Place> mPlaceInfo;
 
     public PlaceViewModel(Application application) {
@@ -25,6 +26,7 @@ public class PlaceViewModel extends AndroidViewModel {
         mAllPlace = mPlaceRepository.getAllPlace();
         mAllTourPlace = mPlaceRepository.getAllTour();
         mAllFoodtruckPlace = mPlaceRepository.getAllFoodtruck();
+        mAllFishingPlace = mPlaceRepository.getAllFishing();
 
     }
 
@@ -38,6 +40,10 @@ public class PlaceViewModel extends AndroidViewModel {
 
     public LiveData<List<Place>> getAllFoodtruckPlace() {
         return mAllFoodtruckPlace;
+    }
+
+    public LiveData<List<Place>> getAllFishingPlace() {
+        return mAllFishingPlace;
     }
 
     public LiveData<Place> getPlaceInfo(int idx) {

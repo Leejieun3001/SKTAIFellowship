@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -117,6 +118,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PlaceViewModel mPlaceViewModel;
     private List<Place> pinPlaceTour = new ArrayList<>();
     private List<Place> pinPlaceFoodTruck = new ArrayList<>();
+    private List<Place> pinPlaceFishing = new ArrayList<>();
     private PermissionsManager permissionsManager;
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
@@ -206,6 +208,22 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             tourPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
             tourPlaceList.get(i).addStringProperty("name", name);
         }
+
+
+        //marker 생성 (Fishing)
+        List<Feature> fishingList = new ArrayList<>();
+        for (int i = 0; i < pinPlaceFishing.size(); i++) {
+            Double longitude = pinPlaceFishing.get(i).getPLongitude();
+            Double latitude = pinPlaceFishing.get(i).getPLatitude();
+            int index = pinPlaceFishing.get(i).getPidx();
+            String name = pinPlaceFishing.get(i).getPName();
+            fishingList.add(Feature.fromGeometry(
+                    Point.fromLngLat(longitude, latitude)));
+            fishingList.get(i).addStringProperty("idx", String.valueOf(index));
+            fishingList.get(i).addStringProperty("name", name);
+        }
+
+
         mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
             @Override
             public boolean onMapClick(@NonNull LatLng point) {
@@ -391,7 +409,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             String[] record = null;
             //CSV 파일을 읽으면서 동시에 SqLite에 저장
             while ((record = read.readNext()) != null) {
-                // Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
                 if (!record[4].equals("위도")) {
                     //room db 이용, 카테고리 1 =관광지
                     Place place = new Place(0, 1, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
@@ -403,7 +420,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             record = null;
             //CSV 파일을 읽으면서 동시에 SqLite에 저장
             while ((record = read.readNext()) != null) {
-                // Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[6] + ", 경도: " + record[7]);
                 if (!record[6].equals("위도")) {
                     //dbHelper.insertLandmark(record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
                     //room db 이용 / 카테고리 2 = 푸드트럭
@@ -413,6 +429,23 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 }
             }
+            //카테고리 3, 낚시터
+            read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.fishing_area), "utf-8"));
+            record = null;
+            //CSV 파일을 읽으면서 동시에 SqLite에 저장
+            while ((record = read.readNext()) != null) {
+                Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
+                if (!record[4].equals("위도")) {
+                    //dbHelper.insertLandmark(record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
+                    //room db 이용 / 카테고리 2 = 푸드트럭
+                    if (!record[0].isEmpty() && !record[4].isEmpty() && !record[5].isEmpty()) {
+                        Place place = new Place(0, 3, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
+                        mPlaceViewModel.insert(place);
+                    }
+                }
+            }
+
+
         } catch (IOException ex) {
             // handle exception
         } finally {
@@ -437,15 +470,15 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     = LocationComponentActivationOptions.builder(this, loadedMapStyle).locationComponentOptions(customLocationComponentOptions).build();
             // Activate with options
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING);
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
-// Add the location icon click listener
+            // Add the location icon click listener
             locationComponent.addOnLocationClickListener(this);
-// Add the camera tracking listener. Fires if the map camera is manually moved.
+            // Add the camera tracking listener. Fires if the map camera is manually moved.
             locationComponent.addOnCameraTrackingChangedListener(this);
             findViewById(R.id.home_user_fab).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -597,6 +630,15 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onChanged(@Nullable List<Place> places) {
                 for (int i = 0; i < places.size(); i++) {
                     pinPlaceFoodTruck.add(i, places.get(i));
+                }
+            }
+        });
+        //roomdb 방식, 푸드트럭 데이터 조회
+        mPlaceViewModel.getAllFishingPlace().observe(this, new Observer<List<Place>>() {
+            @Override
+            public void onChanged(@Nullable List<Place> places) {
+                for (int i = 0; i < places.size(); i++) {
+                    pinPlaceFishing.add(i, places.get(i));
                 }
             }
         });

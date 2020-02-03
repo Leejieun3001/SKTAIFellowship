@@ -17,6 +17,8 @@ public class PlaceRepository {
     private LiveData<List<Place>> mAllPlaces;
     private LiveData<List<Place>> mAllTourPlaces;
     private LiveData<List<Place>> mAllFoodtruckPlaces;
+    private LiveData<List<Place>> mAllFishingPlaces;
+
     private LiveData<Place> mPlaceInfo;
 
 
@@ -27,7 +29,8 @@ public class PlaceRepository {
         //Dao의 쿼리를 이용하여 저장되어있는 모든 word를 가져온다.
         mAllPlaces = mPlaceDAO.getAllPlaces();
         mAllTourPlaces = mPlaceDAO.getAllTourPlaces();
-        mAllFoodtruckPlaces = mPlaceDAO.getAllFoddTrucks();
+        mAllFoodtruckPlaces = mPlaceDAO.getAllFoodTrucks();
+        mAllFishingPlaces = mPlaceDAO.getAllFishingPlaces();
 
     }
 
@@ -40,6 +43,9 @@ public class PlaceRepository {
     }
 
     public LiveData<List<Place>> getAllFoodtruck() {
+        return mAllFoodtruckPlaces;
+    }
+    public LiveData<List<Place>> getAllFishing() {
         return mAllFoodtruckPlaces;
     }
 
