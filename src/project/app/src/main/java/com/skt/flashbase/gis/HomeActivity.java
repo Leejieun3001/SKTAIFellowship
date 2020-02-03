@@ -4,18 +4,15 @@ package com.skt.flashbase.gis;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -55,47 +52,42 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
-import com.mapbox.mapboxsdk.style.layers.FillLayer;
 import com.mapbox.mapboxsdk.style.layers.Layer;
-import com.mapbox.mapboxsdk.style.layers.LineLayer;
 import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
-import com.mapbox.mapboxsdk.style.sources.VectorSource;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.opencsv.CSVReader;
 import com.skt.flashbase.gis.Bubble.BubbleSeekBar;
 import com.skt.flashbase.gis.Detail.AnalysisInfoDetail;
 import com.skt.flashbase.gis.Detail.MarkerDetailInfoActivity;
-import com.skt.flashbase.gis.Detail.WholeDetailInfoActivity;
 import com.skt.flashbase.gis.roomDB.Place;
 import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.PieChartView;
 
+import static com.mapbox.mapboxsdk.style.expressions.Expression.literal;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.step;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.stop;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.zoom;
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillOpacity;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineCap;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineJoin;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
 
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
@@ -111,10 +103,15 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     //jieun
     private static final String SOURCE_ID_Foodtruck = "Foodtruck";
     private static final String ICON_ID_Foodtruck = "Foodtruck";
+    private static final String ICON_ID_Foodtruck_min = "Foodtruck_min";
+    private static final String ICON_ID_Foodtruck_max = "Foodtruck_max";
     private static final String LAYER_ID_Foodtruck = "Foodtruck";
     private static final String SOURCE_ID_Tour = "Tour";
     private static final String ICON_ID_Tour = "Tour";
+    private static final String ICON_ID_Tour_min = "Tour_min";
+    private static final String ICON_ID_Tour_max = "Tour_max";
     private static final String LAYER_ID_Tour = "Tour";
+
     private MapView mapView;
 
     private PlaceViewModel mPlaceViewModel;
@@ -132,13 +129,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LineChart lineChart;
     private LinearLayout llBottomSheet;
 
-    String File_Name; // 확장자를 포함한 파일명
-    String File_extend; //확장자명
-
-    String fileURL; //웹 서버 쪽 파일이 있는 경로
-    String Save_Path;
-    String Save_folder; //"/mydown"
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +140,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
-
 
 
         //--jieun--//
@@ -166,6 +154,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             editor.putBoolean("isFirst", false);
             editor.commit();
         }
+
         setCustomDialogSearh();
         setPlaceData();
         setAboutFlashBase();
@@ -243,48 +232,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
-
-//// add vector tiles
-////
-//                style.addSource(
-//                        new VectorSource("terrain-data", "mapbox://mapbox.mapbox-terrain-v2"));
-//                LineLayer terrainData = new LineLayer("terrain-data", "terrain-data");
-//                terrainData.setSourceLayer("contour");
-//                terrainData.setProperties(
-//                        lineJoin(Property.LINE_JOIN_ROUND),
-//                        lineCap(Property.LINE_CAP_ROUND),
-//                        PropertyFactory.lineColor(Color.parseColor("#0100FF")),
-//                        lineWidth(1f)
-//                );
-//                style.addLayer(terrainData);
-
-// add GeoJoson Source
-//               try {
-//                    GeoJsonSource urbanAreasSource = new GeoJsonSource("urban-areas",
-//                            new URI("https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson"));
-//                    style.addSource(urbanAreasSource);
-//
-//                    FillLayer urbanArea = new FillLayer("urban-areas-fill", "urban-areas");
-//
-//                    urbanArea.setProperties(
-//                            fillColor(Color.parseColor("#ff0088")),
-//                            fillOpacity(0.4f)
-//                    );
-//
-//                    style.addLayerBelow(urbanArea, "water");
-//
-//                    style.addLayerBelow(urbanArea, "water");
-//
-//                    style.addLayerBelow(urbanArea, "water");
-//                } catch (URISyntaxException uriSyntaxException) {
-//                    uriSyntaxException.printStackTrace();
-//                }
-
-
 
                 initSearchFab();
 
@@ -296,28 +246,51 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 // Set up a new symbol layer for displaying the searched location's feature coordinates
                 setupLayer(style);
-
                 enableLocationComponent(style);
-                // foodtruck marker style 지정
+                // foodtruck marker style
                 style.addImageAsync(ICON_ID_Foodtruck, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.ic_truck_pin_custom)));
+                style.addImageAsync(ICON_ID_Foodtruck_min, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.ic_truck_pin_custom_min)));
+                style.addImageAsync(ICON_ID_Foodtruck_max, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.ic_truck_pin_custom_max)));
                 Source FoodTruck = new GeoJsonSource(SOURCE_ID_Foodtruck,
                         FeatureCollection.fromFeatures(FoodTruckPlaceList));
                 style.addSource(FoodTruck);
                 SymbolLayer FoodTruckLayer = new SymbolLayer(LAYER_ID_Foodtruck, SOURCE_ID_Foodtruck)
                         .withProperties(iconImage(ICON_ID_Foodtruck), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+
+                FoodTruckLayer.setProperties(iconImage(step(zoom(), literal(ICON_ID_Foodtruck_min), stop(11, ICON_ID_Foodtruck),
+                        stop(13, ICON_ID_Foodtruck_max))),
+                        iconIgnorePlacement(true),
+                        iconAllowOverlap(true));
+
                 style.addLayer(FoodTruckLayer);
-                // tour marker style 지정
+
+
+                // tour marker style
+                style.addImageAsync(ICON_ID_Tour_min, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.ic_tour_pin_custom_min)));
                 style.addImageAsync(ICON_ID_Tour, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.ic_tour_pin_custom)));
+
+                style.addImageAsync(ICON_ID_Tour_max, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.ic_tour_pin_custom_max)));
                 Source Tour = new GeoJsonSource(SOURCE_ID_Tour,
                         FeatureCollection.fromFeatures(tourPlaceList));
                 style.addSource(Tour);
+
                 SymbolLayer TourLayer = new SymbolLayer(LAYER_ID_Tour, SOURCE_ID_Tour)
                         .withProperties(iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+
+                TourLayer.setProperties(iconImage(step(zoom(), literal(ICON_ID_Tour_min), stop(11, ICON_ID_Tour),
+                        stop(13, ICON_ID_Tour_max))),
+                        iconIgnorePlacement(true),
+                        iconAllowOverlap(true));
+
                 style.addLayer(TourLayer);
 
-//floating btn event
+                //floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
                 homeTourFab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -348,7 +321,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     //--jieun --//
-    // marker visibility change 함수
+    // marker visibility change
     private void setLayerVisible(String layerId, @NonNull Style loadedMapStyle) {
         Layer layer = loadedMapStyle.getLayer(layerId);
         if (layer == null) {
@@ -408,6 +381,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onSaveInstanceState(outState);
     }
 
+
     //--jieun--//
     //csv 데이터 저장
     void CSVtoSqLite() {
@@ -455,7 +429,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .elevation(5)
                     .accuracyAlpha(.6f)
                     .accuracyColor(Color.RED)
-                    .foregroundDrawable(R.drawable.map_default_map_marker)
+                    .foregroundDrawable(R.drawable.ic_current_location_pin)
                     .build();
             // 컴포넌트의 인스턴트 가져오기
             locationComponent = mapboxMap.getLocationComponent();
@@ -671,7 +645,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //--seung eun--//
     public void create_pie_chart() {
-        TextView person = (TextView)findViewById(R.id.person);
+        TextView person = (TextView) findViewById(R.id.person);
 
         PieChartView pieChartview;
         pieChartview = findViewById(R.id.pie_chart);
@@ -682,16 +656,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         List pieData = new ArrayList<>();
 
-        for(int a=0; a < array1.length;a++){
-            array1[a] = (int)(Math.random()*1000)+1;
+        for (int a = 0; a < array1.length; a++) {
+            array1[a] = (int) (Math.random() * 1000) + 1;
         }
-        int sum = array1[0]+array1[1]+array1[2]+array1[3]+array1[4]+array1[5];
-        String p = Integer.toString(sum)+ "명";
+        int sum = array1[0] + array1[1] + array1[2] + array1[3] + array1[4] + array1[5];
+        String p = Integer.toString(sum) + "명";
         person.setText(p);
 
-        for(int a=0; a < array1.length;a++){
-            array2[a] = Integer.toString(array1[a]*100/sum+1);
-            array2[a]+="%";
+        for (int a = 0; a < array1.length; a++) {
+            array2[a] = Integer.toString(array1[a] * 100 / sum + 1);
+            array2[a] += "%";
         }
 
 
