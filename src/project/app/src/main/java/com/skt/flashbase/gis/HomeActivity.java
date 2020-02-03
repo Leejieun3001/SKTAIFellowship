@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -74,10 +73,6 @@ import com.skt.flashbase.gis.Detail.WholeDetailInfoActivity;
 import com.skt.flashbase.gis.roomDB.Place;
 import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -86,15 +81,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.PieChartView;
 
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillOpacity;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineCap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineJoin;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
+
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, OnLocationClickListener, PermissionsListener, OnCameraTrackingChangedListener {
 
@@ -130,6 +132,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LineChart lineChart;
     private LinearLayout llBottomSheet;
 
+    String File_Name; // 확장자를 포함한 파일명
+    String File_extend; //확장자명
+
+    String fileURL; //웹 서버 쪽 파일이 있는 경로
+    String Save_Path;
+    String Save_folder; //"/mydown"
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -140,6 +150,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
+
+
 
         //--jieun--//
         //Model Provider 생성 RoomDB
@@ -230,9 +243,47 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
+
         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
+
+//// add vector tiles
+////
+//                style.addSource(
+//                        new VectorSource("terrain-data", "mapbox://mapbox.mapbox-terrain-v2"));
+//                LineLayer terrainData = new LineLayer("terrain-data", "terrain-data");
+//                terrainData.setSourceLayer("contour");
+//                terrainData.setProperties(
+//                        lineJoin(Property.LINE_JOIN_ROUND),
+//                        lineCap(Property.LINE_CAP_ROUND),
+//                        PropertyFactory.lineColor(Color.parseColor("#0100FF")),
+//                        lineWidth(1f)
+//                );
+//                style.addLayer(terrainData);
+
+// add GeoJoson Source
+//               try {
+//                    GeoJsonSource urbanAreasSource = new GeoJsonSource("urban-areas",
+//                            new URI("https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson"));
+//                    style.addSource(urbanAreasSource);
+//
+//                    FillLayer urbanArea = new FillLayer("urban-areas-fill", "urban-areas");
+//
+//                    urbanArea.setProperties(
+//                            fillColor(Color.parseColor("#ff0088")),
+//                            fillOpacity(0.4f)
+//                    );
+//
+//                    style.addLayerBelow(urbanArea, "water");
+//
+//                    style.addLayerBelow(urbanArea, "water");
+//
+//                    style.addLayerBelow(urbanArea, "water");
+//                } catch (URISyntaxException uriSyntaxException) {
+//                    uriSyntaxException.printStackTrace();
+//                }
+
 
 
                 initSearchFab();
@@ -266,7 +317,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .withProperties(iconImage(ICON_ID_Tour), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
                 style.addLayer(TourLayer);
 
-                //floating btn event
+//floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
                 homeTourFab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -357,65 +408,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onSaveInstanceState(outState);
     }
 
-    /* -- 데이터 추가
-
-    void test() {
-         String LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
-         String folder = LOCAL_PATH + "/MY/";
-         File dir = new File(folder);
-        if (!dir.exists()) {
-            dir.mkdir();
-            Log.d("초기화면", "폴더생성이되는지---->");
-        }
-
-        try {
-            //  File csvfile = new File(Environment.getExternalStorageDirectory() + "/csvfile.csv");
-            //  CSVReader reader = new CSVReader(new FileReader("csvfile.getAbsolutePath()"));
-
-            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-                    + "/foodtruck_data.csv ";
-           //File file = new File(path);
-            CSVReader read = new CSVReader(new InputStreamReader(new FileInputStream(path), "euc-kr"));
-
-      //      CSVReader read = new CSVReader(new FileReader(file.getAbsolutePath()));
-           String[] a =  read.readNext();
-            String[] record = null;
-            //CSV 파일을 읽으면서 동시에 SqLite에 저장
-            while ((record = read.readNext()) != null) {
-                Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
-                if (!record[4].equals("위도")) {
-                    //room db 이용, 카테고리 1 =관광지
-                    Place place = new Place(0, 1, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
-                    mPlaceViewModel.insert(place);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-*/
     //--jieun--//
     //csv 데이터 저장
     void CSVtoSqLite() {
         try {
-//            String URL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-//                    + "foodtruck_permission_area.csv ";
-//
-//            CSVReader read = new CSVReader(new InputStreamReader(new FileInputStream(URL), "euc-kr"));
-//            String[] record = null;
-//            //CSV 파일을 읽으면서 동시에 SqLite에 저장
-//            while ((record = read.readNext()) != null) {
-//                Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
-//                if (!record[4].equals("위도")) {
-//                    //room db 이용, 카테고리 1 =관광지
-//                    Place place = new Place(0, 1, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
-//                    mPlaceViewModel.insert(place);
-//                }
-//            }
             // 카테고리 1, 관광지
             CSVReader read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.korea_landmark_standard_data), "EUC-KR"));
             String[] record = null;
@@ -675,16 +671,36 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //--seung eun--//
     public void create_pie_chart() {
+        TextView person = (TextView)findViewById(R.id.person);
+
         PieChartView pieChartview;
         pieChartview = findViewById(R.id.pie_chart);
 
+        int[] array1 = new int[6];
+        String[] array2 = new String[6];
+
+
         List pieData = new ArrayList<>();
-        pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel(" 15%")); // 20
-        pieData.add(new SliceValue(25, Color.parseColor("#cb7575")).setLabel(" 25%")); // 30
-        pieData.add(new SliceValue(10, Color.parseColor("#ef9e9f")).setLabel(" 10%")); // 10
-        pieData.add(new SliceValue(60, Color.parseColor("#8283a7")).setLabel(" 10% ")); // 40
-        pieData.add(new SliceValue(10, Color.parseColor("#589167")).setLabel(" 35%")); // 35
-        pieData.add(new SliceValue(60, Color.parseColor("#ebce95")).setLabel(" 5%")); // 그외
+
+        for(int a=0; a < array1.length;a++){
+            array1[a] = (int)(Math.random()*1000)+1;
+        }
+        int sum = array1[0]+array1[1]+array1[2]+array1[3]+array1[4]+array1[5];
+        String p = Integer.toString(sum)+ "명";
+        person.setText(p);
+
+        for(int a=0; a < array1.length;a++){
+            array2[a] = Integer.toString(array1[a]*100/sum+1);
+            array2[a]+="%";
+        }
+
+
+        pieData.add(new SliceValue(array1[1], Color.parseColor("#a3c9c7")).setLabel(array2[1]));
+        pieData.add(new SliceValue(array1[2], Color.parseColor("#cb7575")).setLabel(array2[2])); // 30
+        pieData.add(new SliceValue(array1[3], Color.parseColor("#ef9e9f")).setLabel(array2[3])); // 10
+        pieData.add(new SliceValue(array1[4], Color.parseColor("#8283a7")).setLabel(array2[4])); // 40
+        pieData.add(new SliceValue(array1[5], Color.parseColor("#589167")).setLabel(array2[5])); // 35
+        pieData.add(new SliceValue(array1[0], Color.parseColor("#ebce95")).setLabel(array2[0])); // 그외
 
         PieChartData pieChartData = new PieChartData(pieData);
         pieChartData.setHasLabels(true).setValueLabelTextSize(12);

@@ -258,11 +258,11 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
         String clientSecret = getString(R.string.naver_access_token);//애플리케이션 클라이언트 시크릿값";
 
         new Thread() {
-             String category = "";
-             String link = "";
-             String description = "";
-             String phone = "";
-             String address = "";
+            String category = "";
+            String link = "";
+            String description = "";
+            String phone = "";
+            String address = "";
             @Override
             public void run() {
                 try {
@@ -432,47 +432,72 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
     private List<Entry> getDataSet() {
         List<Entry> lineEntries = new ArrayList<Entry>();
 
-        lineEntries.add(new Entry(0, 1));
-        lineEntries.add(new Entry(2, 2));
-        lineEntries.add(new Entry(4, 3));
-        lineEntries.add(new Entry(6, 4));
-        lineEntries.add(new Entry(8, 2));
-        lineEntries.add(new Entry(10, 3));
-        lineEntries.add(new Entry(12, 1));
-        lineEntries.add(new Entry(14, 5));
-        lineEntries.add(new Entry(16, 7));
-        lineEntries.add(new Entry(18, 6));
-        lineEntries.add(new Entry(20, 4));
-        lineEntries.add(new Entry(22, 5));
+        for(int i=0; i < 23; ){
+            int x = (int)(Math.random()*20)+1;
+            lineEntries.add(new Entry(i, x));
+            i=i+2;
+        }
         return lineEntries;
     }
 
     public void real_time_pie_chart() {
+
+
         PieChartView pieChartview;
         pieChartview = findViewById(R.id.real_time_pie_chart);
 
+        int[] array1 = new int[6];
+        String[] array2 = new String[6];
+
+        for(int a=0; a < array1.length;a++){
+            array1[a] = (int)(Math.random()*1000)+1;
+        }
+        int sum = array1[0]+array1[1]+array1[2]+array1[3]+array1[4]+array1[5];
+
+        for(int a=0; a < array1.length;a++){
+            array2[a] = Integer.toString(array1[a]*100/sum+1);
+            array2[a]+="%";
+        }
+
         List pieData = new ArrayList<>();
-        pieData.add(new SliceValue(15, Color.parseColor("#a3c9c7")).setLabel("20대 : 15%"));
-        pieData.add(new SliceValue(25, Color.parseColor("#cb7575")).setLabel("30대 : 25%"));
-        pieData.add(new SliceValue(10, Color.parseColor("#ef9e9f")).setLabel("10대 : 10%"));
-        pieData.add(new SliceValue(60, Color.parseColor("#8283a7")).setLabel("40대 : 10%"));
-        pieData.add(new SliceValue(10, Color.parseColor("#589167")).setLabel("50대 : 35%"));
-        pieData.add(new SliceValue(60, Color.parseColor("#ebce95")).setLabel("그 외 : 5%"));
+
+
+        pieData.add(new SliceValue(array1[1], Color.parseColor("#a3c9c7")).setLabel(array2[1]));
+        pieData.add(new SliceValue(array1[2], Color.parseColor("#cb7575")).setLabel(array2[2])); // 30
+        pieData.add(new SliceValue(array1[3], Color.parseColor("#ef9e9f")).setLabel(array2[3])); // 10
+        pieData.add(new SliceValue(array1[4], Color.parseColor("#8283a7")).setLabel(array2[4])); // 40
+        pieData.add(new SliceValue(array1[5], Color.parseColor("#589167")).setLabel(array2[5])); // 35
+        pieData.add(new SliceValue(array1[0], Color.parseColor("#ebce95")).setLabel(array2[0])); // 그외
+
 
         PieChartData pieChartData = new PieChartData(pieData);
         pieChartData.setHasLabels(true).setValueLabelTextSize(12);
 
         //원 안에 텍스트 넣을 수 있는 코드
-        pieChartData.setHasCenterCircle(true).setCenterText1("사람이 많아요!!").setCenterText2("약 5000명 ").setCenterText2Color(Color.parseColor("#0097A7"))
+        pieChartData.setHasCenterCircle(true).setCenterText1("").setCenterText2("").setCenterText2Color(Color.parseColor("#0097A7"))
                 .setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
         pieChartview.setPieChartData(pieChartData);
+
 
     }
     public void average_pie_chart() {
         PieChartView pieChartview;
         pieChartview = findViewById(R.id.average_pie_chart);
-        int man_average_value=65;
-        int woman_average_value=35;
+
+        int[] array1 = new int[2];
+
+        for(int a=0; a < array1.length;a++){
+            array1[a] = (int)(Math.random()*100)+1;
+        }
+        int sum = array1[0]+array1[1];
+
+        for(int a=0; a < array1.length;a++){
+            array1[a] = array1[a]*100/sum+1;
+
+        }
+
+        int man_average_value=array1[0];
+        int woman_average_value=array1[1];
 
         List pieData = new ArrayList<>();
         pieData.add(new SliceValue(man_average_value, Color.parseColor("#4F86C6")).setLabel("남 : "+ man_average_value+"%"));
@@ -549,4 +574,3 @@ public class MarkerDetailInfoActivity extends AppCompatActivity implements OnMap
 
 
 }
-

@@ -133,6 +133,7 @@ public class AnalysisInfoDetail extends AppCompatActivity {
                             }
                             array.put(3, "NOW");
 
+                            line_chart();
                             return array;
                         }
                     });
@@ -151,6 +152,7 @@ public class AnalysisInfoDetail extends AppCompatActivity {
                             }
                             array.put(3, "NOW");
 
+                            line_chart();
                             return array;
                         }
                     });
@@ -169,6 +171,7 @@ public class AnalysisInfoDetail extends AppCompatActivity {
                             }
                             array.put(3, "NOW");
 
+                            line_chart();
                             return array;
                         }
                     });
@@ -210,18 +213,12 @@ public class AnalysisInfoDetail extends AppCompatActivity {
     private List<Entry> getDataSet() {
         List<Entry> lineEntries = new ArrayList<Entry>();
 
-        lineEntries.add(new Entry(0, 1));
-        lineEntries.add(new Entry(2, 2));
-        lineEntries.add(new Entry(4, 3));
-        lineEntries.add(new Entry(6, 4));
-        lineEntries.add(new Entry(8, 2));
-        lineEntries.add(new Entry(10, 3));
-        lineEntries.add(new Entry(12, 1));
-        lineEntries.add(new Entry(14, 5));
-        lineEntries.add(new Entry(16, 7));
-        lineEntries.add(new Entry(18, 6));
-        lineEntries.add(new Entry(20, 4));
-        lineEntries.add(new Entry(22, 5));
+        for(int i=0; i < 23; ){
+            int x = (int)(Math.random()*20)+1;
+            lineEntries.add(new Entry(i, x));
+            i=i+2;
+        }
+
         return lineEntries;
     }
 
