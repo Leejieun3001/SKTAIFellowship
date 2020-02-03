@@ -42,9 +42,7 @@ public class PlaceViewModel extends AndroidViewModel {
         return mAllFoodtruckPlace;
     }
 
-    public LiveData<List<Place>> getAllFishingPlace() {
-        return mAllFishingPlace;
-    }
+    public LiveData<List<Place>> getAllFishingPlace() { return mAllFishingPlace; }
 
     public LiveData<Place> getPlaceInfo(int idx) {
         mPlaceInfo = mPlaceRepository.getPlaceInfo(idx);

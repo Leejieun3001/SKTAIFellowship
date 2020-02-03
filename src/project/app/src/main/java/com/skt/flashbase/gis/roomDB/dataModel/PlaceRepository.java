@@ -37,16 +37,14 @@ public class PlaceRepository {
     public LiveData<List<Place>> getAllPlace() {
         return mAllPlaces;
     }
-
     public LiveData<List<Place>> getAllTour() {
         return mAllTourPlaces;
     }
-
     public LiveData<List<Place>> getAllFoodtruck() {
         return mAllFoodtruckPlaces;
     }
     public LiveData<List<Place>> getAllFishing() {
-        return mAllFoodtruckPlaces;
+        return mAllFishingPlaces;
     }
 
     public LiveData<Place> getPlaceInfo(int pidx) {

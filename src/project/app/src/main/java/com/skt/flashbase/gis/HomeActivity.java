@@ -67,8 +67,6 @@ import com.skt.flashbase.gis.Detail.MarkerDetailInfoActivity;
 import com.skt.flashbase.gis.roomDB.Place;
 import com.skt.flashbase.gis.roomDB.PlaceViewModel;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -107,11 +105,20 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String ICON_ID_Foodtruck_min = "Foodtruck_min";
     private static final String ICON_ID_Foodtruck_max = "Foodtruck_max";
     private static final String LAYER_ID_Foodtruck = "Foodtruck";
+
     private static final String SOURCE_ID_Tour = "Tour";
     private static final String ICON_ID_Tour = "Tour";
     private static final String ICON_ID_Tour_min = "Tour_min";
     private static final String ICON_ID_Tour_max = "Tour_max";
     private static final String LAYER_ID_Tour = "Tour";
+
+
+    private static final String SOURCE_ID_Fishing = "Fishing";
+    private static final String ICON_ID_Fishing = "Fishing";
+    private static final String ICON_ID_Fishing_min = "Fishing_min";
+    private static final String ICON_ID_Fishing_max = "Fishing_max";
+    private static final String LAYER_ID_Fishing = "Fishing";
+
 
     private MapView mapView;
 
@@ -211,16 +218,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //marker 생성 (Fishing)
-        List<Feature> fishingList = new ArrayList<>();
+        List<Feature> fishingPlaceList = new ArrayList<>();
         for (int i = 0; i < pinPlaceFishing.size(); i++) {
             Double longitude = pinPlaceFishing.get(i).getPLongitude();
             Double latitude = pinPlaceFishing.get(i).getPLatitude();
             int index = pinPlaceFishing.get(i).getPidx();
             String name = pinPlaceFishing.get(i).getPName();
-            fishingList.add(Feature.fromGeometry(
+            fishingPlaceList.add(Feature.fromGeometry(
                     Point.fromLngLat(longitude, latitude)));
-            fishingList.get(i).addStringProperty("idx", String.valueOf(index));
-            fishingList.get(i).addStringProperty("name", name);
+            fishingPlaceList.get(i).addStringProperty("idx", String.valueOf(index));
+            fishingPlaceList.get(i).addStringProperty("name", name);
         }
 
 
@@ -308,6 +315,27 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 style.addLayer(TourLayer);
 
+               // finshing marker style
+
+                style.addImageAsync(ICON_ID_Fishing_min, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.ic_fishing_pin_custom_min)));
+                style.addImageAsync(ICON_ID_Fishing, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.ic_fishing_pin_custom)));
+                style.addImageAsync(ICON_ID_Fishing_max, BitmapUtils.getBitmapFromDrawable(
+                        getResources().getDrawable(R.drawable.ic_fishing_pin_custom_max)));
+                Source Fishing = new GeoJsonSource(SOURCE_ID_Fishing,
+                        FeatureCollection.fromFeatures(fishingPlaceList));
+                style.addSource(Fishing);
+                SymbolLayer FishingLayer = new SymbolLayer(LAYER_ID_Fishing, SOURCE_ID_Fishing)
+                        .withProperties(iconImage(ICON_ID_Fishing_min), PropertyFactory.visibility(Property.NONE), iconAllowOverlap(true), iconOffset(new Float[]{0f, -9f}));
+
+                FishingLayer.setProperties(iconImage(step(zoom(), literal(ICON_ID_Fishing_min), stop(11, ICON_ID_Fishing),
+                        stop(13, ICON_ID_Fishing_max))),
+                        iconIgnorePlacement(true),
+                        iconAllowOverlap(true));
+                style.addLayer(FishingLayer);
+
+
                 //floating btn event
                 FloatingActionButton homeTourFab = findViewById(R.id.home_landmark_fab);
                 homeTourFab.setOnClickListener(new View.OnClickListener() {
@@ -324,6 +352,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
 
+                FloatingActionButton homeFishingFab = findViewById(R.id.home_fising_fab);
+                homeFishingFab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        setLayerVisible(LAYER_ID_Fishing, style);
+                    }
+                });
                 FloatingActionButton homeaddFab = findViewById(R.id.home_add_fab);
                 homeaddFab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -404,40 +439,35 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     //csv 데이터 저장
     void CSVtoSqLite() {
         try {
-            // 카테고리 1, 관광지
+            // 카테고리 (1) 관광지
             CSVReader read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.korea_landmark_standard_data), "EUC-KR"));
             String[] record = null;
-            //CSV 파일을 읽으면서 동시에 SqLite에 저장
             while ((record = read.readNext()) != null) {
                 if (!record[4].equals("위도")) {
-                    //room db 이용, 카테고리 1 =관광지
+                    //room db : 카테고리 1 =관광지
                     Place place = new Place(0, 1, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
                     mPlaceViewModel.insert(place);
                 }
             }
-            //카테고리 2, 푸드트럭
+            //카테고리 (2), 푸드트럭
             read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.foodtruck_permission_area), "EUC-KR"));
             record = null;
-            //CSV 파일을 읽으면서 동시에 SqLite에 저장
             while ((record = read.readNext()) != null) {
                 if (!record[6].equals("위도")) {
-                    //dbHelper.insertLandmark(record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
-                    //room db 이용 / 카테고리 2 = 푸드트럭
+                    //room db 이용 : 카테고리 2 = 푸드트럭
                     if (!record[0].isEmpty() && !record[6].isEmpty() && !record[7].isEmpty()) {
                         Place place = new Place(0, 2, record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
                         mPlaceViewModel.insert(place);
                     }
                 }
             }
-            //카테고리 3, 낚시터
+            //카테고리 (3), 낚시터
             read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.fishing_area), "utf-8"));
             record = null;
-            //CSV 파일을 읽으면서 동시에 SqLite에 저장
             while ((record = read.readNext()) != null) {
                 Log.i("CSV 파일 읽기", "이름: " + record[0] + ", 위도: " + record[4] + ", 경도: " + record[5]);
                 if (!record[4].equals("위도")) {
-                    //dbHelper.insertLandmark(record[0], Double.parseDouble(record[6]), Double.parseDouble(record[7]));
-                    //room db 이용 / 카테고리 2 = 푸드트럭
+                    //room db 이용 : 카테고리 3 = 낚시 터
                     if (!record[0].isEmpty() && !record[4].isEmpty() && !record[5].isEmpty()) {
                         Place place = new Place(0, 3, record[0], Double.parseDouble(record[4]), Double.parseDouble(record[5]));
                         mPlaceViewModel.insert(place);
@@ -457,14 +487,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
         //check permission
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
-            // 사용자 정의 핀 생성
+            // custom pin
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(this)
                     .elevation(5)
                     .accuracyAlpha(.6f)
                     .accuracyColor(Color.RED)
                     .foregroundDrawable(R.drawable.ic_current_location_pin)
                     .build();
-            // 컴포넌트의 인스턴트 가져오기
             locationComponent = mapboxMap.getLocationComponent();
             LocationComponentActivationOptions locationComponentActivationOptions
                     = LocationComponentActivationOptions.builder(this, loadedMapStyle).locationComponentOptions(customLocationComponentOptions).build();
