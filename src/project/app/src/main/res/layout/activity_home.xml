@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="45dp"
                 fab:fab_addButtonColorNormal="@color/mapboxRed"
                 fab:fab_addButtonColorPressed="@color/mapboxWhite"
                 fab:fab_addButtonPlusIconColor="@color/mapboxWhite"
