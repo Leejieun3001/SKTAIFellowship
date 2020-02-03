@@ -64,24 +64,24 @@
                     android:layout_height="wrap_content"
                     fab:fab_colorPressed="@color/mapboxWhite"
                     fab:fab_colorNormal="@color/mapboxBlue"
-                    fab:fab_icon="@mipmap/pin_tour"
+                    app:fab_icon="@drawable/landmark"
                     fab:fab_size="mini" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/home_food_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:fab_icon="@mipmap/pin_foodtruck"
                     fab:fab_colorNormal="@color/mapboxGreen"
                     fab:fab_colorPressed="@color/mapboxWhite"
+                    app:fab_icon="@drawable/foodtruck"
                     fab:fab_size="mini" />
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/home_fising_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:fab_icon="@mipmap/pin_foodtruck"
-                    fab:fab_colorNormal="@color/mapboxRed"
+                    fab:fab_colorNormal="#CCA63D"
                     fab:fab_colorPressed="@color/mapboxWhite"
+                    app:fab_icon="@drawable/fish"
                     fab:fab_size="mini" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
