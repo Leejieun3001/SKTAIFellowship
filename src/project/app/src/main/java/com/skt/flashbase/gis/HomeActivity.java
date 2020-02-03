@@ -321,7 +321,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     //--jieun --//
-    // marker visibility change 함수
+    // marker visibility change
     private void setLayerVisible(String layerId, @NonNull Style loadedMapStyle) {
         Layer layer = loadedMapStyle.getLayer(layerId);
         if (layer == null) {
@@ -429,7 +429,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .elevation(5)
                     .accuracyAlpha(.6f)
                     .accuracyColor(Color.RED)
-                    .foregroundDrawable(R.drawable.map_default_map_marker)
+                    .foregroundDrawable(R.drawable.ic_current_location_pin)
                     .build();
             // 컴포넌트의 인스턴트 가져오기
             locationComponent = mapboxMap.getLocationComponent();
