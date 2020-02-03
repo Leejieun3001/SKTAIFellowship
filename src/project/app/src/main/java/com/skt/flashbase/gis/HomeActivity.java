@@ -252,6 +252,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                     return true;
                 }
+                List<Feature> Fishingfeatures = mapboxMap.queryRenderedFeatures(rectF, LAYER_ID_Fishing);
+                if (!Fishingfeatures.isEmpty()) {
+                    String idx = Fishingfeatures.get(0).getStringProperty("idx");
+                    Intent intent = new Intent(getApplicationContext(), MarkerDetailInfoActivity.class);
+                    intent.putExtra("idx", idx);
+                    startActivity(intent);
+                    return true;
+                }
                 return false;
             }
         });
@@ -316,7 +324,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 style.addLayer(TourLayer);
 
                // finshing marker style
-
                 style.addImageAsync(ICON_ID_Fishing_min, BitmapUtils.getBitmapFromDrawable(
                         getResources().getDrawable(R.drawable.ic_fishing_pin_custom_min)));
                 style.addImageAsync(ICON_ID_Fishing, BitmapUtils.getBitmapFromDrawable(
@@ -449,7 +456,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     mPlaceViewModel.insert(place);
                 }
             }
-            //카테고리 (2), 푸드트럭
+            //카테고리 (2) 푸드트럭
             read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.foodtruck_permission_area), "EUC-KR"));
             record = null;
             while ((record = read.readNext()) != null) {
@@ -461,7 +468,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 }
             }
-            //카테고리 (3), 낚시터
+            //카테고리 (3) 낚시터
             read = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.fishing_area), "utf-8"));
             record = null;
             while ((record = read.readNext()) != null) {
@@ -561,13 +568,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @SuppressWarnings({"MissingPermission"})
     private void enableLocationPlugin(@NonNull Style loadedMapStyle) {
-        //권한 확인
+        //check permission
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
-            //컴포넌트의 인스턴스 설정 (옵션)
+
             LocationComponent locationComponent = mapboxMap.getLocationComponent();
             locationComponent.activateLocationComponent(this, loadedMapStyle);
             locationComponent.setLocationComponentEnabled(true);
-            //모드 설정
             locationComponent.setCameraMode(CameraMode.TRACKING);
             locationComponent.setRenderMode(RenderMode.NORMAL);
         } else {
@@ -627,7 +633,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    // -- jieun --// - BackKey 두번 출려
+    // -- jieun --// Back key
     @Override
     public void onBackPressed() {
         long tempTime = System.currentTimeMillis();
@@ -642,9 +648,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    // -- jieun --//  데이터 추가 함수
+    // -- jieun --//  get data from RoomDB
     public void setPlaceData() {
-        //roomdb 방식, 관광지 데이터 조회
+        //landmark
         mPlaceViewModel.getAllTourPlace().observe(this, new Observer<List<Place>>() {
             @Override
             public void onChanged(@Nullable List<Place> places) {
@@ -653,7 +659,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
-        //roomdb 방식, 푸드트럭 데이터 조회
+        //Food truck
         mPlaceViewModel.getAllFoodtruckPlace().observe(this, new Observer<List<Place>>() {
             @Override
             public void onChanged(@Nullable List<Place> places) {
@@ -662,7 +668,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
-        //roomdb 방식, 푸드트럭 데이터 조회
+        //Fishing
         mPlaceViewModel.getAllFishingPlace().observe(this, new Observer<List<Place>>() {
             @Override
             public void onChanged(@Nullable List<Place> places) {
@@ -674,7 +680,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    // --jieun--// 홈페이지 연결
+    // --jieun--// connect flash base homepage
     public void setAboutFlashBase() {
         TextView homeAboutFlachBaseBtn = (TextView) findViewById(R.id.home_aboutFlashBase_textView);
         homeAboutFlachBaseBtn.setOnClickListener(new View.OnClickListener() {
@@ -693,6 +699,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    // -- seungeun --// bottomsheet
     void create_bottomsheet() {
 
         llBottomSheet = findViewById(R.id.bottom_sheet);
