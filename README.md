@@ -12,9 +12,9 @@ SKT AI Fellowship assignment shared repository
 * 안드로이드 스튜디오
 
 # 개발 인원 : 총 3명
-[이지은](https://github.com/Leejieun3001) - mapbox SDK, roomDB, 공공데이터 정제
-[이승은](https://github.com/dltmddms10) - chart, bottom seet
-[이솔](https://github.com/loseel) - seek bar
+- [이지은](https://github.com/Leejieun3001) - mapbox SDK, roomDB, 공공데이터 정제
+- [이승은](https://github.com/dltmddms10) - chart, bottom seet
+- [이솔](https://github.com/loseel) - seek bar
 
 # 개발 기간 : 2019/07 - 2020/02
 
