@@ -16,13 +16,14 @@ SKT AI Fellowship assignment shared repository
 - [이승은](https://github.com/dltmddms10) - chart, bottom seet
 - [이솔](https://github.com/loseel) - seek bar
 
-# 개발 기간 : 2019/07 - 2020/02
+# 개발 기간 
+- 2019/07 - 2020/02
 
 # 주요기능
 1. 내 위치에서 지도상에서 실시간 유동인구 정보 제공
 2. 푸트트럭 설치 허가 장소, 관광지 와 같은 테마의 장소 marker 제공  -> marker 대한 자세한 유동인구 분석 정보 제공
 3. 한시간, 하루, 한달 단위로 미래 유동인구데이터 예측 치 제공, 과거 데이터 제공.  이때, 연령 별 성별 별 검색 가능 
-(* 현재 가데이터 적용 중)
+- (* 현재 가데이터 적용 중)
 
 
 # 기대 효과
