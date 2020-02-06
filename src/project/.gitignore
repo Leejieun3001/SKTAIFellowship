@@ -1,6 +1,8 @@
 *.iml
-.gradle
+/.gradle
+/.idea
 .idea
+.gradle
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -13,6 +15,11 @@
 /captures
 .externalNativeBuild
 app/src/main/res/values/tokens.xml
+build.gradle
+grale.properites
+gradlew
+gradlew.bat
+settings.gradle
 
 
 # Created by https://www.gitignore.io/api/android
